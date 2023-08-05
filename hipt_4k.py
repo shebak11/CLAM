@@ -1,12 +1,13 @@
 ### Dependencies
 # Base Dependencies
+
 import os
 import pickle
 import sys
 
 # LinAlg / Stats / Plotting Dependencies
 import h5py
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from PIL import Image
@@ -24,7 +25,7 @@ torch.multiprocessing.set_sharing_strategy('file_system')
 # Local Dependencies
 import vision_transformer as vits
 import vision_transformer4k as vits4k
-from hipt_heatmap_utils import *
+#from hipt_heatmap_utils import *
 from hipt_model_utils import get_vit256, get_vit4k, tensorbatch2im, eval_transforms, roll_batch2img
 
 
@@ -40,11 +41,17 @@ class HIPT_4K(torch.nn.Module):
 		device4k=torch.device('cuda:1')):
 
 		super().__init__()
-		self.model256 = get_vit256(pretrained_weights=model256_path).to(device256)
-		self.model4k = get_vit4k(pretrained_weights=model4k_path).to(device4k)
 		self.device256 = device256
 		self.device4k = device4k
+		print("device256 ", device256, "device4k ", device4k)
 	
+		self.model256 = get_vit256(pretrained_weights=model256_path, device=device256)
+		self.model4k = get_vit4k(pretrained_weights=model4k_path, device=device4k)
+
+	
+		#self.model256 = get_vit256(pretrained_weights=model256_path).to(device256)
+		#self.model4k = get_vit4k(pretrained_weights=model4k_path).to(device4k)
+
 	def forward(self, x):
 		"""
 		Forward pass of HIPT (given an image tensor x), outputting the [CLS] token from ViT-4K.
@@ -70,10 +77,16 @@ class HIPT_4K(torch.nn.Module):
 			features_cls256.append(self.model256(minibatch_256).detach().cpu()) # 3. Extracting ViT-256 features from [256 x 3 x 256 x 256] image batches.
 
 		features_cls256 = torch.vstack(features_cls256)                         # 3. [B x 384], where 384 == dim of ViT-256 [ClS] token.
-		features_cls256 = features_cls256.reshape(w_256, h_256, 384).transpose(0,1).transpose(0,2).unsqueeze(dim=0) 
-		features_cls256 = features_cls256.to(self.device4k, non_blocking=True)  # 4. [1 x 384 x w_256 x h_256]
-		features_cls4k = self.model4k.forward(features_cls256)                  # 5. [1 x 192], where 192 == dim of ViT-4K [ClS] token.
-		return features_cls4k
+		return features_cls256
+		#features_cls256 = features_cls256.reshape(w_256, h_256, 384).transpose(0,1).transpose(0,2).unsqueeze(dim=0) 
+
+        #print("features_cls256 ", features_cls256.shape)
+        #features_cls25eeeeeeeee6 = features_cls256.squeeze(dim=0).reshape(w_256*h_256, 384).transpose(0,1).transpose(0,2).unsqueeze(dim=0) 
+
+    
+		#features_cls256 = features_cls256.to(self.device4k, non_blocking=True)  # 4. [1 x 384 x w_256 x h_256]
+		#features_cls4k = self.model4k.forward(features_cls256)                  # 5. [1 x 192], where 192 == dim of ViT-4K [ClS] token.
+		#return features_cls4k
 	
 	
 	def forward_asset_dict(self, x: torch.Tensor):
@@ -163,9 +176,9 @@ class HIPT_4K(torch.nn.Module):
 
 		return tensorbatch2im(batch_256), attention_256, attention_4k
 
-
+	"""
 	def get_region_attention_heatmaps(self, x, offset=128, scale=4, alpha=0.5, cmap = cmap_map(lambda x: x/2 + 0.5, matplotlib.cm.jet), threshold=None):
-		r"""
+		r
 		Creates hierarchical heatmaps (Raw H&E + ViT-256 + ViT-4K + Blended Heatmaps saved individually).  
 		
 		Args:
@@ -181,7 +194,7 @@ class HIPT_4K(torch.nn.Module):
 		
 		Returns:
 		- None
-		"""
+		
 		region = Image.fromarray(tensorbatch2im(x)[0])
 		w, h = region.size
 
@@ -304,7 +317,7 @@ class HIPT_4K(torch.nn.Module):
 
 		return hm4k, hm256, hm4k_256				
 
-
+	"""
 	def prepare_img_tensor(self, img: torch.Tensor, patch_size=256):
 		"""
 		Helper function that takes a non-square image tensor, and takes a center crop s.t. the width / height

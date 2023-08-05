@@ -19,17 +19,21 @@ import h5py
 import openslide
 import vision_transformer as vits
 import vision_transformer4k as vits4k
-from hipt_4k import HIPT_4k
+#from hipt_4k import HIPT_4k
+import hipt_4k  
 
-
+from hipt_model_utils import get_vit256, get_vit4k, eval_transforms
+#from hipt_heatmap_utils import *
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 print("device ", device)
 
 #device256 = torch.device('cpu')
+#device=torch.device('cpu')
 device4k=device
 device256=device
+
 
 
 def get_gpu_memory():
@@ -39,79 +43,6 @@ def get_gpu_memory():
     return memory_free_values
 
 
-
-
-def get_vit256(pretrained_weights, arch='vit_small', device=torch.device('cuda:0')):
-    r"""
-    Builds ViT-256 Model.
-    
-    Args:
-    - pretrained_weights (str): Path to ViT-256 Model Checkpoint.
-    - arch (str): Which model architecture.
-    - device (torch): Torch device to save model.
-    
-    Returns:
-    - model256 (torch.nn): Initialized model.
-    """
-    
-    checkpoint_key = 'teacher'
-    #device = torch.device("cpu")
-    model256 = vits.__dict__[arch](patch_size=16, in_chans=3)
-    for p in model256.parameters():
-        p.requires_grad = False
-    model256.eval()
-    model256.to(device)
-
-    if os.path.isfile(pretrained_weights):
-        state_dict = torch.load(pretrained_weights, map_location="cpu")
-        if checkpoint_key is not None and checkpoint_key in state_dict:
-            print(f"Take key {checkpoint_key} in provided checkpoint dict")
-            state_dict = state_dict[checkpoint_key]
-        # remove `module.` prefix
-        state_dict = {k.replace("module.", ""): v for k, v in state_dict.items()}
-        # remove `backbone.` prefix induced by multicrop wrapper
-        state_dict = {k.replace("backbone.", ""): v for k, v in state_dict.items()}
-        msg = model256.load_state_dict(state_dict, strict=False)
-        print('Pretrained weights found at {} and loaded with msg: {}'.format(pretrained_weights, msg))
-        
-    return model256
-
-
-
-def get_vit4k(pretrained_weights, arch='vit4k_xs', device=torch.device('cuda:1')):
-    r"""
-    Builds ViT-4K Model.
-    
-    Args:
-    - pretrained_weights (str): Path to ViT-4K Model Checkpoint.
-    - arch (str): Which model architecture.
-    - device (torch): Torch device to save model.
-    
-    Returns:
-    - model256 (torch.nn): Initialized model.
-    """
-    
-    checkpoint_key = 'teacher'
-    #device = torch.device("cpu")
-    model4k = vits4k.__dict__[arch](num_classes=0)
-    for p in model4k.parameters():
-        p.requires_grad = False
-    model4k.eval()
-    model4k.to(device)
-
-    if os.path.isfile(pretrained_weights):
-        state_dict = torch.load(pretrained_weights, map_location="gpu")
-        if checkpoint_key is not None and checkpoint_key in state_dict:
-            print(f"Take key {checkpoint_key} in provided checkpoint dict")
-            state_dict = state_dict[checkpoint_key]
-        # remove `module.` prefix
-        state_dict = {k.replace("module.", ""): v for k, v in state_dict.items()}
-        # remove `backbone.` prefix induced by multicrop wrapper
-        state_dict = {k.replace("backbone.", ""): v for k, v in state_dict.items()}
-        msg = model4k.load_state_dict(state_dict, strict=False)
-        print('Pretrained weights found at {} and loaded with msg: {}'.format(pretrained_weights, msg))
-        
-    return model4k
 
 
 
@@ -146,25 +77,34 @@ def compute_w_loader(file_path, output_path, wsi, model,
 		print('processing {}: total of {} batches'.format(file_path,len(loader)))
 
 	mode = 'w'
+	im_features = []
 	for count, (batch, coords) in enumerate(loader):
 
-		print(get_gpu_memory())
-		process = psutil.Process()
-		print(process.memory_info().rss/(1024*1024) )
+		#print(get_gpu_memory())
+		#process = psutil.Process()
+		#print(process.memory_info().rss/(1024*1024) )
         
 		with torch.no_grad():	
 			if count % print_every == 0:
 				print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
 			batch = batch.to(device, non_blocking=True)
-			print(batch.shape)
+			#print(batch.shape)
 			features = model(batch)
-			features = features.cpu().numpy()
+			im_features.append(features.cpu())
 
+			features = features.cpu().numpy()
+			print("features.shape",  features.shape)
+
+            #features for imagebind
+            
 			asset_dict = {'features': features, 'coords': coords}
 			save_hdf5(output_path, asset_dict, attr_dict= None, mode=mode)
 			mode = 'a'
-	
-	return output_path
+
+			x=torch.stack(im_features, dim=0)
+	print("im features shape: ", x.shape)
+		
+	return output_path, x.numpy()
 
 
 parser = argparse.ArgumentParser(description='Feature Extraction')
@@ -201,7 +141,7 @@ if __name__ == '__main__':
 
 	pretrained_weights4k = "home/shero/Documents/GitHub/HIPT/HIPT_4K/Checkpoints/vit4k_xs_dino.pth"
 	pretrained_weights256 = "home/shero/Documents/GitHub/HIPT/HIPT_4K/Checkpoints/vit256_small_dino.pth"
-	model = HIPT_4K(pretrained_weights256, pretrained_weights4k, device256, device4k)
+	model = hipt_4k.HIPT_4K(pretrained_weights256, pretrained_weights4k, device256, device4k)
 
 
 	#model = get_vit4k(pretrained_weights=pretrained_weights4k, device=device4k)
@@ -219,6 +159,7 @@ if __name__ == '__main__':
 		
 	model.eval()
 	total = len(bags_dataset)
+	print("total: ",total)
 
 	for bag_candidate_idx in range(total):
 		slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
@@ -235,7 +176,7 @@ if __name__ == '__main__':
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
 		wsi = openslide.open_slide(slide_file_path)
-		output_file_path = compute_w_loader(h5_file_path, output_path, wsi, 
+		output_file_path, im_features = compute_w_loader(h5_file_path, output_path, wsi, 
 		model = model, batch_size = args.batch_size, verbose = 1, print_every = 20, 
 		custom_downsample=args.custom_downsample, target_patch_size=args.target_patch_size)
 		time_elapsed = time.time() - time_start
@@ -247,7 +188,12 @@ if __name__ == '__main__':
 		print('coordinates size: ', file['coords'].shape)
 		features = torch.from_numpy(features)
 		bag_base, _ = os.path.splitext(bag_name)
-		torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
+		print("im features shape: ", im_features.shape)  
+		print(bag_name)
+		print(bag_base)
+		print(args.feat_dir, 'pt_files', bag_base+'.pt')
+		#torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
+		torch.save(im_features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
 
 
 
