@@ -42,7 +42,7 @@ class WholeSlideImage(object):
         #print(path)
         print( self.name)            
         storage_client = storage.Client()
-        blob = Blob(path,"oncomerge")
+        blob = storage.Blob(path,"oncomerge")
         blob.download_to_filename( "~/"+ self.name+ '.svs')
         #self.wsi = openslide.OpenSlide(path) 
         self.wsi = openslide.open_slide("~/"+ self.name+ '.svs')
