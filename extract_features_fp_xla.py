@@ -121,7 +121,7 @@ if __name__ == '__main__':
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
 		#storage_client = storage.Client()
-		path = args.data_slide_dir+slide_id+args.slide_ext    
+		path = args.data_slide_dir+os.path.basename(slide_id)+args.slide_ext    
 		blob = bucket.blob(path)
 		print(os.path.basename(slide_id))
 		slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext    
