@@ -103,7 +103,7 @@ if __name__ == '__main__':
 		
 	model.eval()
 	total = len(bags_dataset)
-	print(" len(bags_dataset) " + len(bags_dataset))
+	print( len(bags_dataset))
 
 	for bag_candidate_idx in range(total):
 		slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
