@@ -207,7 +207,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			mask_gs_path=mask_save_dir+slide_id+'.jpg'
 			mask_path = os.path.join( "/home/MacOS/", slide_id + '.h5')
 			storage_client = storage.Client()
-			blob = Blob(mask_gs_path,"oncomerge")
+			blob = storage.Blob(mask_gs_path,"oncomerge")
 			blob.upload_from_filename(mask_path)
 			os.remove(mask_path)             
 			#fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
@@ -233,7 +233,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				stitch_gs_path=stitch_save_dir+slide_id+'.jpg'
 				stitch_path = os.path.join( "/home/MacOS/", slide_id + '.h5')
 				storage_client = storage.Client()
-				blob = Blob(stitch_gs_path,"oncomerge")
+				blob = storage.Blob(stitch_gs_path,"oncomerge")
 				blob.upload_from_filename(stitch_path)
 				os.remove(stitch_path)    
 				#fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
