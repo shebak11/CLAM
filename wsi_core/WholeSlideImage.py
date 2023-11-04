@@ -39,10 +39,12 @@ class WholeSlideImage(object):
         #with fs.open("oncomerge"+'/'+path, 'rb') as f:					 			
             #heatmap.save(f)
             #self.wsi = openslide.OpenSlide(f) 
-        #print(path)
+        print(path)
         print( self.name)            
         storage_client = storage.Client()
-        blob = storage.Blob(path,"oncomerge")
+        bucket = storage_client.bucket("oncomerge")
+
+        blob = bucket.Blob(path)
         blob.download_to_filename( "~/"+ self.name+ '.svs')
         #self.wsi = openslide.OpenSlide(path) 
         self.wsi = openslide.open_slide("~/"+ self.name+ '.svs')
