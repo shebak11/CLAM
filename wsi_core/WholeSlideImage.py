@@ -412,7 +412,7 @@ class WholeSlideImage(object):
         
         storage_client = storage.Client()
         blob = storage.Blob(save_path + str(self.name) + '.h5',"oncomerge")
-        blob.upload_from_filename(save_file_path)
+        blob.upload_from_filename(save_path_hdf5)
         os.remove(save_path_hdf5) 
         return self.hdf5_file
 
