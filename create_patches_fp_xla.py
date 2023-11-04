@@ -62,13 +62,13 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				  seg = False, save_mask = True, 
 				  stitch= False, 
 				  patch = False, auto_skip=True, process_list = None):
-    
-	svslist=[]
+    svslist=[]
+    x = 5
     storage_client = storage.Client()
     blobs = storage_client.list_blobs("oncomerge", prefix=source)
     for blob in blobs:
         svslist.append(blob.name)
-    print(svslist[0:5])
+        print(svslist[0:5])
 
 
 	#slides = sorted(os.listdir(source))
