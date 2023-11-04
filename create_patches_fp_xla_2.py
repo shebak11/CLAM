@@ -115,7 +115,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			continue
 
 		# Inialize WSI
-		full_path = os.path.join(source, slide)
+		#full_path = os.path.join(source, slide)
+		full_path = os.path.join(source, os.path.basename(slide))
 		WSI_object = WholeSlideImage(full_path)
 
 		if use_default_params:
