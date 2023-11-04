@@ -413,8 +413,9 @@ class WholeSlideImage(object):
         
         storage_client = storage.Client()
         bucket = storage_client.bucket("oncomerge")
-        gs_path = save_path + str(self.name) + '.h5'
+        gs_path = save_path +"/" +str(self.name) + '.h5'
         blob = bucket.blob(gs_path)
+        print("gs_path h5 " + gs_path)
         blob.upload_from_filename(save_path_hdf5)  
         
         #storage_client = storage.Client()

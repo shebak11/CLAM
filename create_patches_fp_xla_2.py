@@ -208,6 +208,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			print("slide id "+slide_id)
 			mask_path = os.path.join( "/home/MacOS/",   os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
 			print("mask path " + mask_path)
+            print("mask_gs_path " + mask_gs_path)
 			mask.save(mask_path)
 			
 			storage_client = storage.Client()
