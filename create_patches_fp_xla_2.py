@@ -205,7 +205,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			mask = WSI_object.visWSI(**current_vis_params)
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
 			mask_gs_path=mask_save_dir+slide_id+'.jpg'
-            print(slide_id)
+			print(slide_id)
 			mask_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(slide_id))[0]  + '.jpg')
 			storage_client = storage.Client()
 			blob = storage.Blob(mask_gs_path,"oncomerge")
