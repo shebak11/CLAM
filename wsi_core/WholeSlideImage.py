@@ -17,6 +17,7 @@ import itertools
 from wsi_core.util_classes import isInContourV1, isInContourV2, isInContourV3_Easy, isInContourV3_Hard, Contour_Checking_fn
 from utils.file_utils import load_pkl, save_pkl
 import tiffslide as openslide
+import gcsfs
 
 Image.MAX_IMAGE_PIXELS = 933120000
 
