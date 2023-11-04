@@ -89,7 +89,7 @@ if __name__ == '__main__':
 	storage_client = storage.Client()
 	bucket = storage_client.bucket("oncomerge")
 	print("")
-	blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir+'pt_files/')
+	blobs = storage_client.list_blobs("oncomerge", prefix=args.feat_dir+'pt_files/')
 	for blob in blobs:
 		dest_files.append(blob.name)
 
