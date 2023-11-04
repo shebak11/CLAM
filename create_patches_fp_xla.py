@@ -34,7 +34,7 @@ def segment(WSI_object, seg_params = None, filter_params = None, mask_file = Non
 		WSI_object.segmentTissue(**seg_params, filter_params=filter_params)
 
 	### Stop Seg Timers
-	seg_time_elapsed = time.time() - start_time   
+	seg_time_elapsed = time.time() - start_time	 
 	return WSI_object, seg_time_elapsed
 
 def patching(WSI_object, **kwargs):
@@ -51,35 +51,35 @@ def patching(WSI_object, **kwargs):
 
 
 def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_dir, 
-				  patch_size = 256, step_size = 256, 
-				  seg_params = {'seg_level': -1, 'sthresh': 8, 'mthresh': 7, 'close': 4, 'use_otsu': False,
-				  'keep_ids': 'none', 'exclude_ids': 'none'},
-				  filter_params = {'a_t':100, 'a_h': 16, 'max_n_holes':8}, 
-				  vis_params = {'vis_level': -1, 'line_thickness': 500},
-				  patch_params = {'use_padding': True, 'contour_fn': 'four_pt'},
-				  patch_level = 0,
-				  use_default_params = False, 
-				  seg = False, save_mask = True, 
-				  stitch= False, 
-				  patch = False, auto_skip=True, process_list = None):
-    svslist=[]
-    x = 5
-    storage_client = storage.Client()
-    blobs = storage_client.list_blobs("oncomerge", prefix=source)
-    for blob in blobs:
-        svslist.append(blob.name)
-        print(svslist[0:5])
+					patch_size = 256, step_size = 256, 
+					seg_params = {'seg_level': -1, 'sthresh': 8, 'mthresh': 7, 'close': 4, 'use_otsu': False,
+					'keep_ids': 'none', 'exclude_ids': 'none'},
+					filter_params = {'a_t':100, 'a_h': 16, 'max_n_holes':8}, 
+					vis_params = {'vis_level': -1, 'line_thickness': 500},
+					patch_params = {'use_padding': True, 'contour_fn': 'four_pt'},
+					patch_level = 0,
+					use_default_params = False, 
+					seg = False, save_mask = True, 
+					stitch= False, 
+					patch = False, auto_skip=True, process_list = None):
+		svslist=[]
+		x = 5
+		storage_client = storage.Client()
+		blobs = storage_client.list_blobs("oncomerge", prefix=source)
+		for blob in blobs:
+				svslist.append(blob.name)
+				print(svslist[0:5])
 
 
 	#slides = sorted(os.listdir(source))
-    slides = sorted(svslist)
+		slides = sorted(svslist)
 	#slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
 	if process_list is None:
 		df = initialize_df(slides, seg_params, filter_params, vis_params, patch_params)
 	
 	else:
 		#df = pd.read_csv(process_list)
-        df = pd.read_csv("gs://oncomerge/"+save_dir+process_list)
+				df = pd.read_csv("gs://oncomerge/"+save_dir+process_list)
 		df = initialize_df(df, seg_params, filter_params, vis_params, patch_params)
 
 	mask = df['process'] == 1
@@ -102,7 +102,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 
 	for i in range(total):
 		#df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
-        df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
+				df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
 
 		idx = process_stack.index[i]
 		slide = process_stack.loc[idx, 'slide_id']
@@ -206,18 +206,17 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		if save_mask:
 			mask = WSI_object.visWSI(**current_vis_params)
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
-            #mask_path = (mask_save_dir+ slide_id+'.jpg')
-            
-            fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-            with fs.open("oncomerge"+mask_save_dir+slide_id+'.jpg', 'wb') as f:
-                #print(f.read())     			
-                mask.save(f)
+						#mask_path = (mask_save_dir+ slide_id+'.jpg')
+						fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+						with fs.open("oncomerge"+mask_save_dir+slide_id+'.jpg', 'wb') as f:
+								#print(f.read())		 			
+								mask.save(f)
 
 		patch_time_elapsed = -1 # Default time
 		if patch:
 			current_patch_params.update({'patch_level': patch_level, 'patch_size': patch_size, 'step_size': step_size, 
 										 'save_path': patch_save_dir})
-			file_path, patch_time_elapsed = patching(WSI_object = WSI_object,  **current_patch_params,)
+			file_path, patch_time_elapsed = patching(WSI_object = WSI_object,	**current_patch_params,)
 		
 		stitch_time_elapsed = -1
 		if stitch:
@@ -225,12 +224,11 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			if os.path.isfile(file_path):
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
-                
-                
-                fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-                with fs.open("oncomerge"+stitch_save_dir+slide_id+'.jpg', 'wb') as f:
-                    #print(f.read())     			
-                    heatmap.save(f)
+								
+								fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+								with fs.open("oncomerge"+stitch_save_dir+slide_id+'.jpg', 'wb') as f:
+										#print(f.read())		 			
+										heatmap.save(f)
 
 		print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
@@ -244,9 +242,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 	seg_times /= total
 	patch_times /= total
 	stitch_times /= total
-
-    df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
-    #df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
+		df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
+		#df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
 	print("average segmentation time in s per slide: {}".format(seg_times))
 	print("average patching time in s per slide: {}".format(patch_times))
 	print("average stiching time in s per slide: {}".format(stitch_times))
@@ -270,7 +267,7 @@ parser.add_argument('--preset', default=None, type=str,
 					help='predefined profile of default segmentation and filter parameters (.csv)')
 parser.add_argument('--patch_level', type=int, default=0, 
 					help='downsample level at which to patch')
-parser.add_argument('--process_list',  type = str, default=None,
+parser.add_argument('--process_list',	type = str, default=None,
 					help='name of list of images to process with parameters (.csv)')
 
 if __name__ == '__main__':
@@ -292,10 +289,10 @@ if __name__ == '__main__':
 	print('stitch_save_dir: ', stitch_save_dir)
 	
 	directories = {'source': args.source, 
-				   'save_dir': args.save_dir,
-				   'patch_save_dir': patch_save_dir, 
-				   'mask_save_dir' : mask_save_dir, 
-				   'stitch_save_dir': stitch_save_dir} 
+					 'save_dir': args.save_dir,
+					 'patch_save_dir': patch_save_dir, 
+					 'mask_save_dir' : mask_save_dir, 
+					 'stitch_save_dir': stitch_save_dir} 
 
 	for key, val in directories.items():
 		print("{} : {}".format(key, val))
@@ -303,7 +300,7 @@ if __name__ == '__main__':
 			os.makedirs(val, exist_ok=True)
 
 	seg_params = {'seg_level': -1, 'sthresh': 8, 'mthresh': 7, 'close': 4, 'use_otsu': False,
-				  'keep_ids': 'none', 'exclude_ids': 'none'}
+					'keep_ids': 'none', 'exclude_ids': 'none'}
 	filter_params = {'a_t':100, 'a_h': 16, 'max_n_holes':8}
 	vis_params = {'vis_level': -1, 'line_thickness': 250}
 	patch_params = {'use_padding': True, 'contour_fn': 'four_pt'}
@@ -323,15 +320,15 @@ if __name__ == '__main__':
 			patch_params[key] = preset_df.loc[0, key]
 	
 	parameters = {'seg_params': seg_params,
-				  'filter_params': filter_params,
-	 			  'patch_params': patch_params,
-				  'vis_params': vis_params}
+					'filter_params': filter_params,
+	 				'patch_params': patch_params,
+					'vis_params': vis_params}
 
 	print(parameters)
 
 	seg_times, patch_times = seg_and_patch(**directories, **parameters,
 											patch_size = args.patch_size, step_size=args.step_size, 
-											seg = args.seg,  use_default_params=False, save_mask = True, 
+											seg = args.seg,	use_default_params=False, save_mask = True, 
 											stitch= args.stitch,
 											patch_level=args.patch_level, patch = args.patch,
 											process_list = process_list, auto_skip=args.no_auto_skip)
