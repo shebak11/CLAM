@@ -212,7 +212,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			
 			storage_client = storage.Client()
 			bucket = storage_client.bucket("oncomerge")
-			blob = bucket.blob(path)
+			blob = bucket.blob(mask_gs_path)
 			blob.upload_from_filename(mask_path)  
 			#storage_client = storage.Client()
 			#blob = storage.Blob(mask_gs_path,"oncomerge")
@@ -243,7 +243,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				heatmap.save(stitch_path)
 				storage_client = storage.Client()
 				bucket = storage_client.bucket("oncomerge")
-				blob = bucket.blob(path)
+				blob = bucket.blob(stitch_gs_path)
 				blob.upload_from_filename(stitch_path)
 				
 				#storage_client = storage.Client()
