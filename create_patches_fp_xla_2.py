@@ -226,7 +226,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				with fs.open("oncomerge"+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
 					heatmap.save(f)
 
-		print("segmentation took {} seconds".format(seg_time_elapsed))
+        os.remove("/home/MacOS/"+ os.path.basename(slide))     
+        print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
 		print("stitching took {} seconds".format(stitch_time_elapsed))
 		df.loc[idx, 'status'] = 'processed'

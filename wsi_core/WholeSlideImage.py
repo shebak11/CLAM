@@ -48,7 +48,7 @@ class WholeSlideImage(object):
         blob.download_to_filename( "/home/MacOS/"+ self.name+ '.svs')
         #self.wsi = openslide.OpenSlide(path) 
         self.wsi = openslide.open_slide("/home/MacOS/"+ self.name+ '.svs')
-        os.remove("/home/MacOS/"+ self.name+ '.svs')     
+       
         self.level_downsamples = self._assertLevelDownsamples()
         self.level_dim = self.wsi.level_dimensions
     
