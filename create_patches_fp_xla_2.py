@@ -208,6 +208,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			print(slide_id)
 			mask_path = os.path.join( "/home/MacOS/",   os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
 			print(mask_path)
+			mask.save(mask_path)
 			storage_client = storage.Client()
 			blob = storage.Blob(mask_gs_path,"oncomerge")
 			blob.upload_from_filename(mask_path)
@@ -233,7 +234,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
 				#heatmap.save(stitch_path)
 				stitch_gs_path=stitch_save_dir+slide_id+'.jpg'
-				stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(slide_id))[0]  + '.jpg')
+				stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
+				heatmap.save(stitch_path)
 				storage_client = storage.Client()
 				blob = storage.Blob(stitch_gs_path,"oncomerge")
 				blob.upload_from_filename(stitch_path)
