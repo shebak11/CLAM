@@ -12,10 +12,6 @@ import pandas as pd
 from google.cloud import storage
 import gcsfs
 
-
-#import tiffslide as openslide
-#slide = openslide.OpenSlide('path/to/my/file.svs'
-
 def stitching(file_path, wsi_object, downscale = 64):
 	start = time.time()
 	heatmap = StitchCoords(file_path, wsi_object, downscale=downscale, bg_color=(0,0,0), alpha=-1, draw_grid=False)
@@ -34,7 +30,7 @@ def segment(WSI_object, seg_params = None, filter_params = None, mask_file = Non
 		WSI_object.segmentTissue(**seg_params, filter_params=filter_params)
 
 	### Stop Seg Timers
-	seg_time_elapsed = time.time() - start_time	 
+	seg_time_elapsed = time.time() - start_time   
 	return WSI_object, seg_time_elapsed
 
 def patching(WSI_object, **kwargs):
@@ -51,44 +47,52 @@ def patching(WSI_object, **kwargs):
 
 
 def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_dir, 
-					patch_size = 256, step_size = 256, 
-					seg_params = {'seg_level': -1, 'sthresh': 8, 'mthresh': 7, 'close': 4, 'use_otsu': False,
-					'keep_ids': 'none', 'exclude_ids': 'none'},
-					filter_params = {'a_t':100, 'a_h': 16, 'max_n_holes':8}, 
-					vis_params = {'vis_level': -1, 'line_thickness': 500},
-					patch_params = {'use_padding': True, 'contour_fn': 'four_pt'},
-					patch_level = 0,
-					use_default_params = False, 
-					seg = False, save_mask = True, 
-					stitch= False, 
-					patch = False, auto_skip=True, process_list = None):
-    svslist=[]
-    x = 5
-    storage_client = storage.Client()
-    blobs = storage_client.list_blobs("oncomerge", prefix=source)
-    for blob in blobs:
-        svslist.append(blob.name)
-        print(svslist[0:5])
-    #slides = sorted(os.listdir(source))
-    slides = sorted(svslist)
-    #slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
-    if process_list is None:
-        df = initialize_df(slides, seg_params, filter_params, vis_params, patch_params)
+				  patch_size = 256, step_size = 256, 
+				  seg_params = {'seg_level': -1, 'sthresh': 8, 'mthresh': 7, 'close': 4, 'use_otsu': False,
+				  'keep_ids': 'none', 'exclude_ids': 'none'},
+				  filter_params = {'a_t':100, 'a_h': 16, 'max_n_holes':8}, 
+				  vis_params = {'vis_level': -1, 'line_thickness': 500},
+				  patch_params = {'use_padding': True, 'contour_fn': 'four_pt'},
+				  patch_level = 0,
+				  use_default_params = False, 
+				  seg = False, save_mask = True, 
+				  stitch= False, 
+				  patch = False, auto_skip=True, process_list = None):
+
+	svslist=[]
+	x = 5
+	storage_client = storage.Client()
+	print(source)
+	blobs = storage_client.list_blobs("oncomerge", prefix=source)
+	for blob in blobs:
+		svslist.append(blob.name)
+	#print(svslist[0:5])
+	print(len(svslist))
+	slides = sorted(svslist)
+	#slides = sorted(os.listdir(source))
+	#slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
+	if process_list is None:
+		df = initialize_df(slides, seg_params, filter_params, vis_params, patch_params)
+	
 	else:
-        #df = pd.read_csv(process_list)
-        df = pd.read_csv("gs://oncomerge/"+save_dir+process_list)
-        df = initialize_df(df, seg_params, filter_params, vis_params, patch_params)
-    mask = df['process'] == 1
-    process_stack = df[mask]
-    total = len(process_stack)
-    legacy_support = 'a' in df.keys()
-    if legacy_support:
-        print('detected legacy segmentation csv file, legacy support enabled')
-        df = df.assign(**{'a_t': np.full((len(df)), int(filter_params['a_t']), dtype=np.uint32),
-        'a_h': np.full((len(df)), int(filter_params['a_h']), dtype=np.uint32),
-        'max_n_holes': np.full((len(df)), int(filter_params['max_n_holes']), dtype=np.uint32),
-        'line_thickness': np.full((len(df)), int(vis_params['line_thickness']), dtype=np.uint32),
-        'contour_fn': np.full((len(df)), patch_params['contour_fn'])})
+		#df = pd.read_csv(process_list)
+		df = pd.read_csv("gs://oncomerge/"+save_dir+process_list)
+
+		df = initialize_df(df, seg_params, filter_params, vis_params, patch_params)
+
+	mask = df['process'] == 1
+	process_stack = df[mask]
+
+	total = len(process_stack)
+
+	legacy_support = 'a' in df.keys()
+	if legacy_support:
+		print('detected legacy segmentation csv file, legacy support enabled')
+		df = df.assign(**{'a_t': np.full((len(df)), int(filter_params['a_t']), dtype=np.uint32),
+		'a_h': np.full((len(df)), int(filter_params['a_h']), dtype=np.uint32),
+		'max_n_holes': np.full((len(df)), int(filter_params['max_n_holes']), dtype=np.uint32),
+		'line_thickness': np.full((len(df)), int(vis_params['line_thickness']), dtype=np.uint32),
+		'contour_fn': np.full((len(df)), patch_params['contour_fn'])})
 
 	seg_times = 0.
 	patch_times = 0.
@@ -96,8 +100,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 
 	for i in range(total):
 		#df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
-				df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
-
+		df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
 		idx = process_stack.index[i]
 		slide = process_stack.loc[idx, 'slide_id']
 		print("\n\nprogress: {:.2f}, {}/{}".format(i/total, i, total))
@@ -112,7 +115,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			continue
 
 		# Inialize WSI
-		full_path = os.path.join(source, slide)
+		#full_path = os.path.join(source, slide)
+		full_path = os.path.join(source, os.path.basename(slide))
 		WSI_object = WholeSlideImage(full_path)
 
 		if use_default_params:
@@ -200,30 +204,61 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		if save_mask:
 			mask = WSI_object.visWSI(**current_vis_params)
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
-						#mask_path = (mask_save_dir+ slide_id+'.jpg')
-						fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-						with fs.open("oncomerge"+mask_save_dir+slide_id+'.jpg', 'wb') as f:
-								#print(f.read())		 			
-								mask.save(f)
+			mask_gs_path=mask_save_dir+ '/' +os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
+			print("slide id "+slide_id)
+			mask_path = os.path.join( "/home/MacOS/",   os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
+			print("mask path " + mask_path)
+			print("mask_gs_path " + mask_gs_path)
+			mask.save(mask_path)
+			
+			storage_client = storage.Client()
+			bucket = storage_client.bucket("oncomerge")
+			blob = bucket.blob(mask_gs_path)
+			blob.upload_from_filename(mask_path)  
+			#storage_client = storage.Client()
+			#blob = storage.Blob(mask_gs_path,"oncomerge")
+			#blob.upload_from_filename(filename = mask_path)
+			os.remove(mask_path)             
+			#fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+			#print("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg')
+			#with fs.open("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg', 'wb') as f:
+				#mask.save(f)
+				#f.write(mask)
+			#mask.save(mask_path)
 
 		patch_time_elapsed = -1 # Default time
 		if patch:
 			current_patch_params.update({'patch_level': patch_level, 'patch_size': patch_size, 'step_size': step_size, 
 										 'save_path': patch_save_dir})
-			file_path, patch_time_elapsed = patching(WSI_object = WSI_object,	**current_patch_params,)
+			file_path, patch_time_elapsed = patching(WSI_object = WSI_object,  **current_patch_params,)
 		
 		stitch_time_elapsed = -1
 		if stitch:
 			file_path = os.path.join(patch_save_dir, slide_id+'.h5')
+			#file_path = os.path.join( "/home/MacOS/", os.path.splitext(os.path.basename(os.path.basename(slide)))[0] + '.h5')
 			if os.path.isfile(file_path):
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
-								
-								fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-								with fs.open("oncomerge"+stitch_save_dir+slide_id+'.jpg', 'wb') as f:
-										#print(f.read())		 			
-										heatmap.save(f)
-
+				#heatmap.save(stitch_path)
+				stitch_gs_path=stitch_save_dir+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
+				stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
+				heatmap.save(stitch_path)
+				storage_client = storage.Client()
+				bucket = storage_client.bucket("oncomerge")
+				blob = bucket.blob(stitch_gs_path)
+				blob.upload_from_filename(stitch_path)
+				
+				#storage_client = storage.Client()
+				#blob = storage.Blob(stitch_gs_path,"oncomerge")
+				#blob.upload_from_filename(stitch_path)
+				os.remove(stitch_path)    
+				
+				#fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+				#with fs.open("oncomerge"+'/'+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
+					#heatmap.save(f)
+					#f.write(mask)
+		os.remove("/home/MacOS/"+ os.path.basename(slide))
+		os.remove("/home/MacOS/"+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.h5')
 		print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
 		print("stitching took {} seconds".format(stitch_time_elapsed))
@@ -236,8 +271,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 	seg_times /= total
 	patch_times /= total
 	stitch_times /= total
-		df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
-		#df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
+
+	df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
 	print("average segmentation time in s per slide: {}".format(seg_times))
 	print("average patching time in s per slide: {}".format(patch_times))
 	print("average stiching time in s per slide: {}".format(stitch_times))
@@ -261,7 +296,7 @@ parser.add_argument('--preset', default=None, type=str,
 					help='predefined profile of default segmentation and filter parameters (.csv)')
 parser.add_argument('--patch_level', type=int, default=0, 
 					help='downsample level at which to patch')
-parser.add_argument('--process_list',	type = str, default=None,
+parser.add_argument('--process_list',  type = str, default=None,
 					help='name of list of images to process with parameters (.csv)')
 
 if __name__ == '__main__':
@@ -283,10 +318,10 @@ if __name__ == '__main__':
 	print('stitch_save_dir: ', stitch_save_dir)
 	
 	directories = {'source': args.source, 
-					 'save_dir': args.save_dir,
-					 'patch_save_dir': patch_save_dir, 
-					 'mask_save_dir' : mask_save_dir, 
-					 'stitch_save_dir': stitch_save_dir} 
+				   'save_dir': args.save_dir,
+				   'patch_save_dir': patch_save_dir, 
+				   'mask_save_dir' : mask_save_dir, 
+				   'stitch_save_dir': stitch_save_dir} 
 
 	for key, val in directories.items():
 		print("{} : {}".format(key, val))
@@ -294,7 +329,7 @@ if __name__ == '__main__':
 			os.makedirs(val, exist_ok=True)
 
 	seg_params = {'seg_level': -1, 'sthresh': 8, 'mthresh': 7, 'close': 4, 'use_otsu': False,
-					'keep_ids': 'none', 'exclude_ids': 'none'}
+				  'keep_ids': 'none', 'exclude_ids': 'none'}
 	filter_params = {'a_t':100, 'a_h': 16, 'max_n_holes':8}
 	vis_params = {'vis_level': -1, 'line_thickness': 250}
 	patch_params = {'use_padding': True, 'contour_fn': 'four_pt'}
@@ -314,15 +349,15 @@ if __name__ == '__main__':
 			patch_params[key] = preset_df.loc[0, key]
 	
 	parameters = {'seg_params': seg_params,
-					'filter_params': filter_params,
-	 				'patch_params': patch_params,
-					'vis_params': vis_params}
+				  'filter_params': filter_params,
+	 			  'patch_params': patch_params,
+				  'vis_params': vis_params}
 
 	print(parameters)
 
 	seg_times, patch_times = seg_and_patch(**directories, **parameters,
 											patch_size = args.patch_size, step_size=args.step_size, 
-											seg = args.seg,	use_default_params=False, save_mask = True, 
+											seg = args.seg,  use_default_params=False, save_mask = True, 
 											stitch= args.stitch,
 											patch_level=args.patch_level, patch = args.patch,
 											process_list = process_list, auto_skip=args.no_auto_skip)
