@@ -84,12 +84,10 @@ if __name__ == '__main__':
 	#os.makedirs(os.path.join(args.feat_dir, 'pt_files'), exist_ok=True)
 	#os.makedirs(os.path.join(args.feat_dir, 'h5_files'), exist_ok=True)
 	#dest_files = os.listdir(os.path.join(args.feat_dir, 'pt_files'))
-    
-    
-    dest_files=[]
+	dest_files=[]
 	x = 5
 	storage_client = storage.Client()
-    bucket = storage_client.bucket("oncomerge")
+	bucket = storage_client.bucket("oncomerge")
 	print("")
 	blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir+'pt_files/')
 	for blob in blobs:
@@ -105,7 +103,7 @@ if __name__ == '__main__':
 		
 	model.eval()
 	total = len(bags_dataset)
-    print(" len(bags_dataset) " + len(bags_dataset))
+	print(" len(bags_dataset) " + len(bags_dataset))
 
 	for bag_candidate_idx in range(total):
 		slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
@@ -121,18 +119,13 @@ if __name__ == '__main__':
 
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
-        
-        
-        #storage_client = storage.Client()
-        path = args.data_slide_dir+slide_id+args.slide_ext
-        
-        blob = bucket.blob(path)
-        slide_file_path = "/home/MacOS/"+ self.name+ '.svs'
-        blob.download_to_filename(slide_file_path )
-        #self.wsi = openslide.OpenSlide(path) 
-        wsi = openslide.open_slide(slide_file_path)
-        
-        
+		#storage_client = storage.Client()
+		path = args.data_slide_dir+slide_id+args.slide_ext    
+		blob = bucket.blob(path)
+		slide_file_path = "/home/MacOS/"+ self.name+ '.svs'
+		blob.download_to_filename(slide_file_path )
+		#self.wsi = openslide.OpenSlide(path) 
+		wsi = openslide.open_slide(slide_file_path)
 		#wsi = openslide.open_slide(slide_file_path)
 		output_file_path = compute_w_loader(h5_file_path, output_path, wsi, 
 		model = model, batch_size = args.batch_size, verbose = 1, print_every = 20, 
