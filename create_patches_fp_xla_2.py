@@ -204,11 +204,17 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		if save_mask:
 			mask = WSI_object.visWSI(**current_vis_params)
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
-			fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-			print("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg')
-			with fs.open("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg', 'wb') as f:
+			mask_gs_path=mask_save_dir+slide_id+'.jpg'
+			mask_path = os.path.join( "/home/MacOS/", slide_id + '.h5')
+			storage_client = storage.Client()
+			blob = Blob(mask_gs_path,"oncomerge")
+			blob.upload_from_filename(mask_path)
+			os.remove(mask_path)             
+			#fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+			#print("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg')
+			#with fs.open("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg', 'wb') as f:
 				#mask.save(f)
-				f.write(mask)
+				#f.write(mask)
 			#mask.save(mask_path)
 
 		patch_time_elapsed = -1 # Default time
@@ -224,10 +230,16 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
 				#heatmap.save(stitch_path)
-				fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-				with fs.open("oncomerge"+'/'+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
+				stitch_gs_path=stitch_save_dir+slide_id+'.jpg'
+				stitch_path = os.path.join( "/home/MacOS/", slide_id + '.h5')
+				storage_client = storage.Client()
+				blob = Blob(stitch_gs_path,"oncomerge")
+				blob.upload_from_filename(stitch_path)
+				os.remove(stitch_path)    
+				#fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+				#with fs.open("oncomerge"+'/'+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
 					#heatmap.save(f)
-					f.write(mask)
+					#f.write(mask)
 		os.remove("/home/MacOS/"+ os.path.basename(slide))
 		print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
