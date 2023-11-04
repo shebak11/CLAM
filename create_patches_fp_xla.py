@@ -10,6 +10,7 @@ import argparse
 import pdb
 import pandas as pd
 from google.cloud import storage
+import gcsfs
 
 
 #import tiffslide as openslide
@@ -64,23 +65,21 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
     
 	svslist=[]
     storage_client = storage.Client()
-    blobs = storage_client.list_blobs("oncomerge", prefix="WSI/TCGA/COAD")
+    blobs = storage_client.list_blobs("oncomerge", prefix=source)
     for blob in blobs:
         svslist.append(blob.name)
     print(svslist[0:5])
-        
 
 
-
-
-
-	slides = sorted(os.listdir(source))
-	slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
+	#slides = sorted(os.listdir(source))
+    slides = sorted(svslist)
+	#slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
 	if process_list is None:
 		df = initialize_df(slides, seg_params, filter_params, vis_params, patch_params)
 	
 	else:
-		df = pd.read_csv(process_list)
+		#df = pd.read_csv(process_list)
+        df = pd.read_csv("gs://oncomerge/"+save_dir+process_list)
 		df = initialize_df(df, seg_params, filter_params, vis_params, patch_params)
 
 	mask = df['process'] == 1
@@ -102,7 +101,9 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 	stitch_times = 0.
 
 	for i in range(total):
-		df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
+		#df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
+        df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
+
 		idx = process_stack.index[i]
 		slide = process_stack.loc[idx, 'slide_id']
 		print("\n\nprogress: {:.2f}, {}/{}".format(i/total, i, total))
@@ -204,8 +205,13 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 
 		if save_mask:
 			mask = WSI_object.visWSI(**current_vis_params)
-			mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
-			mask.save(mask_path)
+			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
+            #mask_path = (mask_save_dir+ slide_id+'.jpg')
+            
+            fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+            with fs.open("oncomerge"+mask_save_dir+slide_id+'.jpg', 'wb') as f:
+                #print(f.read())     			
+                mask.save(f)
 
 		patch_time_elapsed = -1 # Default time
 		if patch:
@@ -218,8 +224,13 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			file_path = os.path.join(patch_save_dir, slide_id+'.h5')
 			if os.path.isfile(file_path):
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
-				stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
-				heatmap.save(stitch_path)
+				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
+                
+                
+                fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+                with fs.open("oncomerge"+stitch_save_dir+slide_id+'.jpg', 'wb') as f:
+                    #print(f.read())     			
+                    heatmap.save(f)
 
 		print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
@@ -234,7 +245,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 	patch_times /= total
 	stitch_times /= total
 
-	df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
+    df.to_csv("gs://oncomerge/"+save_dir+'process_list_autogen.csv', index=False)
+    #df.to_csv(os.path.join(save_dir, 'process_list_autogen.csv'), index=False)
 	print("average segmentation time in s per slide: {}".format(seg_times))
 	print("average patching time in s per slide: {}".format(patch_times))
 	print("average stiching time in s per slide: {}".format(stitch_times))

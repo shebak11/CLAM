@@ -369,7 +369,9 @@ class WholeSlideImage(object):
         return level_downsamples
 
     def process_contours(self, save_path, patch_level=0, patch_size=256, step_size=256, **kwargs):
-        save_path_hdf5 = os.path.join(save_path, str(self.name) + '.h5')
+        #save_path_hdf5 = os.path.join(save_path, str(self.name) + '.h5')
+        save_path_hdf5 = os.path.join("~/", str(self.name) + '.h5')
+
         print("Creating patches for: ", self.name, "...",)
         elapsed = time.time()
         n_contours = len(self.contours_tissue)
@@ -388,6 +390,11 @@ class WholeSlideImage(object):
                 else:
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
 
+        
+        storage_client = storage.Client()
+        blob = Blob(save_path + str(self.name) + '.h5',oncomerge)
+        blob.upload_from_filename(save_file_path)
+        os.remove(save_path_hdf5) 
         return self.hdf5_file
 
 
