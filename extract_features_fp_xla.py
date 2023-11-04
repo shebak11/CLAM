@@ -36,10 +36,10 @@ def compute_w_loader(file_path, output_path, wsi, model,
 		custom_downsample=custom_downsample, target_patch_size=target_patch_size)
 	x, y = dataset[0]
 	kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
+
+	loader = DataLoader(dataset=dataset, batch_size=batch_size, **kwargs, collate_fn=collate_features)
 	print("len(loader)")
 	print(len(loader))
-	loader = DataLoader(dataset=dataset, batch_size=batch_size, **kwargs, collate_fn=collate_features)
-
 	if verbose > 0:
 		print('processing {}: total of {} batches'.format(file_path,len(loader)))
 
