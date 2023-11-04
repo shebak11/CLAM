@@ -32,7 +32,7 @@ class WholeSlideImage(object):
 #         self.name = ".".join(path.split("/")[-1].split('.')[:-1])
         self.name = os.path.splitext(os.path.basename(path))[0]
         fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-        with fs.open("oncomerge"+'.'+path, 'rb') as f:					 			
+        with fs.open("oncomerge"+'/'+path, 'rb') as f:					 			
             #heatmap.save(f)
             self.wsi = openslide.OpenSlide(path) 
         print(path)
