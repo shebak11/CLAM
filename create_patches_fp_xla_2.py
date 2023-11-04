@@ -62,10 +62,10 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 	svslist=[]
 	x = 5
 	storage_client = storage.Client()
-	blobs = storage_client.list_blobs("oncomerge", prefix=source)
+	blobs = storage_client.list_blobs("oncomerge")
 	for blob in blobs:
 		svslist.append(blob.name)
-		print(svslist[0:5])
+	print(svslist[0:5])
 	slides = sorted(svslist)
 	#slides = sorted(os.listdir(source))
 	slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
