@@ -204,7 +204,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		if save_mask:
 			mask = WSI_object.visWSI(**current_vis_params)
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
-			mask_gs_path=mask_save_dir+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
+			mask_gs_path=mask_save_dir+ '/' +os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
 			print("slide id "+slide_id)
 			mask_path = os.path.join( "/home/MacOS/",   os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
 			print("mask path " + mask_path)
@@ -234,8 +234,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		
 		stitch_time_elapsed = -1
 		if stitch:
-			#file_path = os.path.join(patch_save_dir, slide_id+'.h5')
-			file_path = os.path.join( "/home/MacOS/", os.path.splitext(os.path.basename(os.path.basename(slide)))[0] + '.h5')
+			file_path = os.path.join(patch_save_dir, slide_id+'.h5')
+			#file_path = os.path.join( "/home/MacOS/", os.path.splitext(os.path.basename(os.path.basename(slide)))[0] + '.h5')
 			if os.path.isfile(file_path):
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
