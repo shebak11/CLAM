@@ -62,39 +62,33 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 					seg = False, save_mask = True, 
 					stitch= False, 
 					patch = False, auto_skip=True, process_list = None):
-		svslist=[]
-		x = 5
-		storage_client = storage.Client()
-		blobs = storage_client.list_blobs("oncomerge", prefix=source)
-		for blob in blobs:
-				svslist.append(blob.name)
-				print(svslist[0:5])
-
-
-	#slides = sorted(os.listdir(source))
-		slides = sorted(svslist)
-	#slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
-	if process_list is None:
-		df = initialize_df(slides, seg_params, filter_params, vis_params, patch_params)
-	
+    svslist=[]
+    x = 5
+    storage_client = storage.Client()
+    blobs = storage_client.list_blobs("oncomerge", prefix=source)
+    for blob in blobs:
+        svslist.append(blob.name)
+        print(svslist[0:5])
+    #slides = sorted(os.listdir(source))
+    slides = sorted(svslist)
+    #slides = [slide for slide in slides if os.path.isfile(os.path.join(source, slide))]
+    if process_list is None:
+        df = initialize_df(slides, seg_params, filter_params, vis_params, patch_params)
 	else:
-		#df = pd.read_csv(process_list)
-				df = pd.read_csv("gs://oncomerge/"+save_dir+process_list)
-		df = initialize_df(df, seg_params, filter_params, vis_params, patch_params)
-
-	mask = df['process'] == 1
-	process_stack = df[mask]
-
-	total = len(process_stack)
-
-	legacy_support = 'a' in df.keys()
-	if legacy_support:
-		print('detected legacy segmentation csv file, legacy support enabled')
-		df = df.assign(**{'a_t': np.full((len(df)), int(filter_params['a_t']), dtype=np.uint32),
-		'a_h': np.full((len(df)), int(filter_params['a_h']), dtype=np.uint32),
-		'max_n_holes': np.full((len(df)), int(filter_params['max_n_holes']), dtype=np.uint32),
-		'line_thickness': np.full((len(df)), int(vis_params['line_thickness']), dtype=np.uint32),
-		'contour_fn': np.full((len(df)), patch_params['contour_fn'])})
+        #df = pd.read_csv(process_list)
+        df = pd.read_csv("gs://oncomerge/"+save_dir+process_list)
+        df = initialize_df(df, seg_params, filter_params, vis_params, patch_params)
+    mask = df['process'] == 1
+    process_stack = df[mask]
+    total = len(process_stack)
+    legacy_support = 'a' in df.keys()
+    if legacy_support:
+        print('detected legacy segmentation csv file, legacy support enabled')
+        df = df.assign(**{'a_t': np.full((len(df)), int(filter_params['a_t']), dtype=np.uint32),
+        'a_h': np.full((len(df)), int(filter_params['a_h']), dtype=np.uint32),
+        'max_n_holes': np.full((len(df)), int(filter_params['max_n_holes']), dtype=np.uint32),
+        'line_thickness': np.full((len(df)), int(vis_params['line_thickness']), dtype=np.uint32),
+        'contour_fn': np.full((len(df)), patch_params['contour_fn'])})
 
 	seg_times = 0.
 	patch_times = 0.
