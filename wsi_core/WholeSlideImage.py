@@ -30,11 +30,12 @@ class WholeSlideImage(object):
 
 #         self.name = ".".join(path.split("/")[-1].split('.')[:-1])
         self.name = os.path.splitext(os.path.basename(path))[0]
-        #fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-        #with fs.open("oncomerge"+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
+        fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
+        with fs.open("oncomerge"+'.'+path, 'rb') as f:					 			
             #heatmap.save(f)
+            self.wsi = openslide.OpenSlide(path) 
         print(path)
-        self.wsi = openslide.OpenSlide(path) 
+        #self.wsi = openslide.OpenSlide(path) 
         #self.wsi = openslide.open_slide(path)
         self.level_downsamples = self._assertLevelDownsamples()
         self.level_dim = self.wsi.level_dimensions
