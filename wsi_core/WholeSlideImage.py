@@ -45,10 +45,10 @@ class WholeSlideImage(object):
         bucket = storage_client.bucket("oncomerge")
 
         blob = bucket.blob(path)
-        blob.download_to_filename( "/home/MacOS"+ self.name+ '.svs')
+        blob.download_to_filename( "/home/MacOS/"+ self.name+ '.svs')
         #self.wsi = openslide.OpenSlide(path) 
-        self.wsi = openslide.open_slide("/home/MacOS"+ self.name+ '.svs')
-        os.remove("/home/MacOS"+ self.name+ '.svs')     
+        self.wsi = openslide.open_slide("/home/MacOS/"+ self.name+ '.svs')
+        os.remove("/home/MacOS/"+ self.name+ '.svs')     
         self.level_downsamples = self._assertLevelDownsamples()
         self.level_dim = self.wsi.level_dimensions
     
