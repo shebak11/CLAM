@@ -125,7 +125,7 @@ if __name__ == '__main__':
 		blob = bucket.blob(path)
 		print(os.path.basename(slide_id))
 		slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
-        print( "slide_file_path " + slide_file_path)
+		print( "slide_file_path " + slide_file_path)
 		blob.download_to_filename(slide_file_path )
 		#self.wsi = openslide.OpenSlide(path) 
 		wsi = openslide.open_slide(slide_file_path)
