@@ -62,7 +62,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 	svslist=[]
 	x = 5
 	storage_client = storage.Client()
-	blobs = storage_client.list_blobs("oncomerge")
+	blobs = storage_client.list_blobs("oncomerge", prefix=source)
 	for blob in blobs:
 		svslist.append(blob.name)
 	print(svslist[0:5])
