@@ -9,6 +9,8 @@ import time
 import argparse
 import pdb
 import pandas as pd
+from google.cloud import storage
+import gcsfs
 
 def stitching(file_path, wsi_object, downscale = 64):
 	start = time.time()
