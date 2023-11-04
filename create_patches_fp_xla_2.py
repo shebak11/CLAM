@@ -206,7 +206,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
 			mask_gs_path=mask_save_dir+slide_id+'.jpg'
 			print(slide_id)
-			mask_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(slide_id))[0]  + '.jpg')
+			mask_path = os.path.join( "/home/MacOS/",   os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
+            print(mask_path)
 			storage_client = storage.Client()
 			blob = storage.Blob(mask_gs_path,"oncomerge")
 			blob.upload_from_filename(mask_path)
