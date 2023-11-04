@@ -211,7 +211,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			mask.save(mask_path)
 			storage_client = storage.Client()
 			blob = storage.Blob(mask_gs_path,"oncomerge")
-			blob.upload_from_filename(mask_path)
+			blob.upload_from_filename(filename = mask_path)
 			os.remove(mask_path)             
 			#fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
 			#print("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg')
