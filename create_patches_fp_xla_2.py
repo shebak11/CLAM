@@ -205,7 +205,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			mask = WSI_object.visWSI(**current_vis_params)
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
 			fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-			with fs.open("oncomerge"+mask_save_dir+slide_id+'.jpg', 'wb') as f:
+			with fs.open("oncomerge"+'/'+mask_save_dir+slide_id+'.jpg', 'wb') as f:
 				mask.save(f)
 			#mask.save(mask_path)
 
@@ -223,7 +223,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
 				#heatmap.save(stitch_path)
 				fs = gcsfs.GCSFileSystem(project='	hai-gcp-models ')
-				with fs.open("oncomerge"+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
+				with fs.open("oncomerge"+'/'+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
 					heatmap.save(f)
 		os.remove("/home/MacOS/"+ os.path.basename(slide))
 		print("segmentation took {} seconds".format(seg_time_elapsed))

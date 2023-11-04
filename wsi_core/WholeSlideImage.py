@@ -389,7 +389,7 @@ class WholeSlideImage(object):
 
     def process_contours(self, save_path, patch_level=0, patch_size=256, step_size=256, **kwargs):
         #save_path_hdf5 = os.path.join(save_path, str(self.name) + '.h5')
-        save_path_hdf5 = os.path.join("~/", str(self.name) + '.h5')
+        save_path_hdf5 = os.path.join( "/home/MacOS/", str(self.name) + '.h5')
 
         print("Creating patches for: ", self.name, "...",)
         elapsed = time.time()
