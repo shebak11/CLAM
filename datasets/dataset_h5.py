@@ -124,9 +124,17 @@ class Whole_Slide_Bag_FP(Dataset):
 		if not custom_transforms:
 			self.roi_transforms = eval_transforms(pretrained=pretrained)
 		else:
-			self.roi_transforms = custom_transforms
-
-		self.file_path = file_path
+			self.roi_transforms = custom_transforms      
+		#self.file_path = file_path
+		file_name =  os.path.splitext(os.path.basename(file_path))[0]
+		print("h5 file " + file_name)
+		local_file_path = "/home/MacOS/"+ self.name+ '.svs'
+		self.file_path = local_file_path
+		storage_client = storage.Client()
+		bucket = storage_client.bucket("oncomerge")
+		gs_path = file_path
+		blob = bucket.blob(gs_path)
+		blob.download_to_filename(self.file_path )
 
 		with h5py.File(self.file_path, "r") as f:
 			dset = f['coords']
