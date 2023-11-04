@@ -410,11 +410,18 @@ class WholeSlideImage(object):
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
 
         
+        
         storage_client = storage.Client()
+        bucket = storage_client.bucket("oncomerge")
+        gs_path = save_path + str(self.name) + '.h5'
+        blob = bucket.blob(gs_path)
+        blob.upload_from_filename(save_path_hdf5)  
+        
+        #storage_client = storage.Client()
         print("save_path")
-        blob = storage.Blob(save_path + str(self.name) + '.h5',"oncomerge")
-        blob.upload_from_filename(save_path_hdf5)
-        #os.remove(save_path_hdf5) 
+        #blob = storage.Blob(,"oncomerge")
+        #blob.upload_from_filename(save_path_hdf5)
+        os.remove(save_path_hdf5) 
         return self.hdf5_file
 
 
