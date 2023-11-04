@@ -204,7 +204,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		if save_mask:
 			mask = WSI_object.visWSI(**current_vis_params)
 			#mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
-			mask_gs_path=mask_save_dir+slide_id+'.jpg'
+			mask_gs_path=mask_save_dir+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
 			print("slide id "+slide_id)
 			mask_path = os.path.join( "/home/MacOS/",   os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
 			print("mask path " + mask_path)
@@ -234,12 +234,13 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		
 		stitch_time_elapsed = -1
 		if stitch:
-			file_path = os.path.join(patch_save_dir, slide_id+'.h5')
+			#file_path = os.path.join(patch_save_dir, slide_id+'.h5')
+			file_path = os.path.join( "/home/MacOS/", str(self.name) + '.h5')
 			if os.path.isfile(file_path):
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
 				#heatmap.save(stitch_path)
-				stitch_gs_path=stitch_save_dir+slide_id+'.jpg'
+				stitch_gs_path=stitch_save_dir+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
 				stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
 				heatmap.save(stitch_path)
 				storage_client = storage.Client()
@@ -257,6 +258,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 					#heatmap.save(f)
 					#f.write(mask)
 		os.remove("/home/MacOS/"+ os.path.basename(slide))
+		os.remove("/home/MacOS/"+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.h5')
 		print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
 		print("stitching took {} seconds".format(stitch_time_elapsed))
