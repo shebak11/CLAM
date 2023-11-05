@@ -23,6 +23,7 @@ import torch_xla.test.test_utils as test_utils
 
 import torch.distributed as dist
 import torch_xla.distributed.xla_backend
+import sys
 
 
 def _mp_fn(index):
