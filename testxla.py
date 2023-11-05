@@ -29,12 +29,12 @@ def _mp_fn(index):
     #global FLAGS
     #FLAGS = flags
     torch.set_default_dtype(torch.float32)
-    device = xm.xla_device()
+    #device = xm.xla_device()
 
   #accuracy = train_imagenet()
   #if accuracy < FLAGS.target_accuracy:
     #print('Accuracy {} is below target {}'.format(accuracy,
-                                                  FLAGS.target_accuracy))
+    #                                              FLAGS.target_accuracy))
     sys.exit(21)
 
 if __name__ == '__main__':
