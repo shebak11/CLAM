@@ -163,7 +163,8 @@ if __name__ == '__main__':
 		custom_downsample=args.custom_downsample, target_patch_size=args.target_patch_size)
 		time_elapsed = time.time() - time_start
 		print('\ncomputing features for {} took {} s'.format(output_file_path, time_elapsed))
-		file = h5py.File(output_file_path, "r")
+        local_output_path = "/home/MacOS/h5_files/"+os.path.basename(output_path)
+		file = h5py.File(local_output_path, "r")
 
 		features = file['features'][:]
 		print('features size: ', features.shape)
