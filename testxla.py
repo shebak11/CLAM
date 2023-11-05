@@ -39,7 +39,7 @@ def _mp_fn(index):
 
 if __name__ == '__main__':
     print(dist.is_torchelastic_launched())
-  if dist.is_torchelastic_launched():
-    _mp_fn(xu.getenv_as(xenv.LOCAL_RANK, int), FLAGS)
-  else:
-    xmp.spawn(_mp_fn, nprocs=4)
+    if dist.is_torchelastic_launched():
+        _mp_fn(xu.getenv_as(xenv.LOCAL_RANK, int), FLAGS)
+    else:
+        xmp.spawn(_mp_fn, nprocs=4)
