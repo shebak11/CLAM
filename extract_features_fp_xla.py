@@ -16,6 +16,21 @@ from PIL import Image
 import h5py
 import openslide
 from google.cloud import storage
+
+from torch_xla import runtime as xr
+
+import torch_xla
+import torch_xla.debug.metrics as met
+import torch_xla.distributed.parallel_loader as pl
+import torch_xla.debug.profiler as xp
+import torch_xla.utils.utils as xu
+import torch_xla.core.xla_env_vars as xenv
+import torch_xla.core.xla_model as xm
+import torch_xla.distributed.xla_multiprocessing as xmp
+import torch_xla.test.test_utils as test_utils
+import torch.distributed as dist
+import torch_xla.distributed.xla_backend
+
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 def compute_w_loader(file_path, output_path, wsi, model,
@@ -40,6 +55,7 @@ def compute_w_loader(file_path, output_path, wsi, model,
 	loader = DataLoader(dataset=dataset, batch_size=batch_size, **kwargs, collate_fn=collate_features)
 	print("len(loader)")
 	print(len(loader))
+	loader= loader[0:10]
 	if verbose > 0:
 		print('processing {}: total of {} batches'.format(file_path,len(loader)))
 
@@ -81,7 +97,9 @@ args = parser.parse_args()
 
 if __name__ == '__main__':
 
-	print('initializing dataset')
+	print('initializing dataset')  
+	#if FLAGS.ddp or FLAGS.pjrt_distributed:
+		#dist.init_process_group('xla', init_method='xla://')  
 	csv_path = args.csv_path
 	if csv_path is None:
 		raise NotImplementedError
@@ -111,6 +129,7 @@ if __name__ == '__main__':
 		
 	model.eval()
 	total = len(bags_dataset)
+	total = 3
 	print( "len(bags_dataset)")
 	print( len(bags_dataset))
 
