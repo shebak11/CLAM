@@ -55,12 +55,13 @@ def compute_w_loader(file_path, output_path, wsi, model,
 	loader = DataLoader(dataset=dataset, batch_size=batch_size, **kwargs, collate_fn=collate_features)
 	print("len(loader)")
 	print(len(loader))
-	loader= loader[0:10]
 	if verbose > 0:
 		print('processing {}: total of {} batches'.format(file_path,len(loader)))
 
 	mode = 'w'
 	for count, (batch, coords) in enumerate(loader):
+		if count==10:
+			break
 		with torch.no_grad():	
 			if count % print_every == 0:
 				print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
