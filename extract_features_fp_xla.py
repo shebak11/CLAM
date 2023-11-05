@@ -16,19 +16,7 @@ from PIL import Image
 import h5py
 import openslide
 from google.cloud import storage
-
-import torch_xla
-import torch_xla.debug.metrics as met
-import torch_xla.distributed.parallel_loader as pl
-import torch_xla.debug.profiler as xp
-import torch_xla.utils.utils as xu
-import torch_xla.core.xla_env_vars as xenv
-import torch_xla.core.xla_model as xm
-import torch_xla.distributed.xla_multiprocessing as xmp
-import torch_xla.test.test_utils as test_utils
-#device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-device = xm.xla_device()
- 
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 def compute_w_loader(file_path, output_path, wsi, model,
  	batch_size = 8, verbose = 0, print_every=20, pretrained=True, 
@@ -86,7 +74,6 @@ args = parser.parse_args()
 
 
 if __name__ == '__main__':
-	dist.init_process_group('xla', init_method='xla://')
 
 	print('initializing dataset')
 	csv_path = args.csv_path
@@ -111,13 +98,10 @@ if __name__ == '__main__':
 	print('loading model checkpoint')
 	model = resnet50_baseline(pretrained=True)
 	model = model.to(device)
-    
-	#if xr.using_pjrt():
-		#xm.broadcast_master_param(model)
 	
 	# print_network(model)
-	#if torch.cuda.device_count() > 1:
-		#model = nn.DataParallel(model)
+	if torch.cuda.device_count() > 1:
+		model = nn.DataParallel(model)
 		
 	model.eval()
 	total = len(bags_dataset)
@@ -161,9 +145,6 @@ if __name__ == '__main__':
 		features = torch.from_numpy(features)
 		bag_base, _ = os.path.splitext(bag_name)
 		torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
-
-		#os.remove("/home/MacOS/"+ os.path.basename(slide))
-		#os.remove("/home/MacOS/"+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.h5')
 
 
 
