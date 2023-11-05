@@ -60,7 +60,7 @@ def compute_w_loader(file_path, output_path, wsi, model,
 
 	mode = 'w'
 	for count, (batch, coords) in enumerate(loader):
-		if count==10:
+		if count==25:
 			break
 		with torch.no_grad():	
 			if count % print_every == 0:
