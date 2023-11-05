@@ -2,7 +2,7 @@ from torch_xla import runtime as xr
 #import args_parse
 
 import os
-import schedulers
+#import schedulers
 import numpy as np
 import torch
 import torch.nn as nn
