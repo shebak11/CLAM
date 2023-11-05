@@ -86,8 +86,7 @@ args = parser.parse_args()
 
 
 if __name__ == '__main__':
-    
-    dist.init_process_group('xla', init_method='xla://')
+	dist.init_process_group('xla', init_method='xla://')
 
 	print('initializing dataset')
 	csv_path = args.csv_path
@@ -113,8 +112,8 @@ if __name__ == '__main__':
 	model = resnet50_baseline(pretrained=True)
 	model = model.to(device)
     
-    #if xr.using_pjrt():
-        #xm.broadcast_master_param(model)
+	#if xr.using_pjrt():
+		#xm.broadcast_master_param(model)
 	
 	# print_network(model)
 	#if torch.cuda.device_count() > 1:
@@ -162,8 +161,8 @@ if __name__ == '__main__':
 		features = torch.from_numpy(features)
 		bag_base, _ = os.path.splitext(bag_name)
 		torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
-        
-        #os.remove("/home/MacOS/"+ os.path.basename(slide))
+
+		#os.remove("/home/MacOS/"+ os.path.basename(slide))
 		#os.remove("/home/MacOS/"+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.h5')
 
 
