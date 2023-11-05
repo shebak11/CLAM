@@ -173,17 +173,16 @@ if __name__ == '__main__':
 		bag_base, _ = os.path.splitext(bag_name)
 		local_output_path = "/home/MacOS/"+bag_base+".pt"
 		print("local_output_path "+ local_output_path)
-		output_path = os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt')
-		print("output_path ", output_path)
+		output_pathpt = os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt')
+		print("output_pathpt ", output_pathpt)
 		torch.save(features, local_output_path )
 		bucket = storage_client.bucket("oncomerge")
-		blob = bucket.blob(output_path)
+		blob = bucket.blob(output_pathpt)
 		blob.upload_from_filename(local_output_path )
 		os.remove(slide_file_path)
 		file_name =  os.path.splitext(os.path.basename(h5_file_path))[0]
 		os.remove( "/home/MacOS/"+ file_name+ '.h5')
 		os.remove("/home/MacOS/h5_files/"+os.path.basename(output_path))
 		os.remove(local_output_path)
-
 
 
