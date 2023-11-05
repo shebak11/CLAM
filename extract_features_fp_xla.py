@@ -31,7 +31,7 @@ import torch_xla.test.test_utils as test_utils
 import torch.distributed as dist
 import torch_xla.distributed.xla_backend
 
-device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+#device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 device = xm.xla_device()
 def compute_w_loader(file_path, output_path, wsi, model,
