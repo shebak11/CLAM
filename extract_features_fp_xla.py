@@ -54,9 +54,9 @@ def compute_w_loader(file_path, output_path, wsi, model,
 			features = features.cpu().numpy()
 
 			asset_dict = {'features': features, 'coords': coords}
-			local_output_path = "/home/MacOS/"+ os.path.basename(output_path)+".h5"
+			local_output_path = "/home/MacOS/h5_files/"+os.path.basename(output_path)
 			print("local_output_path" + local_output_path)
-			save_hdf5(output_path, asset_dict, attr_dict= None, mode=mode)
+			save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
 			mode = 'a'
 	storage_client = storage.Client()
 	bucket = storage_client.bucket("oncomerge")
@@ -150,7 +150,14 @@ if __name__ == '__main__':
 		print('coordinates size: ', file['coords'].shape)
 		features = torch.from_numpy(features)
 		bag_base, _ = os.path.splitext(bag_name)
-		torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
+		local_output_path = "/home/MacOS/"+bag_base+".pt"
+		print("local_output_path "+ local_output_path)
+		output_path = os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt')
+		print("output_path ", output_path)
+		torch.save(features, local_output_path )
+		bucket = storage_client.bucket("oncomerge")
+		blob = bucket.blob(output_path)
+		blob.upload_from_filename(local_output_path )
 
 
 
