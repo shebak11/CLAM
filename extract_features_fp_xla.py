@@ -100,8 +100,8 @@ args = parser.parse_args()
 if __name__ == '__main__':
 
 	print('initializing dataset')  
-	if FLAGS.ddp or FLAGS.pjrt_distributed:
-		dist.init_process_group('xla', init_method='xla://')  
+	#if FLAGS.ddp or FLAGS.pjrt_distributed:
+		#dist.init_process_group('xla', init_method='xla://')  
 	csv_path = args.csv_path
 	if csv_path is None:
 		raise NotImplementedError
