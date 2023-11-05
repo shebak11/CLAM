@@ -54,15 +54,14 @@ def compute_w_loader(file_path, output_path, wsi, model,
 			features = features.cpu().numpy()
 
 			asset_dict = {'features': features, 'coords': coords}
-            local_output_path = "/home/MacOS/"+ os.path.basename(output_path)+".h5"
-            print("local_output_path" + local_output_path)
+			local_output_path = "/home/MacOS/"+ os.path.basename(output_path)+".h5"
+			print("local_output_path" + local_output_path)
 			save_hdf5(output_path, asset_dict, attr_dict= None, mode=mode)
 			mode = 'a'
 	storage_client = storage.Client()
 	bucket = storage_client.bucket("oncomerge")
-    blob = bucket.blob(output_path)
-    blob.upload_from_filename(local_output_path )
-    
+	blob = bucket.blob(output_path)
+	blob.upload_from_filename(local_output_path )
 	
 	return output_path
 
