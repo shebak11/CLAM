@@ -42,4 +42,4 @@ if __name__ == '__main__':
     if dist.is_torchelastic_launched():
         _mp_fn(xu.getenv_as(xenv.LOCAL_RANK, int), FLAGS)
     else:
-        xmp.spawn(_mp_fn, nprocs=4)
+        xmp.spawn(_mp_fn, nprocs=1)
