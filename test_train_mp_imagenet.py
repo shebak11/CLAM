@@ -409,6 +409,7 @@ def _mp_fn(index, flags):
     x = f['coords'].attrs['patch_level']
     y = f['coords'].attrs['patch_size']
     z = len(dset)
+  print(z)
 
   accuracy = train_imagenet()
   if accuracy < FLAGS.target_accuracy:
