@@ -102,7 +102,7 @@ FLAGS = args_parse.parse_common_options(
 def train_imagenet:
     print(5)
 
-def _mp_fn(index):
+def _mp_fn(index, flags):
     #global FLAGS
     #FLAGS = flags
     print(1)
