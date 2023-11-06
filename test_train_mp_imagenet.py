@@ -399,11 +399,11 @@ def _mp_fn(index, flags):
   global FLAGS
   FLAGS = flags
   torch.set_default_dtype(torch.float32)
-  #slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  #h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  #output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
     
-  #wsi = openslide.open_slide(slide_file_path)
+  wsi = openslide.open_slide(slide_file_path)
   accuracy = train_imagenet()
   if accuracy < FLAGS.target_accuracy:
     print('Accuracy {} is below target {}'.format(accuracy,
