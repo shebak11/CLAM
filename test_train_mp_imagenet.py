@@ -1,5 +1,9 @@
+
 from torch_xla import runtime as xr
+import sys
+sys.path.append('/home/MacOS/xla/test')
 import args_parse
+
 
 SUPPORTED_MODELS = [
     'alexnet', 'densenet121', 'densenet161', 'densenet169', 'densenet201',
