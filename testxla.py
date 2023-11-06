@@ -144,10 +144,10 @@ def train_imagenet():
     if FLAGS.ddp or FLAGS.pjrt_distributed:
         dist.init_process_group('xla', init_method='xla://')
         print("hjh")
-    #print("FLAGS.ddp "  )
-    #print(FLAGS.ddp  )
-    #print("FLAGS.pjrt_distributed" )
-    #print(FLAGS.pjrt_distributed )
+    print("FLAGS.ddp "  )
+    print(FLAGS.ddp  )
+    print("FLAGS.pjrt_distributed" )
+    print(FLAGS.pjrt_distributed )
 
     print('==> Preparing data..')
     img_dim = get_model_property('img_dim')
