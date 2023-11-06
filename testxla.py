@@ -166,18 +166,25 @@ def train_imagenet():
     print("x")
     model = resnet50_baseline(pretrained=True)
     model = model.to(device)
+    
+    if xr.using_pjrt():
+        xm.broadcast_master_param(model)
+
+    #if FLAGS.ddp:
+    #model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
+
     #model = get_model_property('model_fn')().to(device)
     
-    #h5_file_path = os.path.join(args.data_h5_dir, bag_name)
-    #output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
-    #wsi = openslide.open_slide(slide_file_path)
+ 
     
     slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01Z-00-DX1.8923A151-A690-40B7-9E5A-FCBEDFC2394F.svs"
     h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01Z-00-DX1.8923A151-A690-40B7-9E5A-FCBEDFC2394F.h5"
     output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01Z-00-DX1.8923A151-A690-40B7-9E5A-FCBEDFC2394F.h5"
     
     
-    
+    #h5_file_path = os.path.join(args.data_h5_dir, bag_name)
+    #output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
+    wsi = openslide.open_slide(slide_file_path)
     
     output_file_path = compute_w_loader(h5_file_path, output_path, wsi, model = model, batch_size = 8, verbose = 1, print_every = 20, custom_downsample=1, target_patch_size=-1)
     
