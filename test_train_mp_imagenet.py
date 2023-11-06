@@ -22,8 +22,9 @@ from PIL import Image
 import h5py
 import openslide
 from google.cloud import storage
+from multiprocessing import Manager
 
-import multiprocessing.sharedctypes
+#import multiprocessing.sharedctypes
 
 
 
@@ -417,6 +418,9 @@ if __name__ == '__main__':
     h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
     output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
     wsi = openslide.open_slide(slide_file_path)
-    wsi_mp = multiprocessing.sharedctypes.Value(wsi)
-    
-    xmp.spawn(_mp_fn, args=(FLAGS,wsi_mp.value), nprocs=FLAGS.num_cores)
+    mgr = Manager()
+    ns = mgr.Namespace()
+    ns.df = my_dataframe
+    #wsi_mp = multiprocessing.sharedctypes.Value(wsi)
+    #xmp.spawn(_mp_fn, args=(FLAGS,wsi_mp.value), nprocs=FLAGS.num_cores)
+    xmp.spawn(_mp_fn, args=(FLAGS,ns), nprocs=FLAGS.num_cores)
