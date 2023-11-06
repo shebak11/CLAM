@@ -26,13 +26,25 @@ import torch_xla.distributed.xla_backend
 import sys
 
 
+FLAGS = args_parse.parse_common_options(
+    datadir='/tmp/imagenet',
+    batch_size=None,
+    num_epochs=None,
+    momentum=None,
+    lr=None,
+    target_accuracy=None,
+    profiler_port=9012,
+    opts=MODEL_OPTS.items(),
+)
+
+
 def _mp_fn(index):
     #global FLAGS
     #FLAGS = flags
     torch.set_default_dtype(torch.float32)
     #device = xm.xla_device()
 
-  #accuracy = train_imagenet()
+    accuracy = train_imagenet()
   #if accuracy < FLAGS.target_accuracy:
     #print('Accuracy {} is below target {}'.format(accuracy,
     #                                              FLAGS.target_accuracy))
@@ -43,4 +55,4 @@ if __name__ == '__main__':
     if dist.is_torchelastic_launched():
         _mp_fn(xu.getenv_as(xenv.LOCAL_RANK, int), FLAGS)
     else:
-        xmp.spawn(_mp_fn, nprocs=1)
+        xmp.spawn(_mp_fn, args=(FLAGS,), nprocs=FLAGS.num_cores)
