@@ -99,15 +99,18 @@ FLAGS = args_parse.parse_common_options(
     opts=MODEL_OPTS.items(),
 )
 
-
+def train_imagenet:
+    print(5)
 
 def _mp_fn(index):
     #global FLAGS
     #FLAGS = flags
+    print(1)
     torch.set_default_dtype(torch.float32)
     #device = xm.xla_device()
 
     accuracy = train_imagenet()
+    print(2)
   #if accuracy < FLAGS.target_accuracy:
     #print('Accuracy {} is below target {}'.format(accuracy,
     #                                              FLAGS.target_accuracy))
