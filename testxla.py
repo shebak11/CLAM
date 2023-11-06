@@ -1,5 +1,9 @@
+import sys
+sys.path.append('/home/MacOS/xla')
+import args_parse
+
 from torch_xla import runtime as xr
-import xla.args_parse as args_parse
+import args_parse
 
 import os
 #import schedulers
