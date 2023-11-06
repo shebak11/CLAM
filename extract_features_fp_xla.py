@@ -31,9 +31,9 @@ import torch_xla.test.test_utils as test_utils
 import torch.distributed as dist
 import torch_xla.distributed.xla_backend
 
-#device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-device = xm.xla_device()
+#device = xm.xla_device()
 def compute_w_loader(file_path, output_path, wsi, model,
  	batch_size = 8, verbose = 0, print_every=20, pretrained=True, 
 	custom_downsample=1, target_patch_size=-1):
@@ -161,6 +161,7 @@ if __name__ == '__main__':
 		#wsi = openslide.open_slide(slide_file_path)
 		output_file_path = compute_w_loader(h5_file_path, output_path, wsi, 
 		model = model, batch_size = args.batch_size, verbose = 1, print_every = 20, 
+		custom_downsample=args.custom_downsample, target_patch_size=args.target_patch_size)
 		custom_downsample=args.custom_downsample, target_patch_size=args.target_patch_size)
 		time_elapsed = time.time() - time_start
 		print('\ncomputing features for {} took {} s'.format(output_file_path, time_elapsed))
