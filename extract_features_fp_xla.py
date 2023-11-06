@@ -159,12 +159,10 @@ if __name__ == '__main__':
 		#self.wsi = openslide.OpenSlide(path) 
 		wsi = openslide.open_slide(slide_file_path)
 		#wsi = openslide.open_slide(slide_file_path)
-        
-        print("args")
-        print("slide_file_path" +slide_file_path)
-        print('h5_file_path '+h5_file_path)
-        print('output_path' +output_path)
-        
+		print("args")
+		print("slide_file_path" +slide_file_path)
+		print('h5_file_path '+h5_file_path)
+		print('output_path' +output_path)
 		output_file_path = compute_w_loader(h5_file_path, output_path, wsi, 
 		model = model, batch_size = args.batch_size, verbose = 1, print_every = 20, 
 		custom_downsample=args.custom_downsample, target_patch_size=args.target_patch_size)
