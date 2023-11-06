@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/MacOS/xla')
+sys.path.append('/home/MacOS/xla/test')
 import args_parse
 
 from torch_xla import runtime as xr
