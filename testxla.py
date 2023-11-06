@@ -1,5 +1,5 @@
 from torch_xla import runtime as xr
-import args_parse
+import xla.args_parse asargs_parse
 
 import os
 #import schedulers
