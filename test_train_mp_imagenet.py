@@ -271,7 +271,7 @@ def train_imagenet():
   print(xr.using_pjrt())
   if xr.using_pjrt():
     xm.broadcast_master_param(model)
-
+  break
   if FLAGS.ddp:
     model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
 
