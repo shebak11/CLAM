@@ -422,6 +422,16 @@ if __name__ == '__main__':
     wsi = openslide.open_slide(slide_file_path)
     print("WSI type")
     print(type(wsi))
+
+    local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+    with h5py.File(local_file_path, "r") as f:
+        dset = f['coords']
+        x = f['coords'].attrs['patch_level']
+        y = f['coords'].attrs['patch_size']
+        z = len(dset)
+
+    print(z)
+    
     #wsipickle = pickle.dumps(wsi)
     #mgr = Manager()
     #ns = mgr.Namespace()
