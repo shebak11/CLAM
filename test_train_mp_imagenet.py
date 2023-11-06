@@ -420,7 +420,7 @@ if __name__ == '__main__':
     wsi = openslide.open_slide(slide_file_path)
     mgr = Manager()
     ns = mgr.Namespace()
-    ns.df = my_dataframe
+    ns.wsi = wsi
     #wsi_mp = multiprocessing.sharedctypes.Value(wsi)
     #xmp.spawn(_mp_fn, args=(FLAGS,wsi_mp.value), nprocs=FLAGS.num_cores)
     xmp.spawn(_mp_fn, args=(FLAGS,ns), nprocs=FLAGS.num_cores)
