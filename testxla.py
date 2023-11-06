@@ -129,14 +129,14 @@ def train_imagenet():
     print(7777777777)
     train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
     train_loader = xu.SampleGenerator(
-        data=(torch.zeros(FLAGS.batch_size, 3, img_dim, img_dim),
-              torch.zeros(FLAGS.batch_size, dtype=torch.int64)),
-        sample_count=train_dataset_len // FLAGS.batch_size //
+        data=(torch.zeros(16, 3, img_dim, img_dim),
+              torch.zeros(16, dtype=torch.int64)),
+        sample_count=train_dataset_len // 16 //
         xm.xrt_world_size())
     test_loader = xu.SampleGenerator(
-        data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
-              torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
-        sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
+        data=(torch.zeros(16, 3, img_dim, img_dim),
+              torch.zeros(16, dtype=torch.int64)),
+        sample_count=50000 // 16 // xm.xrt_world_size())
 
     #if FLAGS.fake_data:
 
