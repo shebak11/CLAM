@@ -167,8 +167,8 @@ def train_imagenet():
     model = resnet50_baseline(pretrained=True)
     model = model.to(device)
     
-    if xr.using_pjrt():
-        xm.broadcast_master_param(model)
+    #if xr.using_pjrt():
+        #xm.broadcast_master_param(model)
 
     #if FLAGS.ddp:
     #model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
@@ -186,7 +186,7 @@ def train_imagenet():
     #output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
     wsi = openslide.open_slide(slide_file_path)
     
-    output_file_path = compute_w_loader(h5_file_path, output_path, wsi, model = model, batch_size = 8, verbose = 1, print_every = 20, custom_downsample=1, target_patch_size=-1)
+    #output_file_path = compute_w_loader(h5_file_path, output_path, wsi, model = model, batch_size = 8, verbose = 1, print_every = 20, custom_downsample=1, target_patch_size=-1)
     
     
     
