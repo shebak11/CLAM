@@ -109,40 +109,40 @@ def train_imagenet():
     print('==> Preparing data..')
     img_dim = get_model_property('img_dim')
     if FLAGS.fake_data:
-    train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
-    train_loader = xu.SampleGenerator(
-        data=(torch.zeros(FLAGS.batch_size, 3, img_dim, img_dim),
-              torch.zeros(FLAGS.batch_size, dtype=torch.int64)),
-        sample_count=train_dataset_len // FLAGS.batch_size //
-        xm.xrt_world_size())
-    test_loader = xu.SampleGenerator(
-        data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
-              torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
-        sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
+        train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
+        train_loader = xu.SampleGenerator(
+            data=(torch.zeros(FLAGS.batch_size, 3, img_dim, img_dim),
+                  torch.zeros(FLAGS.batch_size, dtype=torch.int64)),
+            sample_count=train_dataset_len // FLAGS.batch_size //
+            xm.xrt_world_size())
+        test_loader = xu.SampleGenerator(
+            data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
+                  torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
+            sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
     else:
-    normalize = transforms.Normalize(
-        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    train_dataset = torchvision.datasets.ImageFolder(
-        os.path.join(FLAGS.datadir, 'train'),
-        transforms.Compose([
-            transforms.RandomResizedCrop(img_dim),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            normalize,
-        ]))
-    train_dataset_len = len(train_dataset.imgs)
-    resize_dim = max(img_dim, 256)
-    test_dataset = torchvision.datasets.ImageFolder(
-        os.path.join(FLAGS.datadir, 'val'),
-        # Matches Torchvision's eval transforms except Torchvision uses size
-        # 256 resize for all models both here and in the train loader. Their
-        # version crashes during training on 299x299 images, e.g. inception.
-        transforms.Compose([
-            transforms.Resize(resize_dim),
-            transforms.CenterCrop(img_dim),
-            transforms.ToTensor(),
-            normalize,
-        ]))
+        normalize = transforms.Normalize(
+            mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        train_dataset = torchvision.datasets.ImageFolder(
+            os.path.join(FLAGS.datadir, 'train'),
+            transforms.Compose([
+                transforms.RandomResizedCrop(img_dim),
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                normalize,
+            ]))
+        train_dataset_len = len(train_dataset.imgs)
+        resize_dim = max(img_dim, 256)
+        test_dataset = torchvision.datasets.ImageFolder(
+            os.path.join(FLAGS.datadir, 'val'),
+            # Matches Torchvision's eval transforms except Torchvision uses size
+            # 256 resize for all models both here and in the train loader. Their
+            # version crashes during training on 299x299 images, e.g. inception.
+            transforms.Compose([
+                transforms.Resize(resize_dim),
+                transforms.CenterCrop(img_dim),
+                transforms.ToTensor(),
+                normalize,
+            ]))
 
     train_sampler, test_sampler = None, None
     if xm.xrt_world_size() > 1:
