@@ -291,14 +291,14 @@ def train_imagenet():
   h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   wsi = openslide.open_slide(slide_file_path)
-
+    
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
   print("xr.using_pjrt()")
   print(xr.using_pjrt())
   if xr.using_pjrt():
     xm.broadcast_master_param(model)
-  break
+  exit()
   if FLAGS.ddp:
     model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
 
@@ -375,6 +375,9 @@ def train_imagenet():
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
 
   accuracy, max_accuracy = 0.0, 0.0
+  
+  #output_file_path = compute_w_loader(h5_file_path, output_path, wsi, model = model, batch_size = 8, verbose = 1, print_every = 20, custom_downsample=1, target_patch_size=-1)
+  
   for epoch in range(1, FLAGS.num_epochs + 1):
     xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
     train_loop_fn(train_device_loader, epoch)
