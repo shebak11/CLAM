@@ -290,7 +290,7 @@ def train_imagenet():
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  wsi = openslide.open_slide(slide_file_path)
+  #wsi = openslide.open_slide(slide_file_path)
     
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
@@ -298,7 +298,7 @@ def train_imagenet():
   print(xr.using_pjrt())
   if xr.using_pjrt():
     xm.broadcast_master_param(model)
-  exit()
+  #exit()
   if FLAGS.ddp:
     model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
 
