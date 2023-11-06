@@ -4,26 +4,6 @@ import sys
 sys.path.append('/home/MacOS/xla/test')
 import args_parse
 
-import torch
-import torch.nn as nn
-from math import floor
-import os
-import random
-import numpy as np
-import pdb
-import time
-from datasets.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag_FP
-from torch.utils.data import DataLoader
-from models.resnet_custom import resnet50_baseline
-import argparse
-from utils.utils import print_network, collate_features
-from utils.file_utils import save_hdf5
-from PIL import Image
-import h5py
-import openslide
-from google.cloud import storage
-
-
 
 SUPPORTED_MODELS = [
     'alexnet', 'densenet121', 'densenet161', 'densenet169', 'densenet201',
@@ -284,21 +264,19 @@ def train_imagenet():
 
   device = xm.xla_device()
   model = get_model_property('model_fn')().to(device)  
-  #model = resnet50_baseline(pretrained=True)
-  #model = model.to(device)
 
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  #wsi = openslide.open_slide(slide_file_path)
-    
+  
+
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
   print("xr.using_pjrt()")
   print(xr.using_pjrt())
   if xr.using_pjrt():
     xm.broadcast_master_param(model)
-  #exit()
+  #break
   if FLAGS.ddp:
     model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
 
@@ -375,9 +353,6 @@ def train_imagenet():
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
 
   accuracy, max_accuracy = 0.0, 0.0
-  
-  #output_file_path = compute_w_loader(h5_file_path, output_path, wsi, model = model, batch_size = 8, verbose = 1, print_every = 20, custom_downsample=1, target_patch_size=-1)
-  
   for epoch in range(1, FLAGS.num_epochs + 1):
     xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
     train_loop_fn(train_device_loader, epoch)
