@@ -425,4 +425,6 @@ if __name__ == '__main__':
     #ns.wsi = wsi
     #wsi_mp = multiprocessing.sharedctypes.Value(wsi)
     #xmp.spawn(_mp_fn, args=(FLAGS,wsi_mp.value), nprocs=FLAGS.num_cores)
-    xmp.spawn(_mp_fn, args=(FLAGS,ns), nprocs=FLAGS.num_cores)
+    #xmp.spawn(_mp_fn, args=(FLAGS,ns), nprocs=FLAGS.num_cores)
+    xmp.spawn(_mp_fn, args=(FLAGS,wsipickle), nprocs=FLAGS.num_cores)
+    
