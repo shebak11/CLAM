@@ -187,7 +187,7 @@ def train_imagenet():
   print("FLAGS.ddp")
   print(FLAGS.ddp)
   print("FLAGS.pjrt_distributed")
-  print(FLAGS.pjrt_distributedp)
+  print(FLAGS.pjrt_distributed)
     
     
     
