@@ -184,7 +184,13 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 def train_imagenet():
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
-
+  print("FLAGS.ddp")
+  print(FLAGS.ddp)
+  print("FLAGS.pjrt_distributed")
+  print(FLAGS.pjrt_distributedp)
+    
+    
+    
   print('==> Preparing data..')
   img_dim = get_model_property('img_dim')
   if FLAGS.fake_data:
@@ -261,6 +267,8 @@ def train_imagenet():
 
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
+  print("xr.using_pjrt()")
+  print(xr.using_pjrt())
   if xr.using_pjrt():
     xm.broadcast_master_param(model)
 
