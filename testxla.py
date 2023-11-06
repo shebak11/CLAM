@@ -128,6 +128,8 @@ def train_imagenet():
     #if FLAGS.fake_data:
 
     torch.manual_seed(42)
+    device = xm.xla_device()
+    print("x")
 
 
 
