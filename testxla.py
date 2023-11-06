@@ -99,6 +99,22 @@ FLAGS = args_parse.parse_common_options(
     opts=MODEL_OPTS.items(),
 )
 
+
+def get_model_property(key):
+    default_model_property = {
+      'img_dim': 224,
+      'model_fn': getattr(torchvision.models, FLAGS.model)
+  }
+    model_properties = {
+      'inception_v3': {
+          'img_dim': 299,
+          'model_fn': lambda: torchvision.models.inception_v3(aux_logits=False)
+      },
+  }
+    model_fn = model_properties.get(FLAGS.model, default_model_property)[key]
+    return model_fn
+
+
 def train_imagenet():
     
     print(5)
