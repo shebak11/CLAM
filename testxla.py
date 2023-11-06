@@ -97,7 +97,7 @@ FLAGS = args_parse.parse_common_options(
     target_accuracy=None,
     profiler_port=9012,
     opts=MODEL_OPTS.items(),
-    fake_data=True
+    #fake_data=True
 )
 
 
