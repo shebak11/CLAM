@@ -184,10 +184,10 @@ if __name__ == '__main__':
 		bucket = storage_client.bucket("oncomerge")
 		blob = bucket.blob(output_pathpt)
 		blob.upload_from_filename(local_output_path )
-		os.remove(slide_file_path)
+		#os.remove(slide_file_path)
 		file_name =  os.path.splitext(os.path.basename(h5_file_path))[0]
-		os.remove( "/home/MacOS/"+ file_name+ '.h5')
-		os.remove("/home/MacOS/h5_files/"+os.path.basename(output_path))
-		os.remove(local_output_path)
+		#os.remove( "/home/MacOS/"+ file_name+ '.h5')
+		#os.remove("/home/MacOS/h5_files/"+os.path.basename(output_path))
+		#os.remove(local_output_path)
 
 

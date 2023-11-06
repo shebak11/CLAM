@@ -168,9 +168,13 @@ def train_imagenet():
     model = model.to(device)
     #model = get_model_property('model_fn')().to(device)
     
-    h5_file_path = os.path.join(args.data_h5_dir, bag_name)
-    output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
-    wsi = openslide.open_slide(slide_file_path)
+    #h5_file_path = os.path.join(args.data_h5_dir, bag_name)
+    #output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
+    #wsi = openslide.open_slide(slide_file_path)
+    
+    slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01Z-00-DX1.8923A151-A690-40B7-9E5A-FCBEDFC2394F.svs"
+    h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01Z-00-DX1.8923A151-A690-40B7-9E5A-FCBEDFC2394F.h5"
+    output_path = "/home/MacOS/h5_files/TCGA-3L-AA1B-01Z-00-DX1.8923A151-A690-40B7-9E5A-FCBEDFC2394F.h5"
     
     
     
