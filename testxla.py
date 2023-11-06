@@ -213,25 +213,25 @@ def compute_w_loader(file_path, output_path, wsi, model,
 
 	mode = 'w'
 	for count, (batch, coords) in enumerate(loader):
-		if count==25:
+		if count==4:
 			break
-		with torch.no_grad():	
-			if count % print_every == 0:
-				print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-			batch = batch.to(device, non_blocking=True)
+		#with torch.no_grad():	
+			#if count % print_every == 0:
+				#print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+			#batch = batch.to(device, non_blocking=True)
 			
-			features = model(batch)
-			features = features.cpu().numpy()
+			#features = model(batch)
+			#features = features.cpu().numpy()
 
-			asset_dict = {'features': features, 'coords': coords}
-			local_output_path = "/home/MacOS/h5_files/"+os.path.basename(output_path)
-			print("local_output_path" + local_output_path)
-			save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
-			mode = 'a'
-	storage_client = storage.Client()
-	bucket = storage_client.bucket("oncomerge")
-	blob = bucket.blob(output_path)
-	blob.upload_from_filename(local_output_path )
+			#asset_dict = {'features': features, 'coords': coords}
+			#local_output_path = "/home/MacOS/h5_files/"+os.path.basename(output_path)
+			#print("local_output_path" + local_output_path)
+			#save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+			#mode = 'a'
+	#storage_client = storage.Client()
+	#bucket = storage_client.bucket("oncomerge")
+	#blob = bucket.blob(output_path)
+	#blob.upload_from_filename(local_output_path )
 	
 	return output_path
 
