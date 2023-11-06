@@ -130,6 +130,8 @@ def train_imagenet():
     torch.manual_seed(42)
     device = xm.xla_device()
     print("x")
+    model = get_model_property('model_fn')().to(device)
+    print('y')
 
 
 
