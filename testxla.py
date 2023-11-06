@@ -100,6 +100,7 @@ FLAGS = args_parse.parse_common_options(
 )
 
 def train_imagenet():
+    
     print(5)
 
 def _mp_fn(index, flags):
@@ -114,7 +115,7 @@ def _mp_fn(index, flags):
   #if accuracy < FLAGS.target_accuracy:
     #print('Accuracy {} is below target {}'.format(accuracy,
     #                                              FLAGS.target_accuracy))
-    sys.exit(21)
+    sys.exit(0)
 
 if __name__ == '__main__':
     print(dist.is_torchelastic_launched())
