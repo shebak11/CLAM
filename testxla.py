@@ -144,7 +144,7 @@ def train_imagenet():
     if FLAGS.ddp or FLAGS.pjrt_distributed:
         dist.init_process_group('xla', init_method='xla://')
     print("FLAGS.ddp "  )
-    print(FLAGS.ddp  + 
+    print(FLAGS.ddp  )
     print("FLAGS.pjrt_distributed" )
     print(FLAGS.pjrt_distributed )
 
