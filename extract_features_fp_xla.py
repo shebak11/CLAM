@@ -61,7 +61,7 @@ def compute_w_loader(file_path, output_path, wsi, model,
 
 	mode = 'w'
 	for count, (batch, coords) in enumerate(loader):
-		if count==5:
+		if count==4:
 			break
 		with torch.no_grad():	
 			if count % print_every == 0:
@@ -165,7 +165,6 @@ if __name__ == '__main__':
 		print('output_path' +output_path)
 		output_file_path = compute_w_loader(h5_file_path, output_path, wsi, 
 		model = model, batch_size = args.batch_size, verbose = 1, print_every = 20, 
-		custom_downsample=args.custom_downsample, target_patch_size=args.target_patch_size)
 		custom_downsample=args.custom_downsample, target_patch_size=args.target_patch_size)
 		time_elapsed = time.time() - time_start
 		print('\ncomputing features for {} took {} s'.format(output_file_path, time_elapsed))
