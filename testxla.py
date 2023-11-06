@@ -30,6 +30,57 @@ import torch_xla.distributed.xla_backend
 import sys
 
 
+
+
+MODEL_OPTS = {
+    '--model': {
+        'choices': SUPPORTED_MODELS,
+        'default': 'resnet50',
+    },
+    '--test_set_batch_size': {
+        'type': int,
+    },
+    '--lr_scheduler_type': {
+        'type': str,
+    },
+    '--lr_scheduler_divide_every_n_epochs': {
+        'type': int,
+    },
+    '--lr_scheduler_divisor': {
+        'type': int,
+    },
+    '--test_only_at_end': {
+        'action': 'store_true',
+    },
+    '--ddp': {
+        'action': 'store_true',
+    },
+    '--pjrt_distributed': {
+        'action': 'store_true',
+    },
+    '--profile': {
+        'action': 'store_true',
+    },
+    '--persistent_workers': {
+        'action': 'store_true',
+    },
+    '--prefetch_factor': {
+        'type': int,
+    },
+    '--loader_prefetch_size': {
+        'type': int,
+    },
+    '--device_prefetch_size': {
+        'type': int,
+    },
+    '--host_to_device_transfer_threads': {
+        'type': int,
+    },
+    '--use_optimized_kwargs': {
+        'type': str,
+    },
+}
+
 FLAGS = args_parse.parse_common_options(
     datadir='/tmp/imagenet',
     batch_size=None,
@@ -40,6 +91,7 @@ FLAGS = args_parse.parse_common_options(
     profiler_port=9012,
     opts=MODEL_OPTS.items(),
 )
+
 
 
 def _mp_fn(index):
