@@ -136,6 +136,7 @@ def train_imagenet():
     test_loader = xu.SampleGenerator(
         data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
               torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
+        sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
 
     torch.manual_seed(42)
 
