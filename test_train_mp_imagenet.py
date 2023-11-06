@@ -417,6 +417,6 @@ if __name__ == '__main__':
     h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
     output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
     wsi = openslide.open_slide(slide_file_path)
-    wsi = multiprocessing.sharedctypes.copy(wsi)
+    wsi = multiprocessing.sharedctypes.copy(wsi.value)
     
     xmp.spawn(_mp_fn, args=(FLAGS,wsi), nprocs=FLAGS.num_cores)
