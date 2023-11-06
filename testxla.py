@@ -144,36 +144,36 @@ def train_imagenet():
                 normalize,
             ]))
 
-    train_sampler, test_sampler = None, None
-    if xm.xrt_world_size() > 1:
-        train_sampler = torch.utils.data.distributed.DistributedSampler(
-          train_dataset,
-          num_replicas=xm.xrt_world_size(),
-          rank=xm.get_ordinal(),
-          shuffle=True)
-        test_sampler = torch.utils.data.distributed.DistributedSampler(
-          test_dataset,
-          num_replicas=xm.xrt_world_size(),
-          rank=xm.get_ordinal(),
-          shuffle=False)
-    train_loader = torch.utils.data.DataLoader(
-        train_dataset,
-        batch_size=FLAGS.batch_size,
-        sampler=train_sampler,
-        drop_last=FLAGS.drop_last,
-        shuffle=False if train_sampler else True,
-        num_workers=FLAGS.num_workers,
-        persistent_workers=FLAGS.persistent_workers,
-        prefetch_factor=FLAGS.prefetch_factor)
-    test_loader = torch.utils.data.DataLoader(
-        test_dataset,
-        batch_size=FLAGS.test_set_batch_size,
-        sampler=test_sampler,
-        drop_last=FLAGS.drop_last,
-        shuffle=False,
-        num_workers=FLAGS.num_workers,
-        persistent_workers=FLAGS.persistent_workers,
-        prefetch_factor=FLAGS.prefetch_factor)
+        train_sampler, test_sampler = None, None
+        if xm.xrt_world_size() > 1:
+            train_sampler = torch.utils.data.distributed.DistributedSampler(
+              train_dataset,
+              num_replicas=xm.xrt_world_size(),
+              rank=xm.get_ordinal(),
+              shuffle=True)
+            test_sampler = torch.utils.data.distributed.DistributedSampler(
+              test_dataset,
+              num_replicas=xm.xrt_world_size(),
+              rank=xm.get_ordinal(),
+              shuffle=False)
+        train_loader = torch.utils.data.DataLoader(
+            train_dataset,
+            batch_size=FLAGS.batch_size,
+            sampler=train_sampler,
+            drop_last=FLAGS.drop_last,
+            shuffle=False if train_sampler else True,
+            num_workers=FLAGS.num_workers,
+            persistent_workers=FLAGS.persistent_workers,
+            prefetch_factor=FLAGS.prefetch_factor)
+        test_loader = torch.utils.data.DataLoader(
+            test_dataset,
+            batch_size=FLAGS.test_set_batch_size,
+            sampler=test_sampler,
+            drop_last=FLAGS.drop_last,
+            shuffle=False,
+            num_workers=FLAGS.num_workers,
+            persistent_workers=FLAGS.persistent_workers,
+            prefetch_factor=FLAGS.prefetch_factor)
 
     torch.manual_seed(42)
 
