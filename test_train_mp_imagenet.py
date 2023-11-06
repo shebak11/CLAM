@@ -399,9 +399,10 @@ def train_imagenet():
   return max_accuracy
 
 
-def _mp_fn(index, flags, wsi):
+def _mp_fn(index, flags):
   global FLAGS
   FLAGS = flags
+  wsi = openslide.open_slide(slide_file_path)
   torch.set_default_dtype(torch.float32)
 
   accuracy = train_imagenet()
@@ -419,12 +420,12 @@ if __name__ == '__main__':
     h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
     output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
     wsi = openslide.open_slide(slide_file_path)
-    wsipickle = pickle.dumps(wsi)
+    #wsipickle = pickle.dumps(wsi)
     #mgr = Manager()
     #ns = mgr.Namespace()
     #ns.wsi = wsi
     #wsi_mp = multiprocessing.sharedctypes.Value(wsi)
     #xmp.spawn(_mp_fn, args=(FLAGS,wsi_mp.value), nprocs=FLAGS.num_cores)
     #xmp.spawn(_mp_fn, args=(FLAGS,ns), nprocs=FLAGS.num_cores)
-    xmp.spawn(_mp_fn, args=(FLAGS,wsipickle), nprocs=FLAGS.num_cores)
+    xmp.spawn(_mp_fn, args=(FLAGS,), nprocs=FLAGS.num_cores)
     
