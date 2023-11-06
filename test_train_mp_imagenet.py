@@ -213,6 +213,7 @@ def train_imagenet():
     
   print('==> Preparing data..')
   img_dim = get_model_property('img_dim')
+  #wsi = openslide.open_slide(slide_file_path)
   if FLAGS.fake_data:
     train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
     train_loader = xu.SampleGenerator(
@@ -282,7 +283,7 @@ def train_imagenet():
 
   torch.manual_seed(42)
 
-  wsi = openslide.open_slide(slide_file_path)
+  
   device = xm.xla_device()
   model = get_model_property('model_fn')().to(device)
 
