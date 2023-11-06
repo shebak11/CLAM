@@ -28,6 +28,7 @@ import torch_xla.test.test_utils as test_utils
 import torch.distributed as dist
 import torch_xla.distributed.xla_backend
 import sys
+from models.resnet_custom import resnet50_baseline
 
 
 SUPPORTED_MODELS = [
@@ -143,7 +144,10 @@ def train_imagenet():
     torch.manual_seed(42)
     device = xm.xla_device()
     print("x")
-    model = get_model_property('model_fn')().to(device)
+    
+    model = resnet50_baseline(pretrained=True)
+	model = model.to(device)
+    #model = get_model_property('model_fn')().to(device)
     
     
     print('y')
