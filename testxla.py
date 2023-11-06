@@ -143,6 +143,7 @@ def train_imagenet():
     
     if FLAGS.ddp or FLAGS.pjrt_distributed:
         dist.init_process_group('xla', init_method='xla://')
+    print("FLAGS.ddp "  + FLAGS.ddp  + "FLAGS.pjrt_distributed" +FLAGS.pjrt_distributed )
 
     print('==> Preparing data..')
     img_dim = get_model_property('img_dim')
@@ -168,8 +169,8 @@ def train_imagenet():
     model = model.to(device)
     
     print("xr.using_pjrt() "+xr.using_pjrt())
-    if xr.using_pjrt():
-        xm.broadcast_master_param(model)
+    #if xr.using_pjrt():
+        #xm.broadcast_master_param(model)
 
     #if FLAGS.ddp:
     #model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
