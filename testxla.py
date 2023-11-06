@@ -99,7 +99,7 @@ FLAGS = args_parse.parse_common_options(
     opts=MODEL_OPTS.items(),
 )
 
-def train_imagenet:
+def train_imagenet():
     print(5)
 
 def _mp_fn(index, flags):
