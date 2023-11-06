@@ -1,9 +1,9 @@
-import torch
-import torch.nn as nn
+
+
 from math import floor
-import os
+
 import random
-import numpy as np
+
 import pdb
 import time
 from datasets.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag_FP
@@ -20,7 +20,7 @@ from google.cloud import storage
 
 import sys
 sys.path.append('/home/MacOS/xla/test')
-import args_parse
+
 
 from torch_xla import runtime as xr
 import args_parse
