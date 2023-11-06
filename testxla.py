@@ -167,8 +167,9 @@ def train_imagenet():
     model = resnet50_baseline(pretrained=True)
     model = model.to(device)
     
-    #if xr.using_pjrt():
-        #xm.broadcast_master_param(model)
+    print("xr.using_pjrt() "+xr.using_pjrt())
+    if xr.using_pjrt():
+        xm.broadcast_master_param(model)
 
     #if FLAGS.ddp:
     #model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
