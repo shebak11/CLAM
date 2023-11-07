@@ -21,6 +21,7 @@ from utils.file_utils import save_hdf5
 from PIL import Image
 import h5py
 import openslide
+import tiffslide as openslide
 from google.cloud import storage
 from multiprocessing import Manager
 import pickle 
@@ -408,6 +409,8 @@ def _mp_fn(index, flags):
   global FLAGS
   FLAGS = flags
   torch.set_default_dtype(torch.float32)
+
+  wsi = openslide.OpenSlide(path) 
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords']
