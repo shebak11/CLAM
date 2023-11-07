@@ -315,7 +315,7 @@ def train_imagenet():
   custom_downsample=1
   target_patch_size=-1
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-  x, y = dataset[0]  
+  #x, y = dataset[0]  
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
   blob = bucket.blob(output_path)
