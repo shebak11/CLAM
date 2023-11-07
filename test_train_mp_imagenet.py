@@ -288,25 +288,36 @@ def train_imagenet():
         num_workers=FLAGS.num_workers,
         persistent_workers=FLAGS.persistent_workers,
         prefetch_factor=FLAGS.prefetch_factor)
-
+    
   torch.manual_seed(42)
-
-  
   device = xm.xla_device()
-  model = get_model_property('model_fn')().to(device)
+  #model = get_model_property('model_fn')().to(device)
+  model = resnet50_baseline(pretrained=True)
+  model = model.to(device)
+    
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   #wsi = openslide.OpenSlide(slide_file_path) 
   wsi =     TiffSlide(slide_file_path)
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  with h5py.File(local_file_path, "r") as f:
-    dset = f['coords']
-    x = f['coords'].attrs['patch_level']
-    y = f['coords'].attrs['patch_size']
-    z = len(dset)
-  print(z)
-
-
-
+  file_path=local_file_path
+  #with h5py.File(local_file_path, "r") as f:
+   # dset = f['coords']
+    #x = f['coords'].attrs['patch_level']
+    #y = f['coords'].attrs['patch_size']
+    #z = len(dset)
+  #print(z)
+  batch_size = 8
+  verbose = 1
+  print_every=20
+  pretrained=True 
+  custom_downsample=1
+  target_patch_size=-1
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  x, y = dataset[0]  
+                 #storage_client = storage.Client()
+	#bucket = storage_client.bucket("oncomerge")
+	#blob = bucket.blob(output_path)
+	#blob.upload_from_filename(local_output_path )
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
   print("xr.using_pjrt()")
