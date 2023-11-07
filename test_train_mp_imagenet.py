@@ -316,10 +316,10 @@ def train_imagenet():
   target_patch_size=-1
   #dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   #x, y = dataset[0]  
-  storage_client = storage.Client()
-  bucket = storage_client.bucket("oncomerge")
-  blob = bucket.blob(output_path)
-  blob.upload_from_filename(local_file_path )
+  #storage_client = storage.Client()
+  #bucket = storage_client.bucket("oncomerge")
+  #blob = bucket.blob(output_path)
+  #blob.upload_from_filename(local_file_path )
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
   print("xr.using_pjrt()")
