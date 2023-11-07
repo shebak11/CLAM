@@ -312,7 +312,7 @@ def train_imagenet():
   pretrained=True 
   custom_downsample=1
   target_patch_size=-1
-  #dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   #x, y = dataset[0]  
 
 
