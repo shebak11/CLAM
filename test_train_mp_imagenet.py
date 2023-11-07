@@ -22,7 +22,7 @@ from PIL import Image
 import h5py
 #import openslide
 #import tiffslide as openslide
-import TiffSlide
+import tiffslide
 from google.cloud import storage
 from multiprocessing import Manager
 import pickle 
