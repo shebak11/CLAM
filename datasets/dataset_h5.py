@@ -123,7 +123,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		print("h5 file " + file_name)
 		local_file_path = "/home/MacOS/"+ file_name+ '.h5'
 		self.file_path = local_file_path
-        """
+        
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
 		gs_path = file_path
