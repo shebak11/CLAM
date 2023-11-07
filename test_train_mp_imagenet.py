@@ -213,6 +213,10 @@ def train_imagenet():
   print(FLAGS.ddp)
   print("FLAGS.pjrt_distributed")
   print(FLAGS.pjrt_distributed)
+  print( "FLAGS.batch_size")
+  print( FLAGS.batch_size)
+  print("xm.xrt_world_size()")
+  print(xm.xrt_world_size())
     
     
     
