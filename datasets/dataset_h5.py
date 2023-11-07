@@ -141,7 +141,7 @@ class Whole_Slide_Bag_FP(Dataset):
 				self.target_patch_size = (self.patch_size // custom_downsample, ) * 2
 			else:
 				self.target_patch_size = None
-                """
+         """
 
 		self.summary()
 			
