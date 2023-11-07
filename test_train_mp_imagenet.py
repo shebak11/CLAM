@@ -306,8 +306,8 @@ def train_imagenet():
     model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
   #print( "FLAGS.batch_size")
   #print( FLAGS.batch_size)
-  print("xm.xrt_world_size()")
-  print(xm.xrt_world_size())
+  #print("xm.xrt_world_size()")
+  #print(xm.xrt_world_size())
 
   writer = None
   if xm.is_master_ordinal():
