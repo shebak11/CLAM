@@ -319,7 +319,7 @@ def train_imagenet():
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
   blob = bucket.blob(output_path)
-  blob.upload_from_filename(local_output_path )
+  blob.upload_from_filename(output_path )
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
   print("xr.using_pjrt()")
