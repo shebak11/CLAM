@@ -325,7 +325,7 @@ def train_imagenet():
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
 
-  x, y = dataset[0]  
+  #x, y = dataset[0]  
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
   loader = DataLoader( dataset,
