@@ -338,8 +338,9 @@ def train_imagenet():
         shuffle=False,
         num_workers=0,
         #persistent_workers=FLAGS.persistent_workers,
-        #prefetch_factor=FLAGS.prefetch_factor, 
-        collate_fn=collate_features)
+        #prefetch_factor=FLAGS.prefetch_factor,
+        )
+        #collate_fn=collate_features)
 
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
