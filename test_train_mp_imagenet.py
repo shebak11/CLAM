@@ -318,7 +318,6 @@ def train_imagenet():
         prefetch_factor=FLAGS.prefetch_factor)
     
 
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
 
   torch.manual_seed(42)
   device = xm.xla_device()
@@ -326,6 +325,7 @@ def train_imagenet():
   #model = resnet50_baseline(pretrained=True)
   #model = model.to(device)
     
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
 
 
   #x, y = dataset[0]  
