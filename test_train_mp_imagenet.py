@@ -328,17 +328,19 @@ def train_imagenet():
   x, y = dataset[0]  
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
-  loader = DataLoader( dataset,
+  loader = DataLoader( test_dataset,
         batch_size=FLAGS.batch_size,
-        sampler=train_sampler,
-        drop_last=FLAGS.drop_last,
-        shuffle=False if test_sampler else True,
+        sampler=test_sampler,
+        #drop_last=FLAGS.drop_last,
+        drop_last=False,
+        #shuffle=False if test_sampler else True,
+        shuffle=False,
         num_workers=FLAGS.num_workers,
         persistent_workers=FLAGS.persistent_workers,
         prefetch_factor=FLAGS.prefetch_factor, 
         collate_fn=collate_features)
 
-  model = get_model_property('model_fn')().to(device)
+  #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
   model = model.to(device)
     
