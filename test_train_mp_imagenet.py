@@ -322,6 +322,7 @@ def train_imagenet():
   torch.manual_seed(42)
   device = xm.xla_device()
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  x, y = dataset[0]  
 
   model = get_model_property('model_fn')().to(device)
   #model = resnet50_baseline(pretrained=True)
@@ -329,7 +330,7 @@ def train_imagenet():
     
  
 
-  #x, y = dataset[0]  
+  #
   #storage_client = storage.Client()
   #bucket = storage_client.bucket("oncomerge")
   #blob = bucket.blob(output_path)
