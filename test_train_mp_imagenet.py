@@ -444,7 +444,7 @@ def train_imagenet():
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
   blob = bucket.blob(output_path)
-  blob.upload_from_filename(local_file_path )
+  #blob.upload_from_filename(local_file_path )
 
   train_device_loader = pl.MpDeviceLoader(
       train_loader,
