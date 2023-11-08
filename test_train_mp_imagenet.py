@@ -415,13 +415,9 @@ def train_imagenet():
     accuracy = 100.0 * correct.item() / total_samples
     accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
     return accuracy
-
-
-
-
     for count, (batch, coords) in enumerate(loader):
-		if count==4:
-			break
+      if count==4:
+        break
 		#with torch.no_grad():	
 			#if count % print_every == 0:
 				#print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
