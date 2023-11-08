@@ -230,6 +230,7 @@ def train_imagenet():
     y = f['coords'].attrs['patch_size']
     z = len(dset)
   print(type(dset))
+  print(dset.shape)
   batch_size = 8
   verbose = 1
   print_every=20
@@ -427,9 +428,9 @@ def train_imagenet():
       device_prefetch_size=FLAGS.device_prefetch_size,
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
 
-  for count, (batch, coords) in enumerate(test_device_loader):
-    if count==4:
-      break
+  #for count, (batch, coords) in enumerate(test_device_loader):
+    #if count==4:
+      #break
     #with torch.no_grad():	
         #if count % print_every == 0:
             #print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
