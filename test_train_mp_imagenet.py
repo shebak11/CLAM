@@ -299,8 +299,8 @@ def train_imagenet():
   #wsi = openslide.OpenSlide(slide_file_path) 
   wsi =     TiffSlide(slide_file_path)
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  file_path= "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  output_path = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
+  file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
   #with h5py.File(local_file_path, "r") as f:
     #dset = f['coords']
@@ -445,7 +445,15 @@ if __name__ == '__main__':
     _mp_fn(xu.getenv_as(xenv.LOCAL_RANK, int), FLAGS)
   else:
     slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-    h5_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+    local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+    
+    with h5py.File(local_file_path, "r") as f:
+        dset = f['coords']
+        x = f['coords'].attrs['patch_level']
+        y = f['coords'].attrs['patch_size']
+        z = len(dset)
+    
+    
     #wsi = openslide.open_slide(slide_file_path)
     #wsipickle = pickle.dumps(wsi)
     #mgr = Manager()
