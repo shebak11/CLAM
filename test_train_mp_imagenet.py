@@ -215,6 +215,27 @@ def train_imagenet():
   print(FLAGS.ddp)
   print("FLAGS.pjrt_distributed")
   print(FLAGS.pjrt_distributed)
+    
+
+  slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  #wsi = openslide.OpenSlide(slide_file_path) 
+  wsi =     TiffSlide(slide_file_path)
+  local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
+
+  #with h5py.File(local_file_path, "r") as f:
+    #dset = f['coords']
+    #x = f['coords'].attrs['patch_level']
+    #y = f['coords'].attrs['patch_size']
+    #z = len(dset)
+  #print(z)
+  batch_size = 8
+  verbose = 1
+  print_every=20
+  pretrained=True 
+  custom_downsample=1
+  target_patch_size=-1
 
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
 
@@ -303,25 +324,7 @@ def train_imagenet():
   #model = resnet50_baseline(pretrained=True)
   #model = model.to(device)
     
-  slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  #wsi = openslide.OpenSlide(slide_file_path) 
-  wsi =     TiffSlide(slide_file_path)
-  local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
-  #with h5py.File(local_file_path, "r") as f:
-    #dset = f['coords']
-    #x = f['coords'].attrs['patch_level']
-    #y = f['coords'].attrs['patch_size']
-    #z = len(dset)
-  #print(z)
-  batch_size = 8
-  verbose = 1
-  print_every=20
-  pretrained=True 
-  custom_downsample=1
-  target_patch_size=-1
 
   #x, y = dataset[0]  
   #storage_client = storage.Client()
