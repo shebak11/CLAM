@@ -146,7 +146,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			else:
 				self.target_patch_size = None            
 		self.summary()
-        self.coord=self.dset[idx]     
+		self.coord=self.dset[idx]     
 		coord=self.dset[0]     
 		self.img=self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 			
