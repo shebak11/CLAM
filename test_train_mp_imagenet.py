@@ -341,8 +341,8 @@ def train_imagenet():
         num_workers=FLAGS.num_workers,
         persistent_workers=FLAGS.persistent_workers,
         prefetch_factor=FLAGS.prefetch_factor,
-        #)
-        collate_fn=collate_features)
+        )
+        #collate_fn=collate_features)
 
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
@@ -422,7 +422,7 @@ def train_imagenet():
     accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
     return accuracy
   test_device_loader = pl.MpDeviceLoader(
-      test_loader,
+      loader,
       device,
       loader_prefetch_size=FLAGS.loader_prefetch_size,
       device_prefetch_size=FLAGS.device_prefetch_size,
