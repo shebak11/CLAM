@@ -146,6 +146,8 @@ class Whole_Slide_Bag_FP(Dataset):
 			else:
 				self.target_patch_size = None            
 		self.summary()
+		coord=self.dset[idx]     
+		self.img=self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 			
 	def __len__(self):
 		return self.length
@@ -169,13 +171,13 @@ class Whole_Slide_Bag_FP(Dataset):
 		#coord=hdf5_file['coords'][idx]
 		#region = slide.read_region((300, 400), 0, (512, 512))
 		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		img = self.img
 
 		if self.target_patch_size is not None:
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)
 		#return img, coord
-		return img,5
+		return img,coord
 		#return 5,5
 
 class Dataset_All_Bags(Dataset):
