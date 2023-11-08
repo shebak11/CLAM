@@ -341,8 +341,8 @@ def train_imagenet():
         num_workers=FLAGS.num_workers,
         persistent_workers=FLAGS.persistent_workers,
         prefetch_factor=FLAGS.prefetch_factor,
-        )
-        #collate_fn=collate_features)
+        #)
+        collate_fn=collate_features)
 
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
@@ -428,15 +428,15 @@ def train_imagenet():
       device_prefetch_size=FLAGS.device_prefetch_size,
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
 
-  for count, (batch, coords) in enumerate(test_device_loader):
-    if count==4:
-      break
-    with torch.no_grad():	
-        if count % print_every == 0:
-            print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-        batch = batch.to(device, non_blocking=True)
+  #for count, (batch, coords) in enumerate(test_device_loader):
+    #if count==4:
+      #break
+    #with torch.no_grad():	
+        #if count % print_every == 0:
+            #print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+        #batch = batch.to(device, non_blocking=True)
 
-        features = model(batch) 
+        #features = model(batch) 
 
 
   #
