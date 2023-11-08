@@ -172,6 +172,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)
 		return img, coord
+		return img
 
 class Dataset_All_Bags(Dataset):
 
