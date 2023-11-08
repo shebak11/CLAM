@@ -331,11 +331,12 @@ def train_imagenet():
   loader = DataLoader( dataset,
         batch_size=FLAGS.batch_size,
         sampler=train_sampler,
-        drop_last=FLAGS.drop_last,
-        shuffle=False if train_sampler else True,
+        #drop_last=FLAGS.drop_last,
+        #shuffle=False if train_sampler else True,
         num_workers=FLAGS.num_workers,
-        persistent_workers=FLAGS.persistent_workers,
-        prefetch_factor=FLAGS.prefetch_factor, collate_fn=collate_features)
+        #persistent_workers=FLAGS.persistent_workers,
+        #prefetch_factor=FLAGS.prefetch_factor, 
+        collate_fn=collate_features)
 
   model = get_model_property('model_fn')().to(device)
   #model = resnet50_baseline(pretrained=True)
