@@ -321,12 +321,13 @@ def train_imagenet():
 
   torch.manual_seed(42)
   device = xm.xla_device()
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+
   model = get_model_property('model_fn')().to(device)
   #model = resnet50_baseline(pretrained=True)
   #model = model.to(device)
     
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-
+ 
 
   #x, y = dataset[0]  
   #storage_client = storage.Client()
