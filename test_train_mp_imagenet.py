@@ -432,13 +432,13 @@ def train_imagenet():
 
   #
   for count, (batch, coords) in enumerate(loader):
-        if count==4:
-			break
-		with torch.no_grad():	
-            if count % print_every == 0:
-				print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-			batch = batch.to(device, non_blocking=True)
-			features = model(batch)
+    if count==4:
+        break
+    with torch.no_grad():	
+        if count % print_every == 0:
+            print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+        batch = batch.to(device, non_blocking=True)
+        features = model(batch)
     
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
