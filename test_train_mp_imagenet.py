@@ -336,9 +336,10 @@ def train_imagenet():
         drop_last=False,
         #shuffle=False if test_sampler else True,
         shuffle=False,
-        num_workers=0,
-        #persistent_workers=FLAGS.persistent_workers,
-        #prefetch_factor=FLAGS.prefetch_factor,
+        #num_workers=0,
+        num_workers=FLAGS.num_workers,
+        persistent_workers=FLAGS.persistent_workers,
+        prefetch_factor=FLAGS.prefetch_factor,
         #)
         collate_fn=collate_features)
 
