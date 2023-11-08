@@ -137,7 +137,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			dset = f['coords']            
 			self.patch_level = f['coords'].attrs['patch_level']
 			self.patch_size = f['coords'].attrs['patch_size']
-			#self.length = len(dset)
+			self.length = len(dset)
             
 			if target_patch_size > 0:
 				self.target_patch_size = (target_patch_size, ) * 2
