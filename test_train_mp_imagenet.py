@@ -224,12 +224,12 @@ def train_imagenet():
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
-  #with h5py.File(local_file_path, "r") as f:
-    #dset = f['coords']
-    #x = f['coords'].attrs['patch_level']
-    #y = f['coords'].attrs['patch_size']
-    #z = len(dset)
-  #print(z)
+  with h5py.File(local_file_path, "r") as f:
+    dset = f['coords'][:]
+    x = f['coords'].attrs['patch_level']
+    y = f['coords'].attrs['patch_size']
+    z = len(dset)
+  print(type(dset))
   batch_size = 8
   verbose = 1
   print_every=20
