@@ -330,7 +330,7 @@ def train_imagenet():
 
   loader = DataLoader( dataset,
         batch_size=FLAGS.batch_size,
-        sampler=train_sampler,
+        #sampler=train_sampler,
         #drop_last=FLAGS.drop_last,
         #shuffle=False if train_sampler else True,
         num_workers=FLAGS.num_workers,
@@ -415,6 +415,13 @@ def train_imagenet():
     accuracy = 100.0 * correct.item() / total_samples
     accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
     return accuracy
+  test_device_loader = pl.MpDeviceLoader(
+      loader,
+      device,
+      loader_prefetch_size=FLAGS.loader_prefetch_size,
+      device_prefetch_size=FLAGS.device_prefetch_size,
+      host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
+
   for count, (batch, coords) in enumerate(loader):
     if count==4:
       break
@@ -435,12 +442,6 @@ def train_imagenet():
 
   train_device_loader = pl.MpDeviceLoader(
       train_loader,
-      device,
-      loader_prefetch_size=FLAGS.loader_prefetch_size,
-      device_prefetch_size=FLAGS.device_prefetch_size,
-      host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
-  test_device_loader = pl.MpDeviceLoader(
-      test_loader,
       device,
       loader_prefetch_size=FLAGS.loader_prefetch_size,
       device_prefetch_size=FLAGS.device_prefetch_size,
