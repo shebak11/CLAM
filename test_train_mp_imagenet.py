@@ -288,6 +288,7 @@ def train_imagenet():
 
     train_sampler, test_sampler = None, None
     if xm.xrt_world_size() > 1:
+      print("fffffffffffffffffffffffffffffffffffffff")
       train_sampler = torch.utils.data.distributed.DistributedSampler(
           train_dataset,
           num_replicas=xm.xrt_world_size(),
@@ -323,6 +324,16 @@ def train_imagenet():
   device = xm.xla_device()
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   x, y = dataset[0]  
+  #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
+
+  loader = DataLoader( train_dataset,
+        batch_size=FLAGS.batch_size,
+        sampler=train_sampler,
+        drop_last=FLAGS.drop_last,
+        shuffle=False if train_sampler else True,
+        num_workers=FLAGS.num_workers,
+        persistent_workers=FLAGS.persistent_workers,
+        prefetch_factor=FLAGS.prefetch_factor collate_fn=collate_features)
 
   model = get_model_property('model_fn')().to(device)
   #model = resnet50_baseline(pretrained=True)
