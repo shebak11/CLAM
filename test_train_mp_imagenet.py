@@ -428,15 +428,15 @@ def train_imagenet():
       device_prefetch_size=FLAGS.device_prefetch_size,
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
 
-  #for count, (batch, coords) in enumerate(test_device_loader):
-    #if count==4:
-      #break
-    #with torch.no_grad():	
-        #if count % print_every == 0:
-            #print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-        #batch = batch.to(device, non_blocking=True)
+  for count, (batch, coords) in enumerate(test_device_loader):
+    if count==4:
+      break
+    with torch.no_grad():	
+        if count % print_every == 0:
+            print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+        batch = batch.to(device, non_blocking=True)
 
-        #features = model(batch) 
+        features = model(batch) 
 
 
   #
