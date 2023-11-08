@@ -166,14 +166,14 @@ class Whole_Slide_Bag_FP(Dataset):
 		#with h5py.File(self.file_path,'r') as hdf5_file:
 			#coord = hdf5_file['coords'][idx]
 		coord=None
-		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 
-		#if self.target_patch_size is not None:
-			#img = img.resize(self.target_patch_size)
-		#img = self.roi_transforms(img).unsqueeze(0)
+		if self.target_patch_size is not None:
+			img = img.resize(self.target_patch_size)
+		img = self.roi_transforms(img).unsqueeze(0)
 		#return img, coord
-		#return img
-		return 5,5
+		return img,5
+		#return 5,5
 
 class Dataset_All_Bags(Dataset):
 
