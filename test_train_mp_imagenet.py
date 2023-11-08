@@ -216,6 +216,8 @@ def train_imagenet():
   print("FLAGS.pjrt_distributed")
   print(FLAGS.pjrt_distributed)
 
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords']
@@ -224,6 +226,7 @@ def train_imagenet():
     z = len(dset)
     
     
+
   print('==> Preparing data..')
   img_dim = get_model_property('img_dim')
 
@@ -319,7 +322,7 @@ def train_imagenet():
   pretrained=True 
   custom_downsample=1
   target_patch_size=-1
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+
   #x, y = dataset[0]  
   #storage_client = storage.Client()
   #bucket = storage_client.bucket("oncomerge")
