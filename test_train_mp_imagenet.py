@@ -329,7 +329,7 @@ def train_imagenet():
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
   loader = DataLoader( dataset,
-        batch_size=FLAGS.batch_size,
+        #batch_size=FLAGS.batch_size,
         batch_size=4,
         sampler=test_sampler,
         #drop_last=FLAGS.drop_last,
