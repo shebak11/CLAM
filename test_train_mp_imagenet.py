@@ -339,16 +339,9 @@ def train_imagenet():
         collate_fn=collate_features)
 
   model = get_model_property('model_fn')().to(device)
-  #model = resnet50_baseline(pretrained=True)
-  #model = model.to(device)
+  model = resnet50_baseline(pretrained=True)
+  model = model.to(device)
     
- 
-
-  #
-  storage_client = storage.Client()
-  bucket = storage_client.bucket("oncomerge")
-  blob = bucket.blob(output_path)
-  blob.upload_from_filename(local_file_path )
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
   print("xr.using_pjrt()")
@@ -382,6 +375,7 @@ def train_imagenet():
       num_steps_per_epoch=num_training_steps_per_epoch,
       summary_writer=writer)
   loss_fn = nn.CrossEntropyLoss()
+    
 
   if FLAGS.profile:
     server = xp.start_server(FLAGS.profiler_port)
@@ -421,6 +415,35 @@ def train_imagenet():
     accuracy = 100.0 * correct.item() / total_samples
     accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
     return accuracy
+
+
+
+
+    for count, (batch, coords) in enumerate(loader):
+		if count==4:
+			break
+		#with torch.no_grad():	
+			#if count % print_every == 0:
+				#print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+			#batch = batch.to(device, non_blocking=True)
+			
+			#features = model(batch) 
+
+
+  #
+  for count, (batch, coords) in enumerate(loader):
+        if count==4:
+			break
+		with torch.no_grad():	
+            if count % print_every == 0:
+				print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+			batch = batch.to(device, non_blocking=True)
+			features = model(batch)
+    
+  storage_client = storage.Client()
+  bucket = storage_client.bucket("oncomerge")
+  blob = bucket.blob(output_path)
+  blob.upload_from_filename(local_file_path )
 
   train_device_loader = pl.MpDeviceLoader(
       train_loader,
