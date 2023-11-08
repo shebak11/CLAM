@@ -336,8 +336,8 @@ def train_imagenet():
         #shuffle=False if test_sampler else True,
         shuffle=False,
         num_workers=0,
-        persistent_workers=FLAGS.persistent_workers,
-        prefetch_factor=FLAGS.prefetch_factor, 
+        #persistent_workers=FLAGS.persistent_workers,
+        #prefetch_factor=FLAGS.prefetch_factor, 
         collate_fn=collate_features)
 
   #model = get_model_property('model_fn')().to(device)
