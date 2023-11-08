@@ -237,7 +237,6 @@ def train_imagenet():
   custom_downsample=1
   target_patch_size=-1
 
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
 
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   with h5py.File(local_file_path, "r") as f:
@@ -318,6 +317,9 @@ def train_imagenet():
         persistent_workers=FLAGS.persistent_workers,
         prefetch_factor=FLAGS.prefetch_factor)
     
+
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+
   torch.manual_seed(42)
   device = xm.xla_device()
   model = get_model_property('model_fn')().to(device)
