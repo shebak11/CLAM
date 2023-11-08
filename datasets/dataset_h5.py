@@ -139,14 +139,12 @@ class Whole_Slide_Bag_FP(Dataset):
 			self.patch_level = f['coords'].attrs['patch_level']
 			self.patch_size = f['coords'].attrs['patch_size']
 			self.length = len(dset)
-            
 			if target_patch_size > 0:
 				self.target_patch_size = (target_patch_size, ) * 2
 			elif custom_downsample > 1:
 				self.target_patch_size = (self.patch_size // custom_downsample, ) * 2
 			else:
 				self.target_patch_size = None            
-            
 		self.summary()
 			
 	def __len__(self):
@@ -166,9 +164,9 @@ class Whole_Slide_Bag_FP(Dataset):
 	def __getitem__(self, idx):
 		#with h5py.File(self.file_path,'r') as hdf5_file:
 			#coord = hdf5_file['coords'][idx]
-        hdf5_file = h5py.File(self.file_path, "r")
+		hdf5_file = h5py.File(self.file_path, "r")
 		coord=hdf5_file['coords'][idx]
-        #region = slide.read_region((300, 400), 0, (512, 512))
+		#region = slide.read_region((300, 400), 0, (512, 512))
 		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 		img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 
