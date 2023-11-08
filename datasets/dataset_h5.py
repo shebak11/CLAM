@@ -173,7 +173,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		#img = self.roi_transforms(img).unsqueeze(0)
 		#return img, coord
 		#return img
-		return 5
+		return [5,5,5,5,5,5,5,5,5]
 
 class Dataset_All_Bags(Dataset):
 

@@ -330,6 +330,7 @@ def train_imagenet():
 
   loader = DataLoader( dataset,
         batch_size=FLAGS.batch_size,
+        batch_size=4,
         sampler=test_sampler,
         #drop_last=FLAGS.drop_last,
         drop_last=False,
