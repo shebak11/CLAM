@@ -39,7 +39,7 @@ def collate_MIL(batch):
 
 def collate_features(batch):
     x = [torch.from_numpy(item[0]) for item in batch]
-    [item[0] = item2[0] for item in batch for item2 in x]
+    [item[0] = item2 for item in batch for item2 in x]
 	img = torch.cat([item[0] for item in batch], dim = 0)
 	coords = np.vstack([item[1] for item in batch])
 	return [img, coords]
