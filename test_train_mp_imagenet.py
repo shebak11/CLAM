@@ -356,7 +356,7 @@ def train_imagenet():
         #shuffle=False if test_sampler else True,
         shuffle=False,
         #num_workers=0,
-        num_workers=FLAGS.num_workers,
+        #num_workers=FLAGS.num_workers,
         persistent_workers=FLAGS.persistent_workers,
         prefetch_factor=FLAGS.prefetch_factor,
         #)
