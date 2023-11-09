@@ -338,8 +338,8 @@ def train_imagenet():
   #Pickle dictionary using protocol 0.
   pickle.dump(dataset[0:3], file)
   file.close()
-  dataset = dataset[0:512]
-  #print(len(dataset))
+  #dataset = dataset[0:512]
+  print(len(dataset))
   print(type(dataset))
   print("dataset size")
   #[print(item[0].shape) for item in dataset]
