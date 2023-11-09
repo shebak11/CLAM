@@ -174,7 +174,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		#region = slide.read_region((300, 400), 0, (512, 512))
 		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.img
-		img = self.wsi.read_region(location = np.transpose(np.array([coord])), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
+		img = self.wsi.read_region(location = np.array([coord]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
 
