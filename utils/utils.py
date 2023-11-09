@@ -39,10 +39,10 @@ def collate_MIL(batch):
 
 def collate_features(batch):	
 	#x = [torch.from_numpy(item[0]) if  for item in batch]                                      
-	x = [torch.from_numpy(item[0])  if type(item[0]).__module__ == np.__name__ else item[0] for item in batch ]
+	#x = [torch.from_numpy(item[0])  if type(item[0]).__module__ == np.__name__ else item[0] for item in batch ]
 	print("tensor shape")
 	[print(item[0].shape) for item in batch]
-	img = torch.cat([item for item in x], dim = 0)
+	img = torch.cat([item for item in batch], dim = 0)
 	#[item[0] = item2 for item in batch for item2 in x]
 	#img = torch.cat([item[0] for item in batch], dim = 0)
 	#coords = np.vstack([item[1] for item in batch])
