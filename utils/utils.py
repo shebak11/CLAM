@@ -38,7 +38,7 @@ def collate_MIL(batch):
 	return [img, label]
 
 def collate_features(batch):
-	if type(batch[0][0]).__module__ == np.__name__:
+	if type(batch[1][0]).__module__ == np.__name__:
 		x = [torch.from_numpy(item[0]) for item in batch]
 		img = torch.cat([item for item in x], dim = 0)
 	else:
