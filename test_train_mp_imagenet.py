@@ -329,7 +329,7 @@ def train_imagenet():
   k = dataset[0]  
   file = open('data.pkl', 'wb')
   #Pickle dictionary using protocol 0.
-  pickle.dump(dataset, file)
+  pickle.dump(dataset[0:3], file)
   file.close()
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
