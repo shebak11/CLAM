@@ -333,7 +333,7 @@ def train_imagenet():
   file.close()
   dataset = dataset[0:16]
   print("dataset size")
-  [print(item[0].shape for item in dataset)]
+  [print(item[0].shape) for item in dataset]
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
   loader = DataLoader( dataset,
