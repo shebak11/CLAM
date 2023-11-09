@@ -451,8 +451,8 @@ def train_imagenet():
   print("image shape")
   print(np.array(img).shape)
   model.eval()
-  #for count, (batch, coords) in enumerate(test_device_loader):
-  for count, batch in enumerate(test_device_loader):
+  for count, (batch, coords) in enumerate(test_device_loader):
+  #for count, batch in enumerate(test_device_loader):
     print("data to model")
     print(len(batch))
     print(batch[0].shape)
