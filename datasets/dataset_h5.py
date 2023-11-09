@@ -178,9 +178,9 @@ class Whole_Slide_Bag_FP(Dataset):
 		img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
 
-		if self.target_patch_size is not None:
-			img = img.resize(self.target_patch_size)
-		img = self.roi_transforms(img).unsqueeze(0)
+		#if self.target_patch_size is not None:
+			#img = img.resize(self.target_patch_size)
+		#img = self.roi_transforms(img).unsqueeze(0)
 		#img = torch.tensor(img)
 		#return img, coord
 		return img
