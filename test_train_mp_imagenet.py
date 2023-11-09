@@ -430,7 +430,8 @@ def train_imagenet():
       device,
       #loader_prefetch_size=FLAGS.loader_prefetch_size,
       #device_prefetch_size=FLAGS.device_prefetch_size,
-      #host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
+      #host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
+      )
 
   #for count, (batch, coords) in enumerate(test_device_loader):
     #if count==4:
