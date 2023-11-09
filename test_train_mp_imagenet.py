@@ -440,6 +440,7 @@ def train_imagenet():
   #for count, (batch, coords) in enumerate(test_device_loader):
   for count, batch in enumerate(test_device_loader):
     print("data to model")
+    print(batch.shape)
     if count==4:
       break
     #with torch.no_grad():	
