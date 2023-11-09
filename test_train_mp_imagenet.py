@@ -350,15 +350,15 @@ def train_imagenet():
   loader = DataLoader( dataset,
         #batch_size=FLAGS.batch_size,
         batch_size=8,
-        sampler=test_sampler,
+        #sampler=test_sampler,
         #drop_last=FLAGS.drop_last,
-        drop_last=False,
+        #drop_last=False,
         #shuffle=False if test_sampler else True,
-        shuffle=False,
+        #shuffle=False,
         #num_workers=0,
         #num_workers=FLAGS.num_workers,
-        persistent_workers=FLAGS.persistent_workers,
-        prefetch_factor=FLAGS.prefetch_factor,
+        #persistent_workers=FLAGS.persistent_workers,
+        #prefetch_factor=FLAGS.prefetch_factor,
         #)
         collate_fn=collate_features)
 
