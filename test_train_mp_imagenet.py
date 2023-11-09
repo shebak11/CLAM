@@ -433,9 +433,9 @@ def train_imagenet():
       #host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
 
-  #for count, (batch, coords) in enumerate(test_device_loader):
-    #if count==4:
-      #break
+  for count, (batch, coords) in enumerate(test_device_loader):
+    if count==4:
+      break
     #with torch.no_grad():	
         #if count % print_every == 0:
             #print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
