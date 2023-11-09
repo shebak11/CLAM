@@ -335,7 +335,7 @@ def train_imagenet():
   file.close()
   dataset = dataset[0:16]
   print(len(dataset))
-  print(type(dataset)
+  print(type(dataset))
   print("dataset size")
   #[print(item[0].shape) for item in dataset]
   print(np.array(dataset[0]).shape)
