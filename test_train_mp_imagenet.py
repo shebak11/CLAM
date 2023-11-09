@@ -236,7 +236,7 @@ def train_imagenet():
   print_every=20
   pretrained=True 
   custom_downsample=1
-  target_patch_size=-1
+  target_patch_size=224
 
 
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
