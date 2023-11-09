@@ -187,9 +187,9 @@ class Whole_Slide_Bag_FP(Dataset):
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)
 		#img = torch.tensor(img)
-		
+		cood=(300, 400)
 		#return img, coord
-		return img
+		return img, cood
 		#return 5,5
 
 class Dataset_All_Bags(Dataset):
