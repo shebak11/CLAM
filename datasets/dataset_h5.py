@@ -135,7 +135,8 @@ class Whole_Slide_Bag_FP(Dataset):
 
 		with h5py.File(self.file_path, "r") as f:
 			dset = f['coords']    
-			#self.dset = f['coords'][:]            
+			#self.dset = f['coords'][:]  
+			self.coord=dset[0] 
 			self.patch_level = f['coords'].attrs['patch_level']
 			self.patch_size = f['coords'].attrs['patch_size']
 			self.length = len(dset)
@@ -146,9 +147,9 @@ class Whole_Slide_Bag_FP(Dataset):
 			else:
 				self.target_patch_size = None            
 		self.summary()
-		self.coord=self.dset[0]     
+		#self.coord=self.dset[0]     
 		coord=self.dset[0]     
-		self.img=self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		self.img=self.wsi.read_region(self.coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 			
 	def __len__(self):
 		return self.length

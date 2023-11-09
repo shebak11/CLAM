@@ -335,7 +335,7 @@ def train_imagenet():
 
   loader = DataLoader( dataset,
         #batch_size=FLAGS.batch_size,
-        batch_size=4,
+        batch_size=8,
         sampler=test_sampler,
         #drop_last=FLAGS.drop_last,
         drop_last=False,
@@ -428,9 +428,9 @@ def train_imagenet():
   test_device_loader = pl.MpDeviceLoader(
       test_loader,
       device,
-      loader_prefetch_size=FLAGS.loader_prefetch_size,
-      device_prefetch_size=FLAGS.device_prefetch_size,
-      host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
+      #loader_prefetch_size=FLAGS.loader_prefetch_size,
+      #device_prefetch_size=FLAGS.device_prefetch_size,
+      #host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
 
   #for count, (batch, coords) in enumerate(test_device_loader):
     #if count==4:
