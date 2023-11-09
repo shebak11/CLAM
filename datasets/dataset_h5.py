@@ -173,11 +173,13 @@ class Whole_Slide_Bag_FP(Dataset):
 		#coord=hdf5_file['coords'][idx]
 		#region = slide.read_region((300, 400), 0, (512, 512))
 		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		img = self.img
+		#img = self.img
+        img = self.wsi.read_region(self.coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+			
 
-		#if self.target_patch_size is not None:
-			#img = img.resize(self.target_patch_size)
-		#img = self.roi_transforms(img).unsqueeze(0)
+		if self.target_patch_size is not None:
+			img = img.resize(self.target_patch_size)
+		img = self.roi_transforms(img).unsqueeze(0)
 		#return img, coord
 		return img,coord
 		#return 5,5
