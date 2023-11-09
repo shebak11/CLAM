@@ -463,14 +463,14 @@ def train_imagenet():
   #for count, batch in enumerate(test_device_loader):
     print("data to model")
     print(len(batch))
-    print(batch[0].shape)
+    print(batch.shape)
     if count==4:
       break
     #with torch.no_grad():	
     if count % print_every == 0:
         print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
     #batch = batch.to(device, non_blocking=True)
-    features = model(batch[0]) 
+    features = model(batch) 
 
 
   #
