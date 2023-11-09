@@ -445,7 +445,7 @@ def train_imagenet():
     with torch.no_grad():	
         if count % print_every == 0:
             print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-        batch = batch.to(device, non_blocking=True)
+        #batch = batch.to(device, non_blocking=True)
 
         features = model(batch) 
 
