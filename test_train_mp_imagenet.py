@@ -219,7 +219,7 @@ def train_imagenet():
 
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   #wsi = openslide.OpenSlide(slide_file_path) 
-  wsi =     TiffSlide(slide_file_path
+  wsi =     TiffSlide(slide_file_path)
   img = self.wsi.read_region(((300, 400), 0, (512, 512))).convert('RGB')                     
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
