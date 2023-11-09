@@ -469,15 +469,16 @@ def train_imagenet():
     print(batch.shape)
     if count==4:
       break
+    with torch.no_grad():	
     #with torch.no_grad():	
-    if count % print_every == 0:
-        print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-    #batch = batch.to(device, non_blocking=True)
-    features = model(batch) 
-    features = features.cpu().numpy()
-    asset_dict = {'features': features, 'coords': coords}
-    save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
-    mode = 'a'
+        if count % print_every == 0:
+            print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+        #batch = batch.to(device, non_blocking=True)
+        features = model(batch) 
+        features = features.cpu().numpy()
+        asset_dict = {'features': features, 'coords': coords}
+        save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+        mode = 'a'
 
 
   #
