@@ -476,9 +476,9 @@ def train_imagenet():
         #batch = batch.to(device, non_blocking=True)
         features = model(batch) 
         features = features.cpu().numpy()
-        asset_dict = {'features': features, 'coords': coords}
-        save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
-        mode = 'a'
+        #asset_dict = {'features': features, 'coords': coords}
+        #save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+        #mode = 'a'
 
 
   #
