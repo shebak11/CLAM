@@ -110,8 +110,15 @@ class Whole_Slide_Bag_FP(Dataset):
 			custom_transforms (callable, optional): Optional transform to be applied on a sample
 			custom_downsample (int): Custom defined downscale factor (overruled by target_patch_size)
 			target_patch_size (int): Custom defined image size before embedding
-    
+        """
 		#self.file_path = file_path
+        
+        self.pretrained=pretrained
+		self.wsi = wsi
+		if not custom_transforms:
+			self.roi_transforms = eval_transforms(pretrained=pretrained)
+		else:
+			self.roi_transforms = custom_transforms  
 		
 		file_name =  os.path.splitext(os.path.basename(file_path))[0]
 		print("h5 file " + file_name)
@@ -143,16 +150,10 @@ class Whole_Slide_Bag_FP(Dataset):
 		self.summary()
 		#self.coord=self.dset[0]     
 		#coord=self.dset[0]   
-		 """
+		
 				
-		self.pretrained=pretrained
-		self.wsi = wsi
-		if not custom_transforms:
-			self.roi_transforms = eval_transforms(pretrained=pretrained)
-		else:
-			self.roi_transforms = custom_transforms  
-		self.length=512
-		self.target_patch_size = (target_patch_size, ) * 2
+		
+		#self.length=512
 		#self.img=self.wsi.read_region(self.coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 		self.img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 			
