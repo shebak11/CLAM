@@ -444,9 +444,9 @@ def train_imagenet():
   test_device_loader = pl.MpDeviceLoader(
       loader,
       device,
-      #loader_prefetch_size=FLAGS.loader_prefetch_size,
-      #device_prefetch_size=FLAGS.device_prefetch_size,
-      #host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
+      loader_prefetch_size=FLAGS.loader_prefetch_size,
+      device_prefetch_size=FLAGS.device_prefetch_size,
+      host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
   print("image shape")
   print(np.array(img).shape)
