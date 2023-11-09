@@ -40,6 +40,7 @@ def collate_MIL(batch):
 def collate_features(batch):	
 	#x = [torch.from_numpy(item[0]) if  for item in batch]                                      
 	x = [torch.from_numpy(item[0])  if type(item[0]).__module__ == np.__name__ else item[0] for item in batch ]
+    print("tensor shape")
     
     [print(item[0].shape)  for item in batch]
     
