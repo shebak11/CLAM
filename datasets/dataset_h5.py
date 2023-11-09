@@ -110,10 +110,9 @@ class Whole_Slide_Bag_FP(Dataset):
 			custom_transforms (callable, optional): Optional transform to be applied on a sample
 			custom_downsample (int): Custom defined downscale factor (overruled by target_patch_size)
 			target_patch_size (int): Custom defined image size before embedding
-        """
+		"""
 		#self.file_path = file_path
-        
-        self.pretrained=pretrained
+		self.pretrained=pretrained
 		self.wsi = wsi
 		if not custom_transforms:
 			self.roi_transforms = eval_transforms(pretrained=pretrained)
@@ -172,8 +171,8 @@ class Whole_Slide_Bag_FP(Dataset):
 		print('transformations: ', self.roi_transforms)
 
 	def __getitem__(self, idx):
-		#with h5py.File(self.file_path,'r') as hdf5_file:
-			#coord = hdf5_file['coords'][idx]
+		with h5py.File(self.file_path,'r') as hdf5_file:
+			coord = hdf5_file['coords'][idx]
 		#hdf5_file = h5py.File(self.file_path, "r")
 		#coord=self.coord
 		#coord=hdf5_file['coords'][idx]
@@ -188,9 +187,9 @@ class Whole_Slide_Bag_FP(Dataset):
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)
 		#img = torch.tensor(img)
-		cood=[300 , 400]
+		coord=[300 , 400]
 		#return img, coord
-		return img, cood
+		return img, coord
 		#return 5,5
 
 class Dataset_All_Bags(Dataset):
