@@ -343,7 +343,7 @@ def train_imagenet():
   print(type(dataset))
   print("dataset size")
   #[print(item[0].shape) for item in dataset]
-  print(np.array(dataset[0]).shape)
+  print(np.array(dataset[0][0]).shape)
 
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
