@@ -47,7 +47,7 @@ def collate_features(batch):
 	#img = torch.cat([item[0] for item in batch], dim = 0)
 	#coords = np.vstack([item[1] for item in batch])
 	#return [img, coords]
-    return [img]
+	return [img]
 
 
 def get_simple_loader(dataset, batch_size=1, num_workers=1):
