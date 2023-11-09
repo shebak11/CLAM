@@ -442,12 +442,12 @@ def train_imagenet():
     print("data to model")
     if count==4:
       break
-    #with torch.no_grad():	
-        #if count % print_every == 0:
-            #print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-        #batch = batch.to(device, non_blocking=True)
+    with torch.no_grad():	
+        if count % print_every == 0:
+            print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+        batch = batch.to(device, non_blocking=True)
 
-        #features = model(batch) 
+        features = model(batch) 
 
 
   #
