@@ -110,7 +110,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			custom_transforms (callable, optional): Optional transform to be applied on a sample
 			custom_downsample (int): Custom defined downscale factor (overruled by target_patch_size)
 			target_patch_size (int): Custom defined image size before embedding
-		"""
+		 """
 		self.pretrained=pretrained
 		self.wsi = wsi
 		if not custom_transforms:
@@ -118,7 +118,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		else:
 			self.roi_transforms = custom_transforms      
 		#self.file_path = file_path
-
+		 """
 		file_name =  os.path.splitext(os.path.basename(file_path))[0]
 		print("h5 file " + file_name)
 		#local_file_path = "/home/MacOS/"+ file_name+ '.h5'
@@ -148,8 +148,12 @@ class Whole_Slide_Bag_FP(Dataset):
 				self.target_patch_size = None            
 		self.summary()
 		#self.coord=self.dset[0]     
-		#coord=self.dset[0]     
-		self.img=self.wsi.read_region(self.coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		#coord=self.dset[0]   
+		 """
+		self.length=512
+		self.target_patch_size = (target_patch_size, ) * 2
+		#self.img=self.wsi.read_region(self.coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		#self.img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 			
 	def __len__(self):
 		return self.length
@@ -166,18 +170,18 @@ class Whole_Slide_Bag_FP(Dataset):
 		print('transformations: ', self.roi_transforms)
 
 	def __getitem__(self, idx):
-		with h5py.File(self.file_path,'r') as hdf5_file:
-			coord = hdf5_file['coords'][idx]
+		#with h5py.File(self.file_path,'r') as hdf5_file:
+			#coord = hdf5_file['coords'][idx]
 		#hdf5_file = h5py.File(self.file_path, "r")
 		#coord=self.coord
 		#coord=hdf5_file['coords'][idx]
 		#region = slide.read_region((300, 400), 0, (512, 512))
 		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.img
-		img = self.wsi.read_region(location = (300, 400), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
+		#img = self.wsi.read_region(location = (300, 400), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
-
+		img = self.wsi
 		if self.target_patch_size is not None:
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)

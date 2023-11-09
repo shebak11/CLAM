@@ -330,7 +330,7 @@ def train_imagenet():
   print(train_dataset_len)
   torch.manual_seed(42)
   device = xm.xla_device()
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=img, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
 
   k = dataset[0]  
@@ -362,7 +362,8 @@ def train_imagenet():
         #)
         collate_fn=collate_features)
 
-
+  print("len loader")
+  print(len(loader))
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
   model = model.to(device)
