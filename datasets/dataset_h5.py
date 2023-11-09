@@ -154,7 +154,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		self.length=512
 		self.target_patch_size = (target_patch_size, ) * 2
 		#self.img=self.wsi.read_region(self.coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		#self.img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
+		self.img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 			
 	def __len__(self):
 		return self.length
@@ -182,7 +182,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		#img = self.wsi.read_region(location = (300, 400), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
-		img = self.wsi
+		img = self.img
 		if self.target_patch_size is not None:
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)
