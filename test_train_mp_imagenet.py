@@ -224,7 +224,7 @@ def train_imagenet():
   with h5py.File(local_file_path, "r") as f:
 			coord = f['coords'][0]
   print("coord")
-  print(([coord].shape))
+  print((np.array([coord]).shape))
       
   img = wsi.read_region((300, 400), level= 0, size = (512, 512)).convert('RGB')                     
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
