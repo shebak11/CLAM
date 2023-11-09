@@ -346,7 +346,7 @@ def train_imagenet():
   print(np.array(dataset[0]).shape)
 
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
-  """ 
+
   loader = DataLoader( dataset,
         #batch_size=FLAGS.batch_size,
         batch_size=8,
@@ -361,7 +361,7 @@ def train_imagenet():
         prefetch_factor=FLAGS.prefetch_factor,
         #)
         collate_fn=collate_features)
-  """
+
 
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
