@@ -451,7 +451,7 @@ def train_imagenet():
 
 
   #
-
+  print("nnnnnnnnnnnn")
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
   blob = bucket.blob(output_path)
