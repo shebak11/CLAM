@@ -335,9 +335,11 @@ def train_imagenet():
   file.close()
   dataset = dataset[0:16]
   print("dataset size")
-  [print(item[0].shape) for item in dataset]
-  #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
+  #[print(item[0].shape) for item in dataset]
+  print(np.array(dataset[0]).shape)
 
+  #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
+  """ 
   loader = DataLoader( dataset,
         #batch_size=FLAGS.batch_size,
         batch_size=8,
@@ -352,6 +354,7 @@ def train_imagenet():
         prefetch_factor=FLAGS.prefetch_factor,
         #)
         collate_fn=collate_features)
+  """
 
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
@@ -431,7 +434,7 @@ def train_imagenet():
     accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
     return accuracy
   test_device_loader = pl.MpDeviceLoader(
-      loader,
+      test_loader,
       device,
       #loader_prefetch_size=FLAGS.loader_prefetch_size,
       #device_prefetch_size=FLAGS.device_prefetch_size,
