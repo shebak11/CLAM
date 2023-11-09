@@ -222,7 +222,7 @@ def train_imagenet():
   #wsi = openslide.OpenSlide(slide_file_path) 
   wsi =     TiffSlide(slide_file_path)
   with h5py.File(local_file_path, "r") as f:
-			coord = hdf5_file['coords'][idx]
+			coord = hdf5_file['coords'][0]
   print("coord")
   print(coord)
   img = wsi.read_region((300, 400), level= 0, size = (512, 512)).convert('RGB')                     
