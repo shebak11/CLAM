@@ -437,7 +437,8 @@ def train_imagenet():
       #host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
 
-  for count, (batch) in enumerate(test_device_loader):
+  #for count, (batch, coords) in enumerate(test_device_loader):
+  for count, batch in enumerate(test_device_loader):
     print("data to model")
     if count==4:
       break
