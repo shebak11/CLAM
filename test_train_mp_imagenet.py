@@ -320,7 +320,8 @@ def train_imagenet():
         prefetch_factor=FLAGS.prefetch_factor)
     
 
-
+  print("train_dataset_len")
+  print(train_dataset_len)
   torch.manual_seed(42)
   device = xm.xla_device()
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
