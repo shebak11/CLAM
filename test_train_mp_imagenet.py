@@ -262,7 +262,7 @@ def train_imagenet(index =0):
     
 
   print('==> Preparing data..')
-  """
+  
   img_dim = get_model_property('img_dim')
 
   if FLAGS.fake_data:
@@ -276,6 +276,7 @@ def train_imagenet(index =0):
         data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
               torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
         sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
+  """ 
   else:
     normalize = transforms.Normalize(
         mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
