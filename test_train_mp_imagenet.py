@@ -220,7 +220,7 @@ def train_imagenet(index =0):
   data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
   data_slide_dir  = "WSI/TCGA/COAD/" 
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
-  feat_dir = "WSI/TCGA/COADtest_features_dir/ 
+  feat_dir = "WSI/TCGA/COADtest_features_dir/" 
   batch_size = 8 
   slide_ext = ".svs"    
     
