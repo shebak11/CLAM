@@ -488,7 +488,7 @@ def train_imagenet():
   print("nnnnnnnnnnnn")
   
   
-  blob = bucket.blob(output_path)
+  #blob = bucket.blob(output_path)
   #blob.upload_from_filename(local_file_path )
 
   train_device_loader = pl.MpDeviceLoader(
