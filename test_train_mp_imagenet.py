@@ -216,9 +216,14 @@ def train_imagenet(index =0):
   print("FLAGS.pjrt_distributed")
   print(FLAGS.pjrt_distributed)
     
-
+  gs_slide_file_path = "/WSI/TCGA/COAD/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
+  local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+
+
   #wsi = openslide.OpenSlide(slide_file_path) 
   wsi =     TiffSlide(slide_file_path)
   with h5py.File(local_file_path, "r") as f:
@@ -233,9 +238,6 @@ def train_imagenet(index =0):
  
 
   #print((np.array([coord]).shape))
-      
-  file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords'][:]
@@ -252,7 +254,7 @@ def train_imagenet(index =0):
   target_patch_size=224
 
 
-  local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords']
     x = f['coords'].attrs['patch_level']
@@ -431,7 +433,6 @@ def train_imagenet(index =0):
   print("image shape")
   print(np.array(img).shape)
   model.eval()
-  local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   print("local_output_path" + local_output_path)
   mode = 'w'
   for count, (batch, coords) in enumerate(mytest_device_loader):
@@ -558,7 +559,7 @@ if __name__ == '__main__':
   if dist.is_torchelastic_launched():
     _mp_fn(xu.getenv_as(xenv.LOCAL_RANK, int), FLAGS)
   else:
-    slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+    
 
     
     
