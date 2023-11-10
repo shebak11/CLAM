@@ -339,7 +339,7 @@ def train_imagenet(index =0):
   device = xm.xla_device()
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
-  quit()
+  #quit()
   k = dataset[0]  
   file = open('data.pkl', 'wb')
   #Pickle dictionary using protocol 0.
