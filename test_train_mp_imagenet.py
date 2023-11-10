@@ -262,6 +262,7 @@ def train_imagenet(index =0):
     
 
   print('==> Preparing data..')
+  """
   img_dim = get_model_property('img_dim')
 
   if FLAGS.fake_data:
@@ -335,6 +336,7 @@ def train_imagenet(index =0):
 
   print("train_dataset_len")
   print(train_dataset_len)
+  """
   torch.manual_seed(42)
   device = xm.xla_device()
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
@@ -389,6 +391,8 @@ def train_imagenet(index =0):
   #print("xm.xrt_world_size()")
   #print(xm.xrt_world_size())
 
+    
+  """    
   writer = None
   if xm.is_master_ordinal():
     writer = test_utils.get_summary_writer(FLAGS.logdir)
@@ -408,7 +412,7 @@ def train_imagenet(index =0):
       num_steps_per_epoch=num_training_steps_per_epoch,
       summary_writer=writer)
   loss_fn = nn.CrossEntropyLoss()
-    
+  """
 
   if FLAGS.profile:
     server = xp.start_server(FLAGS.profiler_port)
