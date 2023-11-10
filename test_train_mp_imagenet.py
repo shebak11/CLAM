@@ -480,8 +480,8 @@ def train_imagenet():
         save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
         mode = 'a'
   
-  storage_client = storage.Client()
-  bucket = storage_client.bucket("oncomerge")
+  #storage_client = storage.Client()
+  #bucket = storage_client.bucket("oncomerge")
   #stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
   #print(type(stats))
   #print(stats)
@@ -489,7 +489,7 @@ def train_imagenet():
 
   
   
-  blob = bucket.blob(output_path)
+  #blob = bucket.blob(output_path)
   #blob.upload_from_filename(local_file_path )
 
   train_device_loader = pl.MpDeviceLoader(
