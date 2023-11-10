@@ -482,9 +482,18 @@ def train_imagenet():
 
 
   #
-  print("nnnnnnnnnnnn")
+
+
+  name = 'file_i_want_to_check.txt'   
   storage_client = storage.Client()
+
   bucket = storage_client.bucket("oncomerge")
+  stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
+  print(type(Stats))
+  print(stats)
+  print("nnnnnnnnnnnn")
+  
+  
   blob = bucket.blob(output_path)
   #blob.upload_from_filename(local_file_path )
 
