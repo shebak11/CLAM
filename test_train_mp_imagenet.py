@@ -396,6 +396,7 @@ def train_imagenet(index =0):
   writer = None
   if xm.is_master_ordinal():
     writer = test_utils.get_summary_writer(FLAGS.logdir)
+  """
   optimizer = optim.SGD(
       model.parameters(),
       lr=FLAGS.lr,
@@ -403,6 +404,7 @@ def train_imagenet(index =0):
       weight_decay=1e-4)
   num_training_steps_per_epoch = train_dataset_len // (
       FLAGS.batch_size * xm.xrt_world_size())
+   
   lr_scheduler = schedulers.wrap_optimizer_with_scheduler(
       optimizer,
       scheduler_type=getattr(FLAGS, 'lr_scheduler_type', None),
@@ -413,7 +415,7 @@ def train_imagenet(index =0):
       summary_writer=writer)
   loss_fn = nn.CrossEntropyLoss()
   
-
+   """
   if FLAGS.profile:
     server = xp.start_server(FLAGS.profiler_port)
 
