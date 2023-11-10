@@ -519,7 +519,9 @@ def train_imagenet(index =0):
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
   print("coord")
   print(type(coord))
-  print(coord)  
+  print(coord) 
+  print(coord.shape)
+  print(type(coord[0]))
   return max_accuracy
 
 
