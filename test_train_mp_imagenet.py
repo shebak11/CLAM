@@ -228,11 +228,12 @@ def train_imagenet(index =0):
   print(coord) 
   print(coord.shape)
   print(type(coord[0]))
+  img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
+
   quit()
 
   #print((np.array([coord]).shape))
       
-  img = wsi.read_region((300, 400), level= 0, size = (512, 512)).convert('RGB')                     
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
