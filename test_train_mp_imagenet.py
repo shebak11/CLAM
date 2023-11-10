@@ -392,7 +392,7 @@ def train_imagenet(index =0):
   #print(xm.xrt_world_size())
 
     
-  """    
+   
   writer = None
   if xm.is_master_ordinal():
     writer = test_utils.get_summary_writer(FLAGS.logdir)
@@ -412,7 +412,7 @@ def train_imagenet(index =0):
       num_steps_per_epoch=num_training_steps_per_epoch,
       summary_writer=writer)
   loss_fn = nn.CrossEntropyLoss()
-  """
+  
 
   if FLAGS.profile:
     server = xp.start_server(FLAGS.profiler_port)
