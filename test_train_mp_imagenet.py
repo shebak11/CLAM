@@ -223,9 +223,7 @@ def train_imagenet(index =0):
   wsi =     TiffSlide(slide_file_path)
   with h5py.File(local_file_path, "r") as f:
 			coord = f['coords'][0]
-  print("coord")
-  print(type(coord))
-  print(coord)
+
   #print((np.array([coord]).shape))
       
   img = wsi.read_region((300, 400), level= 0, size = (512, 512)).convert('RGB')                     
@@ -519,7 +517,10 @@ def train_imagenet(index =0):
 
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
-  return max_accuracy
+  print("coord")
+  print(type(coord))
+  print(coord)  
+return max_accuracy
 
 
 def _mp_fn(index, flags):
