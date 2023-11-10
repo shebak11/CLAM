@@ -480,11 +480,11 @@ def train_imagenet(index =0):
         save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
         mode = 'a'
   
-  #storage_client = storage.Client()
-  #bucket = storage_client.bucket("oncomerge")
-  #stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
-  #print(type(stats))
-  #print(stats)
+  storage_client = storage.Client()
+  bucket = storage_client.bucket("oncomerge")
+  stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
+  print(type(stats))
+  print(stats)
   print("nnnnnnnnnnnn")
   
   
