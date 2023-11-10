@@ -228,7 +228,7 @@ def train_imagenet(index =0):
       
   img = wsi.read_region((300, 400), level= 0, size = (512, 512)).convert('RGB')                     
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
+  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords'][:]
@@ -483,13 +483,12 @@ def train_imagenet(index =0):
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
   stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
-  print(type(stats))
-  print(stats)
+
+
   print("nnnnnnnnnnnn")
-  
-  
-  #blob = bucket.blob(output_path)
-  #blob.upload_from_filename(local_file_path )
+  if not stats:
+        blob = bucket.blob(output_path)
+        blob.upload_from_filename(local_file_path )
 
   train_device_loader = pl.MpDeviceLoader(
       train_loader,
