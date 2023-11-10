@@ -477,7 +477,7 @@ def train_imagenet(index =0):
         features = model(batch) 
         features = features.cpu().numpy()
         asset_dict = {'features': features, 'coords': coords}
-        save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+        #save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
         mode = 'a'
   
   #storage_client = storage.Client()
