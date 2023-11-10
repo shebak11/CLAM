@@ -520,7 +520,7 @@ def train_imagenet(index =0):
   print("coord")
   print(type(coord))
   print(coord)  
-return max_accuracy
+  return max_accuracy
 
 
 def _mp_fn(index, flags):
