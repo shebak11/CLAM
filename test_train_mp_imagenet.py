@@ -216,14 +216,36 @@ def train_imagenet(index =0):
   print("FLAGS.pjrt_distributed")
   print(FLAGS.pjrt_distributed)
     
-  gs_slide_file_path = "/WSI/TCGA/COAD/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
-  local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+    
+  data_h5_dir "WSI/TCGA/COADtest_dir/patches/" 
+  data_slide_dir "WSI/TCGA/COAD/" 
+  csv_path "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
+  feat_dir "WSI/TCGA/COADtest_features_dir/ 
+  batch_size 8 
+  slide_ext "".svs"    
+    
+  gs_slide_file_path = data_slide_dir+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  slide_file_path = "/home/MacOS/" + "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  output_path   = feat_dir + "h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
+  local_output_path = "/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  
+  #gs_slide_file_path = "/WSI/TCGA/COAD/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  #slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  #local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  #file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  #output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
+  #local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
 
+  bags_dataset = Dataset_All_Bags(csv_path)
+  total = len(bags_dataset)
+  total = 2
+  print( "len(bags_dataset)")
+  print( len(bags_dataset))
+  quit()
+       
   #wsi = openslide.OpenSlide(slide_file_path) 
   wsi =     TiffSlide(slide_file_path)
   with h5py.File(local_file_path, "r") as f:
@@ -246,7 +268,7 @@ def train_imagenet(index =0):
     z = len(dset)
   print(type(dset))
   print(dset.shape)
-  batch_size = 8
+ 
   verbose = 1
   print_every=20
   pretrained=True 
