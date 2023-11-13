@@ -288,7 +288,8 @@ def train_imagenet(index =0):
     blob.download_to_filename(local_slide_file_path )
 
     blob = bucket.blob(gs_file_path)  
-    blob.download_to_filename(local_file_path)
+    if not os.path.isfile(path):
+        blob.download_to_filename(local_file_path)
     
     with h5py.File(local_file_path, "r") as f:
         dset = f['coords'][:]
@@ -362,7 +363,50 @@ def train_imagenet(index =0):
         xm.broadcast_master_param(model)
     if FLAGS.ddp:
         model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
-    #wsi = openslide.OpenSlide(slide_file_path) 
+    writer = None
+    if xm.is_master_ordinal():
+        writer = test_utils.get_summary_writer(FLAGS.logdir)
+    
+    if FLAGS.profile:
+    server = xp.start_server(FLAGS.profiler_port)
+
+    mytest_device_loader = pl.MpDeviceLoader(
+      loader,
+      device,
+      loader_prefetch_size=FLAGS.loader_prefetch_size,
+      device_prefetch_size=FLAGS.device_prefetch_size,
+      host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
+      )
+    img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
+    print("image shape")
+    print(np.array(img).shape)
+    model.eval()
+    print("local_output_path" + local_output_path)
+    mode = 'w'
+    for count, (batch, coords) in enumerate(mytest_device_loader):
+  #for count, batch in enumerate(test_device_loader):
+        print("data to model")
+        print(len(batch))
+        print(batch.shape)
+        if count==50:
+            break
+        with torch.no_grad():	
+    #with torch.no_grad():	
+            if count % print_every == 20:
+                print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+        #batch = batch.to(device, non_blocking=True)
+            features = model(batch) 
+            features = features.cpu().numpy()
+            asset_dict = {'features': features, 'coords': coords}
+            save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+            mode = 'a'
+  
+ 
+    stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
+    print("nnnnnnnnnnnn")
+    if not stats:
+        blob = bucket.blob(gs_output_path)
+        blob.upload_from_filename(local_file_path )
     
     with h5py.File(local_file_path, "r") as f:
         coord = f['coords'][0]
@@ -371,7 +415,7 @@ def train_imagenet(index =0):
         print(coord) 
         print(coord.shape)
         print(type(coord[0]))
-    img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
+    
     #os.remove( "/home/MacOS/"+ bag_name)
     #os.remove( "/home/MacOS/"+ file_id+ slide_ext)
 
@@ -449,9 +493,7 @@ def train_imagenet(index =0):
 
     
    
-  writer = None
-  if xm.is_master_ordinal():
-    writer = test_utils.get_summary_writer(FLAGS.logdir)
+  
   """
   optimizer = optim.SGD(
       model.parameters(),
