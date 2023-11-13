@@ -269,10 +269,10 @@ def train_imagenet(index =0):
   #quit()
   for bag_candidate_idx in range(total):
     print(bag_candidate_idx)
-    slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
+    slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
     bag_name = os.path.basename(slide_id)+'.h5'
-    h5_file_path = os.path.join(args.data_h5_dir, bag_name)
-    slide_file_path = os.path.join(args.data_slide_dir, slide_id+args.slide_ext)
+    h5_file_path = os.path.join(data_h5_dir, bag_name)
+    slide_file_path = os.path.join(data_slide_dir, slide_id+slide_ext)
     print("slide_file_path: " +slide_file_path)
     print("h5_file_path: " + h5_file_path)
     
