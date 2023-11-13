@@ -216,7 +216,9 @@ def train_imagenet(index =0):
   print("FLAGS.pjrt_distributed")
   print(FLAGS.pjrt_distributed)
     
-    
+  storage_client = storage.Client()
+  bucket = storage_client.bucket("oncomerge")
+
   data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
   data_slide_dir  = "WSI/TCGA/COAD/" 
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
@@ -226,8 +228,11 @@ def train_imagenet(index =0):
     
   gs_slide_file_path = data_slide_dir+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   slide_file_path = "/home/MacOS/" + "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  
+  
   file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  
   output_path   = feat_dir + "h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
   local_output_path = "/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   
@@ -244,21 +249,43 @@ def train_imagenet(index =0):
   total = 2
   print( "len(bags_dataset)")
   print( len(bags_dataset))
+
+
+
+  ###########
+  blob = bucket.blob(gs_slide_file_path)
+  #print(os.path.basename(slide_id))
+  #slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
+  print( "slide_file_path " + slide_file_path)
+  blob.download_to_filename(slide_file_path )
+
+  blob = bucket.blob(file_path)
+  #print(os.path.basename(slide_id))
+  #slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
+  #print( "slide_file_path " + slide_file_path)
+  print("h5_file_path: " + h5_file_path)
+  blob.download_to_filename(local_file_path )
+  #############
   quit()
-       
-  #wsi = openslide.OpenSlide(slide_file_path) 
-  wsi =     TiffSlide(slide_file_path)
-  with h5py.File(local_file_path, "r") as f:
-			coord = f['coords'][0]
-  print("coord")
-  print(type(coord))
-  print(coord) 
-  print(coord.shape)
-  print(type(coord[0]))
-  img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
+  for bag_candidate_idx in range(total):
+    slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
+    bag_name = os.path.basename(slide_id)+'.h5'
+    h5_file_path = os.path.join(args.data_h5_dir, bag_name)
+    slide_file_path = os.path.join(args.data_slide_dir, slide_id+args.slide_ext)
+    print("slide_file_path: " +slide_file_path)
+    print("h5_file_path: " + h5_file_path)
+    #wsi = openslide.OpenSlide(slide_file_path) 
+    wsi =     TiffSlide(slide_file_path)
+    with h5py.File(local_file_path, "r") as f:
+			 coord = f['coords'][0]
+      print("coord")
+      print(type(coord))
+      print(coord) 
+      print(coord.shape)
+      print(type(coord[0]))
+      img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
 
- 
-
+  #quit()
   #print((np.array([coord]).shape))
 
   with h5py.File(local_file_path, "r") as f:
