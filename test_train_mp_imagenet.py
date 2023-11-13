@@ -263,7 +263,7 @@ def train_imagenet(index =0):
   #print(os.path.basename(slide_id))
   #slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
   #print( "slide_file_path " + slide_file_path)
-  print("h5_file_path: " + h5_file_path)
+  print("local_file_path: " + local_file_path)
   blob.download_to_filename(local_file_path )
   #############
   quit()
@@ -274,6 +274,7 @@ def train_imagenet(index =0):
     slide_file_path = os.path.join(args.data_slide_dir, slide_id+args.slide_ext)
     print("slide_file_path: " +slide_file_path)
     print("h5_file_path: " + h5_file_path)
+    
     #wsi = openslide.OpenSlide(slide_file_path) 
     wsi =     TiffSlide(slide_file_path)
     with h5py.File(local_file_path, "r") as f:
