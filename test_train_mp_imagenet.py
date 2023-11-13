@@ -280,8 +280,8 @@ def train_imagenet(index =0):
     print("bag_name: "+ bag_name)
     local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
     local_file_path = "/home/MacOS/"+bag_name
-    print("slide_file_path: " + gs_slide_file_path)
-    print("local_file_path: " + gs_file_path)
+    print("local_slide_file_path: " + local_slide_file_path)
+    print("local_file_path: " + local_file_path)
    
     
     #wsi = openslide.OpenSlide(slide_file_path) 
@@ -294,8 +294,8 @@ def train_imagenet(index =0):
         print(coord.shape)
         print(type(coord[0]))
     img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
-    os.remove( "/home/MacOS/"+ slide_id+ '.h5')
-    os.remove( "/home/MacOS/"+ slide_id+ slide_ext)
+    os.remove( "/home/MacOS/"+ bag_name)
+    os.remove( "/home/MacOS/"+ file_id+ slide_ext)
 
   quit()
   #print((np.array([coord]).shape))
