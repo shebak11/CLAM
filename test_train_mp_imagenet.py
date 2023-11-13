@@ -284,7 +284,6 @@ def train_imagenet(index =0):
     print("local_file_path: " + local_file_path)
    
     blob = bucket.blob(gs_slide_file_path)
-   
     blob.download_to_filename(local_slide_file_path )
 
     blob = bucket.blob(gs_file_path)  
@@ -300,8 +299,8 @@ def train_imagenet(index =0):
         print(coord.shape)
         print(type(coord[0]))
     img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
-    os.remove( "/home/MacOS/"+ bag_name)
-    os.remove( "/home/MacOS/"+ file_id+ slide_ext)
+    #os.remove( "/home/MacOS/"+ bag_name)
+    #os.remove( "/home/MacOS/"+ file_id+ slide_ext)
 
   quit()
   #print((np.array([coord]).shape))
