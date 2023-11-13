@@ -268,6 +268,8 @@ def train_imagenet(index =0):
   #############
   #quit()
   for bag_candidate_idx in range(total):
+    if bag_candidate_idx==1:
+        break
     print(bag_candidate_idx)
     slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
     file_id = os.path.basename(slide_id)
@@ -299,8 +301,8 @@ def train_imagenet(index =0):
         print(coord.shape)
         print(type(coord[0]))
     img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
-    os.remove( "/home/MacOS/"+ bag_name)
-    os.remove( "/home/MacOS/"+ file_id+ slide_ext)
+    #os.remove( "/home/MacOS/"+ bag_name)
+    #os.remove( "/home/MacOS/"+ file_id+ slide_ext)
 
   quit()
   #print((np.array([coord]).shape))
