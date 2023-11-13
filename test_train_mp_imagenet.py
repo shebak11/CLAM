@@ -283,6 +283,12 @@ def train_imagenet(index =0):
     print("local_slide_file_path: " + local_slide_file_path)
     print("local_file_path: " + local_file_path)
    
+    blob = bucket.blob(gs_slide_file_path)
+   
+    blob.download_to_filename(local_slide_file_path )
+
+    blob = bucket.blob(gs_file_path)  
+    blob.download_to_filename(local_file_path)
     
     #wsi = openslide.OpenSlide(slide_file_path) 
     wsi =     TiffSlide(local_slide_file_path)
