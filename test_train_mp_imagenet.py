@@ -291,6 +291,34 @@ def train_imagenet(index =0):
     blob = bucket.blob(gs_file_path)  
     blob.download_to_filename(local_file_path)
     
+    with h5py.File(local_file_path, "r") as f:
+    dset = f['coords'][:]
+    x = f['coords'].attrs['patch_level']
+    y = f['coords'].attrs['patch_size']
+    z = len(dset)
+    print(type(dset))
+    print(dset.shape)
+
+    verbose = 1
+    print_every=20
+    pretrained=True 
+    custom_downsample=1
+    target_patch_size=224
+    print('==> Preparing data..')
+    img_dim = get_model_property('img_dim')
+
+    if FLAGS.fake_data:
+        train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
+        train_loader = xu.SampleGenerator(
+        data=(torch.zeros(FLAGS.batch_size, 3, img_dim, img_dim),
+              torch.zeros(FLAGS.batch_size, dtype=torch.int64)),
+        sample_count=train_dataset_len // FLAGS.batch_size //
+        xm.xrt_world_size())
+        test_loader = xu.SampleGenerator(
+        data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
+              torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
+        sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
+    
     #wsi = openslide.OpenSlide(slide_file_path) 
     wsi =     TiffSlide(local_slide_file_path)
     with h5py.File(local_file_path, "r") as f:
@@ -307,45 +335,7 @@ def train_imagenet(index =0):
   quit()
   #print((np.array([coord]).shape))
 
-  with h5py.File(local_file_path, "r") as f:
-    dset = f['coords'][:]
-    x = f['coords'].attrs['patch_level']
-    y = f['coords'].attrs['patch_size']
-    z = len(dset)
-  print(type(dset))
-  print(dset.shape)
- 
-  verbose = 1
-  print_every=20
-  pretrained=True 
-  custom_downsample=1
-  target_patch_size=224
 
-
-  
-  with h5py.File(local_file_path, "r") as f:
-    dset = f['coords']
-    x = f['coords'].attrs['patch_level']
-    y = f['coords'].attrs['patch_size']
-    z = len(dset)
-    
-    
-
-  print('==> Preparing data..')
-  
-  img_dim = get_model_property('img_dim')
-
-  if FLAGS.fake_data:
-    train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
-    train_loader = xu.SampleGenerator(
-        data=(torch.zeros(FLAGS.batch_size, 3, img_dim, img_dim),
-              torch.zeros(FLAGS.batch_size, dtype=torch.int64)),
-        sample_count=train_dataset_len // FLAGS.batch_size //
-        xm.xrt_world_size())
-    test_loader = xu.SampleGenerator(
-        data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
-              torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
-        sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
   """ 
   else:
     normalize = transforms.Normalize(
