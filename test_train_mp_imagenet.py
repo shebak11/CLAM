@@ -284,7 +284,6 @@ def train_imagenet(index =0):
     local_file_path = "/home/MacOS/"+bag_name
     print("local_slide_file_path: " + local_slide_file_path)
     print("local_file_path: " + local_file_path)
-   
     blob = bucket.blob(gs_slide_file_path)
     blob.download_to_filename(local_slide_file_path )
 
@@ -360,8 +359,7 @@ def train_imagenet(index =0):
     print(xr.using_pjrt())
     if xr.using_pjrt():
         xm.broadcast_master_param(model)
-
-   if FLAGS.ddp:
+    if FLAGS.ddp:
         model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
     #wsi = openslide.OpenSlide(slide_file_path) 
     wsi =     TiffSlide(local_slide_file_path)
