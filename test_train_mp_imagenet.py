@@ -289,7 +289,7 @@ def train_imagenet(index =0):
 
     blob = bucket.blob(gs_file_path)  
     if not os.path.isfile(path):
-        blob.download_to_filename(local_file_path)
+            blob.download_to_filename(local_file_path)
     
     with h5py.File(local_file_path, "r") as f:
         dset = f['coords'][:]
@@ -368,7 +368,7 @@ def train_imagenet(index =0):
         writer = test_utils.get_summary_writer(FLAGS.logdir)
     
     if FLAGS.profile:
-    server = xp.start_server(FLAGS.profiler_port)
+        server = xp.start_server(FLAGS.profiler_port)
 
     mytest_device_loader = pl.MpDeviceLoader(
       loader,
