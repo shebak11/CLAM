@@ -264,7 +264,7 @@ def train_imagenet(index =0):
   #slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
   #print( "slide_file_path " + slide_file_path)
   print("local_file_path: " + local_file_path)
-  blob.download_to_filename(local_file_path )
+  blob.download_to_filename(local_file_path)
   #############
   #quit()
   for bag_candidate_idx in range(total):
@@ -275,6 +275,11 @@ def train_imagenet(index =0):
     gs_slide_file_path = os.path.join(data_slide_dir, slide_id+slide_ext)
     print("gs_slide_file_path: " +gs_slide_file_path)
     print("gs_file_path: " + gs_file_path)
+    local_slide_file_path = "/home/MacOS/"+ slide_id+slide_ext
+    local_file_path = "/home/MacOS/"+slide_ext+".h5"
+    print("slide_file_path: " + gs_slide_file_path)
+    print("local_file_path: " + gs_file_path)
+   
     
     #wsi = openslide.OpenSlide(slide_file_path) 
     wsi =     TiffSlide(local_slide_file_path)
@@ -285,7 +290,9 @@ def train_imagenet(index =0):
         print(coord) 
         print(coord.shape)
         print(type(coord[0]))
-    img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
+    img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
+    os.remove( "/home/MacOS/"+ slide_id+ '.h5')
+    os.remove( "/home/MacOS/"+ slide_id+ slide_ext)
 
   quit()
   #print((np.array([coord]).shape))
