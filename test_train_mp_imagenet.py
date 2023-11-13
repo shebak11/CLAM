@@ -317,6 +317,7 @@ def train_imagenet(index =0):
         sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
     torch.manual_seed(42)
     device = xm.xla_device()
+    wsi =     TiffSlide(local_slide_file_path)
     dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
     train_sampler, test_sampler = None, None
     #quit()
@@ -362,7 +363,7 @@ def train_imagenet(index =0):
     if FLAGS.ddp:
         model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
     #wsi = openslide.OpenSlide(slide_file_path) 
-    wsi =     TiffSlide(local_slide_file_path)
+    
     with h5py.File(local_file_path, "r") as f:
         coord = f['coords'][0]
         print("coord")
