@@ -219,7 +219,7 @@ def train_imagenet(index =0):
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
 
-  data_h5_dir = "WSI/TCGA/patches-COAD/patches/" 
+  data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
   data_slide_dir  = "WSI/TCGA/COAD/" 
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   feat_dir = "WSI/TCGA/COADtest_features_dir/" 
