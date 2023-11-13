@@ -277,7 +277,7 @@ def train_imagenet(index =0):
     #wsi = openslide.OpenSlide(slide_file_path) 
     wsi =     TiffSlide(slide_file_path)
     with h5py.File(local_file_path, "r") as f:
-			 coord = f['coords'][0]
+        coord = f['coords'][0]
       print("coord")
       print(type(coord))
       print(coord) 
