@@ -264,7 +264,7 @@ def train_imagenet(index =0):
   #slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
   #print( "slide_file_path " + slide_file_path)
   print("local_file_path: " + local_file_path)
-  blob.download_to_filename(local_file_path )
+  #blob.download_to_filename(local_file_path )
   #############
   #quit()
   for bag_candidate_idx in range(total):
