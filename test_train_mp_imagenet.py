@@ -266,8 +266,9 @@ def train_imagenet(index =0):
   print("local_file_path: " + local_file_path)
   blob.download_to_filename(local_file_path )
   #############
-  quit()
+  #quit()
   for bag_candidate_idx in range(total):
+    print(bag_candidate_idx)
     slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
     bag_name = os.path.basename(slide_id)+'.h5'
     h5_file_path = os.path.join(args.data_h5_dir, bag_name)
@@ -286,7 +287,7 @@ def train_imagenet(index =0):
         print(type(coord[0]))
     img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
 
-  #quit()
+  quit()
   #print((np.array([coord]).shape))
 
   with h5py.File(local_file_path, "r") as f:
