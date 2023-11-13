@@ -227,13 +227,13 @@ def train_imagenet(index =0):
   slide_ext = ".svs"    
     
   gs_slide_file_path = data_slide_dir+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  slide_file_path = "/home/MacOS/" + "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  local_slide_file_path = "/home/MacOS/" + "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   
   
-  file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  gs_file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   
-  output_path   = feat_dir + "h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
+  gs_output_path   = feat_dir + "h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
   local_output_path = "/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   
   #gs_slide_file_path = "/WSI/TCGA/COAD/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
@@ -256,10 +256,10 @@ def train_imagenet(index =0):
   blob = bucket.blob(gs_slide_file_path)
   #print(os.path.basename(slide_id))
   #slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
-  print( "slide_file_path " + slide_file_path)
-  blob.download_to_filename(slide_file_path )
+  print( "slide_file_path " + local_slide_file_path)
+  blob.download_to_filename(local_slide_file_path )
 
-  blob = bucket.blob(file_path)
+  blob = bucket.blob(gs_file_path)
   #print(os.path.basename(slide_id))
   #slide_file_path = "/home/MacOS/"+ os.path.basename(slide_id)+args.slide_ext  
   #print( "slide_file_path " + slide_file_path)
@@ -271,13 +271,13 @@ def train_imagenet(index =0):
     print(bag_candidate_idx)
     slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
     bag_name = os.path.basename(slide_id)+'.h5'
-    h5_file_path = os.path.join(data_h5_dir, bag_name)
-    slide_file_path = os.path.join(data_slide_dir, slide_id+slide_ext)
-    print("slide_file_path: " +slide_file_path)
-    print("h5_file_path: " + h5_file_path)
+    gs_file_path = os.path.join(data_h5_dir, bag_name)
+    gs_slide_file_path = os.path.join(data_slide_dir, slide_id+slide_ext)
+    print("gs_slide_file_path: " +gs_slide_file_path)
+    print("gs_file_path: " + gs_file_path)
     
     #wsi = openslide.OpenSlide(slide_file_path) 
-    wsi =     TiffSlide(slide_file_path)
+    wsi =     TiffSlide(local_slide_file_path)
     with h5py.File(local_file_path, "r") as f:
         coord = f['coords'][0]
         print("coord")
@@ -393,7 +393,7 @@ def train_imagenet(index =0):
   """
   torch.manual_seed(42)
   device = xm.xla_device()
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
   #quit()
   k = dataset[0]  
@@ -511,7 +511,7 @@ def train_imagenet(index =0):
 
   print("nnnnnnnnnnnn")
   if not stats:
-        blob = bucket.blob(output_path)
+        blob = bucket.blob(gs_output_path)
         blob.upload_from_filename(local_file_path )
   """
       
