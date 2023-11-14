@@ -624,7 +624,7 @@ def train_imagenet(index =0):
   model.eval()
   print("local_output_path" + local_output_path)
   mode = 'w'
-  """ 
+   
   for count, (batch, coords) in enumerate(mytest_device_loader):
   #for count, batch in enumerate(test_device_loader):
     print("data to model")
@@ -637,12 +637,12 @@ def train_imagenet(index =0):
         if count % print_every == 20:
             print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
         #batch = batch.to(device, non_blocking=True)
-        features = model(batch) 
-        features = features.cpu().numpy()
-        asset_dict = {'features': features, 'coords': coords}
+        #features = model(batch) 
+        #features = features.cpu().numpy()
+        #asset_dict = {'features': features, 'coords': coords}
         #save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
         mode = 'a'
-  """   
+   
   #storage_client = storage.Client()
   #bucket = storage_client.bucket("oncomerge")
   #stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
@@ -654,7 +654,7 @@ def train_imagenet(index =0):
   #if not stats:
         #blob = bucket.blob(gs_output_path)
         #blob.upload_from_filename(local_file_path )
- 
+  """
       
   test_device_loader = pl.MpDeviceLoader(
       test_loader,
@@ -725,7 +725,7 @@ def train_imagenet(index =0):
 
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
- 
+  """
 
   print("coord")
   print(type(coord))
