@@ -17,6 +17,7 @@ import h5py
 
 from random import randrange
 from google.cloud import storage
+from tiffslide import TiffSlide
 
 def eval_transforms(pretrained=False):
 	if pretrained:
