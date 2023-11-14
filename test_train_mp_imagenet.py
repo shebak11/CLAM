@@ -218,9 +218,7 @@ def train_imagenet(index =0):
     
 
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484-2.h5"
-  local_file_path_ar = [ "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5",
-     "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484-2.h5"]
+  local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   #wsi = openslide.OpenSlide(slide_file_path) 
   wsi =     TiffSlide(slide_file_path)
   with h5py.File(local_file_path, "r") as f:
@@ -254,7 +252,7 @@ def train_imagenet(index =0):
   target_patch_size=224
 
 
-  #local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords']
     x = f['coords'].attrs['patch_level']
@@ -342,12 +340,7 @@ def train_imagenet(index =0):
   """
   torch.manual_seed(42)
   device = xm.xla_device()
-  i=0
-  #for i in range(3):
-  #dataset = Whole_Slide_Bag_FP(file_path=local_file_path_ar[i], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-    
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-
   train_sampler, test_sampler = None, None
   #quit()
   k = dataset[0]  
