@@ -208,31 +208,6 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 
 
 def train_imagenet(index =0):
-    
-  data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
-  data_slide_dir  = "WSI/TCGA/COAD/" 
-  csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
-  feat_dir = "WSI/TCGA/COADtest_features_dir/" 
-  batch_size = 8 
-  slide_ext = ".svs"    
-    
-  gs_slide_file_path = data_slide_dir+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  local_slide_file_path = "/home/MacOS/" + "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
-  
-  
-  gs_file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  
-  gs_output_path   = feat_dir + "h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
-  local_output_path = "/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  
-
-  bags_dataset = Dataset_All_Bags(csv_path)
-  total = len(bags_dataset)
-  total = 2
-  print( "len(bags_dataset)")
-  print( len(bags_dataset))
-
 
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
@@ -244,11 +219,8 @@ def train_imagenet(index =0):
 
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  local_file_path_arr = ["/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5", "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484-2.h5"]
-
   #wsi = openslide.OpenSlide(slide_file_path) 
   wsi =     TiffSlide(slide_file_path)
-  """
   with h5py.File(local_file_path, "r") as f:
 			coord = f['coords'][0]
   print("coord")
@@ -258,14 +230,13 @@ def train_imagenet(index =0):
   print(type(coord[0]))
   img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
 
-   """
+ 
 
   #print((np.array([coord]).shape))
       
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
-  """
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords'][:]
     x = f['coords'].attrs['patch_level']
@@ -273,8 +244,6 @@ def train_imagenet(index =0):
     z = len(dset)
   print(type(dset))
   print(dset.shape)
-  """
-
   batch_size = 8
   verbose = 1
   print_every=20
@@ -284,13 +253,12 @@ def train_imagenet(index =0):
 
 
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  """ 
   with h5py.File(local_file_path, "r") as f:
     dset = f['coords']
     x = f['coords'].attrs['patch_level']
     y = f['coords'].attrs['patch_size']
     z = len(dset)
-  """
+    
     
 
   print('==> Preparing data..')
@@ -370,24 +338,9 @@ def train_imagenet(index =0):
   print("train_dataset_len")
   print(train_dataset_len)
   """
-  storage_client = storage.Client()
-  bucket = storage_client.bucket("oncomerge")
   torch.manual_seed(42)
   device = xm.xla_device()
-  for bag_candidate_idx in range(2):
-    #slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
-    slide_id = bags_dataset[0].split(slide_ext)[0]
-    file_id = os.path.basename(slide_id)
-    bag_name = os.path.basename(slide_id)+'.h5'
-    gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
-    #blob = bucket.blob(gs_slide_file_path)
-    #blob.download_to_filename(local_slide_file_path )
-    print(gs_slide_file_path)
-    print(local_slide_file_path)
-    #wsi =     TiffSlide(local_slide_file_path)
-    gs_file_path = os.path.join(data_h5_dir, bag_name)
-    print("gs_file_path: " +gs_file_path)
-    dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
   #quit()
   k = dataset[0]  
@@ -419,8 +372,8 @@ def train_imagenet(index =0):
         #)
         collate_fn=collate_features)
 
-  #print("len loader")
-  #print(len(loader))
+  print("len loader")
+  print(len(loader))
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
   model = model.to(device)
@@ -475,17 +428,17 @@ def train_imagenet(index =0):
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
 
-  #print("image shape")
-  #print(np.array(img).shape)
+  print("image shape")
+  print(np.array(img).shape)
   model.eval()
   local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  #print("local_output_path" + local_output_path)
+  print("local_output_path" + local_output_path)
   mode = 'w'
   for count, (batch, coords) in enumerate(mytest_device_loader):
   #for count, batch in enumerate(test_device_loader):
-    #print("data to model")
-    #print(len(batch))
-    #print(batch.shape)
+    print("data to model")
+    print(len(batch))
+    print(batch.shape)
     if count==50:
       break
     with torch.no_grad():	
@@ -579,13 +532,12 @@ def train_imagenet(index =0):
 
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
-  
+  """
   print("coord")
   print(type(coord))
   print(coord) 
   print(coord.shape)
   print(type(coord[0]))
-  """
   #return max_accuracy
   return 97.0
 
