@@ -345,6 +345,7 @@ def train_imagenet(index =0):
   print("train_dataset_len")
   print(train_dataset_len)
   """
+
   torch.manual_seed(42)
   device = xm.xla_device()
   for i in range(2):
