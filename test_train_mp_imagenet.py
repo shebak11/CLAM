@@ -575,6 +575,7 @@ def train_imagenet(index =0):
             mode = 'a'
       
       now = datetime.now()
+        
       current_time = now.strftime("%H:%M:%S")
       print("Current Time =", current_time)
       #return 97.0
