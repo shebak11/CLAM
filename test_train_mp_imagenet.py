@@ -611,6 +611,13 @@ def train_imagenet(index =0):
       device_prefetch_size=FLAGS.device_prefetch_size,
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
+   with h5py.File(local_file_path, "r") as f:
+        coord = f['coords'][0]
+        print("coord")
+        print(type(coord))
+        print(coord) 
+        print(coord.shape)
+        print(type(coord[0]))
   img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
   print("image shape")
   print(np.array(img).shape)
