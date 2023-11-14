@@ -363,10 +363,22 @@ def train_imagenet(index =0):
   device = xm.xla_device()
 
 
+
   gs_slide_file_path = data_slide_dir+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   local_slide_file_path = "/home/MacOS/" + "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   gs_file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+
+
+  #slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
+  #file_id = os.path.basename(slide_id)
+  #bag_name = os.path.basename(slide_id)+'.h5'
+  #gs_file_path = os.path.join(data_h5_dir, bag_name)
+  gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
+  #local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
+  #local_file_path = "/home/MacOS/"+bag_name
+  #blob = bucket.blob(gs_slide_file_path)
+  #blob.download_to_filename(local_slide_file_path )
   wsi =     TiffSlide(slide_file_path)
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
@@ -456,17 +468,17 @@ def train_imagenet(index =0):
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
 
-  print("image shape")
-  print(np.array(img).shape)
+  #print("image shape")
+  #print(np.array(img).shape)
   model.eval()
   local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   print("local_output_path" + local_output_path)
   mode = 'w'
   for count, (batch, coords) in enumerate(mytest_device_loader):
   #for count, batch in enumerate(test_device_loader):
-    print("data to model")
-    print(len(batch))
-    print(batch.shape)
+    #print("data to model")
+    #print(len(batch))
+    #print(batch.shape)
     if count==50:
       break
     with torch.no_grad():	
