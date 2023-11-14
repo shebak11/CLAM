@@ -624,6 +624,7 @@ def train_imagenet(index =0):
   model.eval()
   print("local_output_path" + local_output_path)
   mode = 'w'
+  """ 
   for count, (batch, coords) in enumerate(mytest_device_loader):
   #for count, batch in enumerate(test_device_loader):
     print("data to model")
@@ -641,7 +642,7 @@ def train_imagenet(index =0):
         asset_dict = {'features': features, 'coords': coords}
         #save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
         mode = 'a'
-  
+  """   
   #storage_client = storage.Client()
   #bucket = storage_client.bucket("oncomerge")
   #stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
