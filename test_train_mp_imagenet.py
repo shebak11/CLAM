@@ -377,12 +377,10 @@ def train_imagenet(index =0):
   
   bags_dataset = Dataset_All_Bags(csv_path)
   total = len(bags_dataset)
-  
   #dest_files=[]
   #blobs = storage_client.list_blobs("oncomerge", prefix=data_slide_dir)
   #for blob in blobs:
 		#dest_files.append(blob.name)
-  
   bag_candidate_idx=0
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
