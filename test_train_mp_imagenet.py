@@ -259,6 +259,7 @@ def train_imagenet(index =0):
 
  
 
+
   #print((np.array([coord]).shape))
       
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
