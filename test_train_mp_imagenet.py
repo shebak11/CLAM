@@ -411,7 +411,7 @@ def train_imagenet(index =0):
     with h5py.File(f,'r') as hdf5_file:
         coord = hdf5_file['coords'][0]
     """
-  quit()
+  #quit()
    
 
     

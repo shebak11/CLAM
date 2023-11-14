@@ -193,8 +193,10 @@ class Whole_Slide_Bag_FP(Dataset):
 		print('transformations: ', self.roi_transforms)
 
 	def __getitem__(self, idx):
-		with h5py.File(self.file_path,'r') as hdf5_file:
-			coord = hdf5_file['coords'][idx]
+		blob = bucket.blob(self.file_path)
+		with blob.open("rb") as f:
+		  with h5py.File(f,'r') as hdf5_file:
+		      coord = hdf5_file['coords'][idx]
 		#hdf5_file = h5py.File(self.file_path, "r")
 		#coord=self.coord
 		#coord=hdf5_file['coords'][idx]
