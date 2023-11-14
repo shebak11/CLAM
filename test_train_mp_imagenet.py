@@ -386,8 +386,8 @@ def train_imagenet(index =0):
   print("gs_slide_file_path"+gs_slide_file_path)
   print("local_slide_file_path"+local_slide_file_path)
   print("local_file_path"+local_file_path)
-  blob = bucket.blob(gs_slide_file_path)
-  blob.download_to_filename(local_slide_file_path )
+  #blob = bucket.blob(gs_slide_file_path)
+  #blob.download_to_filename(local_slide_file_path )
   wsi =     TiffSlide(slide_file_path)
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
