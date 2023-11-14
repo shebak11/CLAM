@@ -340,37 +340,10 @@ def train_imagenet(index =0):
   """
   torch.manual_seed(42)
   device = xm.xla_device()
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-  train_sampler, test_sampler = None, None
-  #quit()
-  k = dataset[0]  
-  file = open('data.pkl', 'wb')
-  #Pickle dictionary using protocol 0.
-  pickle.dump(dataset[0:3], file)
-  file.close()
-  #dataset = dataset[0:512]
-  print(len(dataset))
-  print(type(dataset))
-  print("dataset size")
-  #[print(item[0].shape) for item in dataset]
-  print(np.array(dataset[0][0]).shape)
+ 
 
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
-  loader = DataLoader( dataset,
-        #batch_size=FLAGS.batch_size,
-        batch_size=8,
-        #sampler=test_sampler,
-        #drop_last=FLAGS.drop_last,
-        #drop_last=False,
-        #shuffle=False if test_sampler else True,
-        #shuffle=False,
-        #num_workers=0,
-        #num_workers=FLAGS.num_workers,
-        #persistent_workers=FLAGS.persistent_workers,
-        #prefetch_factor=FLAGS.prefetch_factor,
-        #)
-        collate_fn=collate_features)
 
   print("len loader")
   print(len(loader))
@@ -420,6 +393,38 @@ def train_imagenet(index =0):
   if FLAGS.profile:
     server = xp.start_server(FLAGS.profiler_port)
 
+
+
+    
+  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  train_sampler, test_sampler = None, None
+  #quit()
+  k = dataset[0]  
+  file = open('data.pkl', 'wb')
+  #Pickle dictionary using protocol 0.
+  pickle.dump(dataset[0:3], file)
+  file.close()
+  #dataset = dataset[0:512]
+  print(len(dataset))
+  print(type(dataset))
+  print("dataset size")
+  #[print(item[0].shape) for item in dataset]
+  print(np.array(dataset[0][0]).shape)
+    
+  loader = DataLoader( dataset,
+        #batch_size=FLAGS.batch_size,
+        batch_size=8,
+        #sampler=test_sampler,
+        #drop_last=FLAGS.drop_last,
+        #drop_last=False,
+        #shuffle=False if test_sampler else True,
+        #shuffle=False,
+        #num_workers=0,
+        #num_workers=FLAGS.num_workers,
+        #persistent_workers=FLAGS.persistent_workers,
+        #prefetch_factor=FLAGS.prefetch_factor,
+        #)
+        collate_fn=collate_features)
   mytest_device_loader = pl.MpDeviceLoader(
       loader,
       device,
