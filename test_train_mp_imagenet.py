@@ -585,8 +585,8 @@ def train_imagenet(index =0):
   print("len loader")
   print(len(loader))
     #model = get_model_property('model_fn')().to(device)
-  #model = resnet50_baseline(pretrained=True)
-  #model = model.to(device)
+  model = resnet50_baseline(pretrained=True)
+  model = model.to(device)
     
   print("xr.using_pjrt()")
   print(xr.using_pjrt())
