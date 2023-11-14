@@ -541,15 +541,16 @@ def train_imagenet(index =0):
       
             features = features.cpu().numpy()
             asset_dict = {'features': features, 'coords': coords}
-            quit()
-            #save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
+            
+            save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
+        quit()
 
-      storage_client = storage.Client()
-      bucket = storage_client.bucket("oncomerge")
+      #storage_client = storage.Client()
+      #bucket = storage_client.bucket("oncomerge")
       stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
 
-
+      print(stats)
       print("nnnnnnnnnnnn")
       if not stats:
             blob = bucket.blob(output_path)
