@@ -518,8 +518,7 @@ def train_imagenet(index =0):
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
           )
-      print("dataset")
-      quit()
+
       #print("image shape")
       #print(np.array(img).shape)
       model.eval()
@@ -543,7 +542,8 @@ def train_imagenet(index =0):
             asset_dict = {'features': features, 'coords': coords}
             save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
-
+      print("dataset")
+      quit()
       storage_client = storage.Client()
       bucket = storage_client.bucket("oncomerge")
       stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
