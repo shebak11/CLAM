@@ -496,7 +496,7 @@ def train_imagenet(index =0):
     
    
   
-  """
+
   optimizer = optim.SGD(
       model.parameters(),
       lr=FLAGS.lr,
@@ -515,7 +515,7 @@ def train_imagenet(index =0):
       summary_writer=writer)
   loss_fn = nn.CrossEntropyLoss()
   
-   """
+
 
 
 
@@ -631,6 +631,17 @@ def train_imagenet(index =0):
     print("data to model")
     print(len(batch))
     print(batch.shape)
+    if count==50:
+      break
+    #with torch.no_grad():	
+    #with torch.no_grad():	
+        #if count % print_every == 20:
+            #print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+        #batch = batch.to(device, non_blocking=True)
+        #features = model(batch) 
+        #features = features.cpu().numpy()
+        #asset_dict = {'features': features, 'coords': coords}
+        #save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
 
   #storage_client = storage.Client()
   #bucket = storage_client.bucket("oncomerge")
@@ -643,7 +654,7 @@ def train_imagenet(index =0):
   #if not stats:
         #blob = bucket.blob(gs_output_path)
         #blob.upload_from_filename(local_file_path )
-  """
+ 
       
   test_device_loader = pl.MpDeviceLoader(
       test_loader,
@@ -714,7 +725,7 @@ def train_imagenet(index =0):
 
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
-  """
+
 
   print("coord")
   print(type(coord))
