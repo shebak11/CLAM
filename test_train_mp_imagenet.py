@@ -370,7 +370,8 @@ def train_imagenet(index =0):
   print("train_dataset_len")
   print(train_dataset_len)
   """
-
+  storage_client = storage.Client()
+  bucket = storage_client.bucket("oncomerge")
   torch.manual_seed(42)
   device = xm.xla_device()
   for bag_candidate_idx in range(2):
