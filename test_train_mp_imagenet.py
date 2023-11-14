@@ -411,8 +411,8 @@ def train_imagenet(index =0):
         #)
         collate_fn=collate_features)
 
-  print("len loader")
-  print(len(loader))
+  #print("len loader")
+  #print(len(loader))
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
   model = model.to(device)
@@ -467,17 +467,17 @@ def train_imagenet(index =0):
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
 
-  print("image shape")
+  #print("image shape")
   #print(np.array(img).shape)
   model.eval()
   local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  print("local_output_path" + local_output_path)
+  #print("local_output_path" + local_output_path)
   mode = 'w'
   for count, (batch, coords) in enumerate(mytest_device_loader):
   #for count, batch in enumerate(test_device_loader):
-    print("data to model")
-    print(len(batch))
-    print(batch.shape)
+    #print("data to model")
+    #print(len(batch))
+    #print(batch.shape)
     if count==50:
       break
     with torch.no_grad():	
