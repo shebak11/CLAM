@@ -639,13 +639,15 @@ def train_imagenet(index =0):
         features = model(batch) 
         features = features.cpu().numpy()
         asset_dict = {'features': features, 'coords': coords}
-        save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+        #save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
         mode = 'a'
   
   #storage_client = storage.Client()
   #bucket = storage_client.bucket("oncomerge")
   #stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
 
+  if len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])== 24:
+    print("all workers")
 
   #print("nnnnnnnnnnnn")
   #if not stats:
@@ -723,6 +725,7 @@ def train_imagenet(index =0):
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
   """
+
   print("coord")
   print(type(coord))
   print(coord) 
