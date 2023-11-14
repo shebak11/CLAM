@@ -180,7 +180,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		return self.length
 
 	def summary(self):
-        storage_client = storage.Client()
+		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
 		blob = bucket.blob(self.file_path)
 		with blob.open("rb") as f:
@@ -206,8 +206,8 @@ class Whole_Slide_Bag_FP(Dataset):
 		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.img
 		#img = self.wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-		storage_client = storage.Client()
-		bucket = storage_client.bucket("oncomerge")
+		#storage_client = storage.Client()
+		#bucket = storage_client.bucket("oncomerge")
 		blob = bucket.blob(self.gs_slide_file_path)
 		with blob.open("rb") as f:
 		  wsi = TiffSlide(f)
