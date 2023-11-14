@@ -180,6 +180,8 @@ class Whole_Slide_Bag_FP(Dataset):
 		return self.length
 
 	def summary(self):
+        storage_client = storage.Client()
+		bucket = storage_client.bucket("oncomerge")
 		blob = bucket.blob(self.file_path)
 		with blob.open("rb") as f:
 		  hdf5_file = h5py.File(f, "r")
