@@ -185,9 +185,9 @@ class Whole_Slide_Bag_FP(Dataset):
 		blob = bucket.blob(self.file_path)
 		with blob.open("rb") as f:
 		  hdf5_file = h5py.File(f, "r")
-		dset = hdf5_file['coords']
-		for name, value in dset.attrs.items():
-			print(name, value)
+		  dset = hdf5_file['coords']
+		  for name, value in dset.attrs.items():
+		      print(name, value)
 
 		print('\nfeature extraction settings')
 		print('target patch size: ', self.target_patch_size)
