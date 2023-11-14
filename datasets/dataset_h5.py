@@ -181,12 +181,12 @@ class Whole_Slide_Bag_FP(Dataset):
 		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.img
 		#img = self.wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-        storage_client = storage.Client()
+		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
-        blob = bucket.blob(self.gs_slide_file_path)
-        with blob.open("rb") as f:
-            wsi = TiffSlide(f)
-            img = wsi.read_region(location = (300, 400), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
+		blob = bucket.blob(self.gs_slide_file_path)
+		with blob.open("rb") as f:
+		  wsi = TiffSlide(f)
+		  img = wsi.read_region(location = (300, 400), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
 
 		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
