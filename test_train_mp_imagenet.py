@@ -391,7 +391,7 @@ def train_imagenet(index =0):
   #wsi = openslide.open_slide(slide_file_path)
 
   wsi =     TiffSlide(slide_file_path)
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+  dataset = Whole_Slide_Bag_FP(file_path=local_file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
   #quit()
   k = dataset[0]  
