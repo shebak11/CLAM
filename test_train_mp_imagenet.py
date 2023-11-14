@@ -428,15 +428,14 @@ def train_imagenet(index =0):
       with blob.open("rb") as f:
         wsi = TiffSlide(f)
         dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[bag_candidate_idx], gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-      print("dataset")
-      quit()
+
       train_sampler, test_sampler = None, None
       #quit()
-      k = dataset[0]  
-      file = open('data.pkl', 'wb')
+      #k = dataset[0]  
+      #file = open('data.pkl', 'wb')
       #Pickle dictionary using protocol 0.
-      pickle.dump(dataset[0:3], file)
-      file.close()
+      #pickle.dump(dataset[0:3], file)
+      #file.close()
       #dataset = dataset[0:512]
       print(len(dataset))
       print(type(dataset))
@@ -463,6 +462,9 @@ def train_imagenet(index =0):
 
       print("len loader")
       print(len(loader))
+    
+      print("dataset")
+      quit()
       #model = get_model_property('model_fn')().to(device)
       model = resnet50_baseline(pretrained=True)
       model = model.to(device)
