@@ -347,9 +347,9 @@ def train_imagenet(index =0):
   """
   torch.manual_seed(42)
   device = xm.xla_device()
-  #for i in range(3):
+  for i in range(3):
   
-  dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[0], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+    dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[i], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
   #quit()
   k = dataset[0]  
