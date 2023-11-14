@@ -577,9 +577,10 @@ def train_imagenet(index =0):
       now = datetime.now()
       current_time = now.strftime("%H:%M:%S")
       print("Current Time =", current_time)
-      return 97.0
+      #return 97.0
       #storage_client = storage.Client()
       #bucket = storage_client.bucket("oncomerge")
+    """
       stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
 
       print(stats)
@@ -588,7 +589,8 @@ def train_imagenet(index =0):
             blob = bucket.blob(output_path)
             blob.upload_from_filename(local_file_path )
       print("dataset")
-      quit()
+      #quit()
+      """
   """
       
   test_device_loader = pl.MpDeviceLoader(
