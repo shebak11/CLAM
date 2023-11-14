@@ -493,42 +493,6 @@ def train_imagenet(index =0):
   # Synchronize model parameters across replicas manually.
   
 
-    
-   
-  
-
-  optimizer = optim.SGD(
-      model.parameters(),
-      lr=FLAGS.lr,
-      momentum=FLAGS.momentum,
-      weight_decay=1e-4)
-  num_training_steps_per_epoch = train_dataset_len // (
-      FLAGS.batch_size * xm.xrt_world_size())
-   
-  lr_scheduler = schedulers.wrap_optimizer_with_scheduler(
-      optimizer,
-      scheduler_type=getattr(FLAGS, 'lr_scheduler_type', None),
-      scheduler_divisor=getattr(FLAGS, 'lr_scheduler_divisor', None),
-      scheduler_divide_every_n_epochs=getattr(
-          FLAGS, 'lr_scheduler_divide_every_n_epochs', None),
-      num_steps_per_epoch=num_training_steps_per_epoch,
-      summary_writer=writer)
-  loss_fn = nn.CrossEntropyLoss()
-  
-
-
-
-
-
-
-    
-  with h5py.File(local_file_path, "r") as f:
-        dset = f['coords'][:]
-        x = f['coords'].attrs['patch_level']
-        y = f['coords'].attrs['patch_size']
-        z = len(dset)
-        print(type(dset))
-        print(dset.shape)
   verbose = 1
   print_every=20
   pretrained=True 
@@ -587,6 +551,37 @@ def train_imagenet(index =0):
     #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
   model = model.to(device)
+   
+  
+
+  optimizer = optim.SGD(
+      model.parameters(),
+      lr=FLAGS.lr,
+      momentum=FLAGS.momentum,
+      weight_decay=1e-4)
+  num_training_steps_per_epoch = train_dataset_len // (
+      FLAGS.batch_size * xm.xrt_world_size())
+   
+  lr_scheduler = schedulers.wrap_optimizer_with_scheduler(
+      optimizer,
+      scheduler_type=getattr(FLAGS, 'lr_scheduler_type', None),
+      scheduler_divisor=getattr(FLAGS, 'lr_scheduler_divisor', None),
+      scheduler_divide_every_n_epochs=getattr(
+          FLAGS, 'lr_scheduler_divide_every_n_epochs', None),
+      num_steps_per_epoch=num_training_steps_per_epoch,
+      summary_writer=writer)
+  loss_fn = nn.CrossEntropyLoss()
+  
+
+    
+  with h5py.File(local_file_path, "r") as f:
+        dset = f['coords'][:]
+        x = f['coords'].attrs['patch_level']
+        y = f['coords'].attrs['patch_size']
+        z = len(dset)
+        print(type(dset))
+        print(dset.shape)
+  
     
   print("xr.using_pjrt()")
   print(xr.using_pjrt())
