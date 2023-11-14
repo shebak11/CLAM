@@ -129,9 +129,9 @@ class Whole_Slide_Bag_FP(Dataset):
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
 		gs_path = file_path
-
-		blob = bucket.blob(gs_path)
-		blob.download_to_filename(self.file_path )
+            
+		#blob = bucket.blob(gs_path)
+		#blob.download_to_filename(self.file_path )
 
 		with h5py.File(self.file_path, "r") as f:
 			dset = f['coords']    
