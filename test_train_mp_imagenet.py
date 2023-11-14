@@ -689,7 +689,8 @@ if __name__ == '__main__':
     slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
 
     
-    
+    print(FLAGS.num_cores)
+    quit()
     #wsi = openslide.open_slide(slide_file_path)
     #wsipickle = pickle.dumps(wsi)
     #mgr = Manager()
