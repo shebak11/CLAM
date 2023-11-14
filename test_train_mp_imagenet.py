@@ -340,127 +340,128 @@ def train_imagenet(index =0):
   """
   torch.manual_seed(42)
   device = xm.xla_device()
-  dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-  train_sampler, test_sampler = None, None
-  #quit()
-  k = dataset[0]  
-  file = open('data.pkl', 'wb')
-  #Pickle dictionary using protocol 0.
-  pickle.dump(dataset[0:3], file)
-  file.close()
-  #dataset = dataset[0:512]
-  print(len(dataset))
-  print(type(dataset))
-  print("dataset size")
-  #[print(item[0].shape) for item in dataset]
-  print(np.array(dataset[0][0]).shape)
+  for i in range(3):
+      dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+      train_sampler, test_sampler = None, None
+      #quit()
+      k = dataset[0]  
+      file = open('data.pkl', 'wb')
+      #Pickle dictionary using protocol 0.
+      pickle.dump(dataset[0:3], file)
+      file.close()
+      #dataset = dataset[0:512]
+      print(len(dataset))
+      print(type(dataset))
+      print("dataset size")
+      #[print(item[0].shape) for item in dataset]
+      print(np.array(dataset[0][0]).shape)
 
-  #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
+      #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
-  loader = DataLoader( dataset,
-        #batch_size=FLAGS.batch_size,
-        batch_size=8,
-        #sampler=test_sampler,
-        #drop_last=FLAGS.drop_last,
-        #drop_last=False,
-        #shuffle=False if test_sampler else True,
-        #shuffle=False,
-        #num_workers=0,
-        #num_workers=FLAGS.num_workers,
-        #persistent_workers=FLAGS.persistent_workers,
-        #prefetch_factor=FLAGS.prefetch_factor,
-        #)
-        collate_fn=collate_features)
+      loader = DataLoader( dataset,
+            #batch_size=FLAGS.batch_size,
+            batch_size=8,
+            #sampler=test_sampler,
+            #drop_last=FLAGS.drop_last,
+            #drop_last=False,
+            #shuffle=False if test_sampler else True,
+            #shuffle=False,
+            #num_workers=0,
+            #num_workers=FLAGS.num_workers,
+            #persistent_workers=FLAGS.persistent_workers,
+            #prefetch_factor=FLAGS.prefetch_factor,
+            #)
+            collate_fn=collate_features)
 
-  print("len loader")
-  print(len(loader))
-  #model = get_model_property('model_fn')().to(device)
-  model = resnet50_baseline(pretrained=True)
-  model = model.to(device)
-    
-  # Initialization is nondeterministic with multiple threads in PjRt.
-  # Synchronize model parameters across replicas manually.
-  print("xr.using_pjrt()")
-  print(xr.using_pjrt())
-  if xr.using_pjrt():
-    xm.broadcast_master_param(model)
+      print("len loader")
+      print(len(loader))
+      #model = get_model_property('model_fn')().to(device)
+      model = resnet50_baseline(pretrained=True)
+      model = model.to(device)
 
-  if FLAGS.ddp:
-    model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
-  #print( "FLAGS.batch_size")
-  #print( FLAGS.batch_size)
-  #print("xm.xrt_world_size()")
-  #print(xm.xrt_world_size())
+      # Initialization is nondeterministic with multiple threads in PjRt.
+      # Synchronize model parameters across replicas manually.
+      print("xr.using_pjrt()")
+      print(xr.using_pjrt())
+      if xr.using_pjrt():
+        xm.broadcast_master_param(model)
 
-    
-   
-  writer = None
-  if xm.is_master_ordinal():
-    writer = test_utils.get_summary_writer(FLAGS.logdir)
-  """
-  optimizer = optim.SGD(
-      model.parameters(),
-      lr=FLAGS.lr,
-      momentum=FLAGS.momentum,
-      weight_decay=1e-4)
-  num_training_steps_per_epoch = train_dataset_len // (
-      FLAGS.batch_size * xm.xrt_world_size())
-   
-  lr_scheduler = schedulers.wrap_optimizer_with_scheduler(
-      optimizer,
-      scheduler_type=getattr(FLAGS, 'lr_scheduler_type', None),
-      scheduler_divisor=getattr(FLAGS, 'lr_scheduler_divisor', None),
-      scheduler_divide_every_n_epochs=getattr(
-          FLAGS, 'lr_scheduler_divide_every_n_epochs', None),
-      num_steps_per_epoch=num_training_steps_per_epoch,
-      summary_writer=writer)
-  loss_fn = nn.CrossEntropyLoss()
-  
-   """
-  if FLAGS.profile:
-    server = xp.start_server(FLAGS.profiler_port)
-
-  mytest_device_loader = pl.MpDeviceLoader(
-      loader,
-      device,
-      loader_prefetch_size=FLAGS.loader_prefetch_size,
-      device_prefetch_size=FLAGS.device_prefetch_size,
-      host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
-      )
-
-  print("image shape")
-  print(np.array(img).shape)
-  model.eval()
-  local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  print("local_output_path" + local_output_path)
-  mode = 'w'
-  for count, (batch, coords) in enumerate(mytest_device_loader):
-  #for count, batch in enumerate(test_device_loader):
-    print("data to model")
-    print(len(batch))
-    print(batch.shape)
-    if count==50:
-      break
-    with torch.no_grad():	
-    #with torch.no_grad():	
-        if count % print_every == 20:
-            print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
-        #batch = batch.to(device, non_blocking=True)
-        features = model(batch) 
-        features = features.cpu().numpy()
-        asset_dict = {'features': features, 'coords': coords}
-        save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
-        mode = 'a'
-  
-  storage_client = storage.Client()
-  bucket = storage_client.bucket("oncomerge")
-  stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
+      if FLAGS.ddp:
+        model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
+      #print( "FLAGS.batch_size")
+      #print( FLAGS.batch_size)
+      #print("xm.xrt_world_size()")
+      #print(xm.xrt_world_size())
 
 
-  print("nnnnnnnnnnnn")
-  if not stats:
-        blob = bucket.blob(output_path)
-        blob.upload_from_filename(local_file_path )
+
+      writer = None
+      if xm.is_master_ordinal():
+        writer = test_utils.get_summary_writer(FLAGS.logdir)
+      """
+      optimizer = optim.SGD(
+          model.parameters(),
+          lr=FLAGS.lr,
+          momentum=FLAGS.momentum,
+          weight_decay=1e-4)
+      num_training_steps_per_epoch = train_dataset_len // (
+          FLAGS.batch_size * xm.xrt_world_size())
+
+      lr_scheduler = schedulers.wrap_optimizer_with_scheduler(
+          optimizer,
+          scheduler_type=getattr(FLAGS, 'lr_scheduler_type', None),
+          scheduler_divisor=getattr(FLAGS, 'lr_scheduler_divisor', None),
+          scheduler_divide_every_n_epochs=getattr(
+              FLAGS, 'lr_scheduler_divide_every_n_epochs', None),
+          num_steps_per_epoch=num_training_steps_per_epoch,
+          summary_writer=writer)
+      loss_fn = nn.CrossEntropyLoss()
+
+       """
+      if FLAGS.profile:
+        server = xp.start_server(FLAGS.profiler_port)
+
+      mytest_device_loader = pl.MpDeviceLoader(
+          loader,
+          device,
+          loader_prefetch_size=FLAGS.loader_prefetch_size,
+          device_prefetch_size=FLAGS.device_prefetch_size,
+          host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
+          )
+
+      print("image shape")
+      print(np.array(img).shape)
+      model.eval()
+      local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+      print("local_output_path" + local_output_path)
+      mode = 'w'
+      for count, (batch, coords) in enumerate(mytest_device_loader):
+      #for count, batch in enumerate(test_device_loader):
+        print("data to model")
+        print(len(batch))
+        print(batch.shape)
+        if count==50:
+          break
+        with torch.no_grad():	
+        #with torch.no_grad():	
+            if count % print_every == 20:
+                print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
+            #batch = batch.to(device, non_blocking=True)
+            features = model(batch) 
+            features = features.cpu().numpy()
+            asset_dict = {'features': features, 'coords': coords}
+            save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+            mode = 'a'
+
+      storage_client = storage.Client()
+      bucket = storage_client.bucket("oncomerge")
+      stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
+
+
+      print("nnnnnnnnnnnn")
+      if not stats:
+            blob = bucket.blob(output_path)
+            blob.upload_from_filename(local_file_path )
   """
       
   test_device_loader = pl.MpDeviceLoader(
