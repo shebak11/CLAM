@@ -532,7 +532,7 @@ def train_imagenet(index =0):
         #print(len(batch))
         #print(batch.shape)
         print("count: " +str(count))
-        if count==50:
+        if count==10:
           break
         with torch.no_grad():	
         #with torch.no_grad():	
