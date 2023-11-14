@@ -377,8 +377,8 @@ def train_imagenet(index =0):
   gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
   #local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
   #local_file_path = "/home/MacOS/"+bag_name
-  #blob = bucket.blob(gs_slide_file_path)
-  #blob.download_to_filename(local_slide_file_path )
+  blob = bucket.blob(gs_slide_file_path)
+  blob.download_to_filename(local_slide_file_path )
   wsi =     TiffSlide(slide_file_path)
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
