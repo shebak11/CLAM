@@ -400,7 +400,7 @@ def train_imagenet(index =0):
     print(np.array(img).shape)
 
     
-  #quit()
+  quit()
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
