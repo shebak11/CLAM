@@ -626,9 +626,7 @@ def train_imagenet(index =0):
   mode = 'w'
   print("mytest_device_loader")
   print(len(mytest_device_loader))
-  
-  for count, (batch, coords) in enumerate(mytest_device_loader):
-        
+  for count, (batch, coords) in enumerate(mytest_device_loader):       
   #for count, batch in enumerate(test_device_loader):
     print("data to model")
     print(len(batch))
