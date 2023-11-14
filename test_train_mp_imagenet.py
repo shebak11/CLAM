@@ -375,13 +375,16 @@ def train_imagenet(index =0):
   torch.manual_seed(42)
   device = xm.xla_device()
   for bag_candidate_idx in range(2):
-    slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
+    #slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
+    slide_id = bags_dataset[0].split(slide_ext)[0]
     file_id = os.path.basename(slide_id)
     bag_name = os.path.basename(slide_id)+'.h5'
     gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
     blob = bucket.blob(gs_slide_file_path)
     blob.download_to_filename(local_slide_file_path )
-    wsi =     TiffSlide(local_slide_file_path)
+    print(gs_slide_file_path)
+    print(local_slide_file_path)
+    #wsi =     TiffSlide(local_slide_file_path)
     gs_file_path = os.path.join(data_h5_dir, bag_name)
     print("gs_file_path: " +gs_file_path)
     dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
