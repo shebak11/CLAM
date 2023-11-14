@@ -132,7 +132,7 @@ DEFAULT_KWARGS = dict(
     prefetch_factor=16,
     loader_prefetch_size=8,
     device_prefetch_size=4,
-    num_workers=1,
+    num_workers=8,
     host_to_device_transfer_threads=1,
 )
 
