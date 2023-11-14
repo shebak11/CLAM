@@ -180,7 +180,9 @@ class Whole_Slide_Bag_FP(Dataset):
 		return self.length
 
 	def summary(self):
-		hdf5_file = h5py.File(self.file_path, "r")
+		blob = bucket.blob(self.file_path)
+		with blob.open("rb") as f:
+		  hdf5_file = h5py.File(f, "r")
 		dset = hdf5_file['coords']
 		for name, value in dset.attrs.items():
 			print(name, value)
