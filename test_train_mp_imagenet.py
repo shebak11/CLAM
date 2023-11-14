@@ -380,8 +380,8 @@ def train_imagenet(index =0):
     file_id = os.path.basename(slide_id)
     bag_name = os.path.basename(slide_id)+'.h5'
     gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
-    blob = bucket.blob(gs_slide_file_path)
-    blob.download_to_filename(local_slide_file_path )
+    #blob = bucket.blob(gs_slide_file_path)
+    #blob.download_to_filename(local_slide_file_path )
     print(gs_slide_file_path)
     print(local_slide_file_path)
     #wsi =     TiffSlide(local_slide_file_path)
