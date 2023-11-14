@@ -370,13 +370,21 @@ def train_imagenet(index =0):
   local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
 
 
+
+  bags_dataset = Dataset_All_Bags(csv_path)
+  total = len(bags_dataset)
+
   slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
   file_id = os.path.basename(slide_id)
-  #bag_name = os.path.basename(slide_id)+'.h5'
-  #gs_file_path = os.path.join(data_h5_dir, bag_name)
-  #gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
-  #local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
-  #local_file_path = "/home/MacOS/"+bag_name
+  bag_name = os.path.basename(slide_id)+'.h5'
+  gs_file_path = os.path.join(data_h5_dir, bag_name)
+  gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
+  local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
+  local_file_path = "/home/MacOS/"+bag_name
+  print("gs_file_path:" + gs_file_path)
+  print("gs_slide_file_path"+gs_slide_file_path)
+  print("local_slide_file_path"+local_slide_file_path)
+  print("local_file_pathlocal_file_path"+local_file_path)
   #blob = bucket.blob(gs_slide_file_path)
   #blob.download_to_filename(local_slide_file_path )
   wsi =     TiffSlide(slide_file_path)
