@@ -611,7 +611,7 @@ def train_imagenet(index =0):
       device_prefetch_size=FLAGS.device_prefetch_size,
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
       )
-
+  img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
   print("image shape")
   print(np.array(img).shape)
   model.eval()
