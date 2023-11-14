@@ -541,6 +541,7 @@ def train_imagenet(index =0):
   print(coord) 
   print(coord.shape)
   print(type(coord[0]))
+  """
   #return max_accuracy
   return 97.0
 
