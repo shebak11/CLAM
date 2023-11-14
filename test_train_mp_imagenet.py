@@ -265,6 +265,7 @@ def train_imagenet(index =0):
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
 
+    
  
   blob = bucket.blob(gs_file_path)
   with blob.open("rb") as f:
@@ -284,11 +285,14 @@ def train_imagenet(index =0):
 
 
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-  with h5py.File(local_file_path, "r") as f:
-    dset = f['coords']
-    x = f['coords'].attrs['patch_level']
-    y = f['coords'].attrs['patch_size']
-    z = len(dset)
+
+  blob = bucket.blob(gs_file_path)
+  with blob.open("rb") as f:
+    with h5py.File(f,'r') as hdf5_file:
+        dset = hdf5_file['coords']
+        x = hdf5_file['coords'].attrs['patch_level']
+        y = hdf5_file['coords'].attrs['patch_size']
+        z = len(dset)
     
     
 
