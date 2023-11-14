@@ -195,6 +195,8 @@ class Whole_Slide_Bag_FP(Dataset):
 		print('transformations: ', self.roi_transforms)
 
 	def __getitem__(self, idx):
+		storage_client = storage.Client()
+		bucket = storage_client.bucket("oncomerge")
 		blob = bucket.blob(self.file_path)
 		with blob.open("rb") as f:
 		  with h5py.File(f,'r') as hdf5_file:
