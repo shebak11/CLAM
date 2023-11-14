@@ -654,7 +654,7 @@ def train_imagenet(index =0):
   #if not stats:
         #blob = bucket.blob(gs_output_path)
         #blob.upload_from_filename(local_file_path )
-  """
+ 
       
   test_device_loader = pl.MpDeviceLoader(
       test_loader,
@@ -725,7 +725,7 @@ def train_imagenet(index =0):
 
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
-  """
+ 
 
   print("coord")
   print(type(coord))
