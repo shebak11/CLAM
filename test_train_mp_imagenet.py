@@ -340,6 +340,9 @@ def train_imagenet(index =0):
   """
   torch.manual_seed(42)
   device = xm.xla_device()
+  model = resnet50_baseline(pretrained=True)
+  model = model.to(device)
+ 
   dataset = Whole_Slide_Bag_FP(file_path=file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
   #quit()
@@ -375,8 +378,7 @@ def train_imagenet(index =0):
   print("len loader")
   print(len(loader))
   #model = get_model_property('model_fn')().to(device)
-  model = resnet50_baseline(pretrained=True)
-  model = model.to(device)
+
     
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
