@@ -585,8 +585,8 @@ def train_imagenet(index =0):
   print("len loader")
   print(len(loader))
     #model = get_model_property('model_fn')().to(device)
-  model = resnet50_baseline(pretrained=True)
-  model = model.to(device)
+  #model = resnet50_baseline(pretrained=True)
+  #model = model.to(device)
     
   print("xr.using_pjrt()")
   print(xr.using_pjrt())
@@ -635,15 +635,15 @@ def train_imagenet(index =0):
         save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
         mode = 'a'
   
-  storage_client = storage.Client()
-  bucket = storage_client.bucket("oncomerge")
-  stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
+  #storage_client = storage.Client()
+  #bucket = storage_client.bucket("oncomerge")
+  #stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
 
 
-  print("nnnnnnnnnnnn")
-  if not stats:
-        blob = bucket.blob(gs_output_path)
-        blob.upload_from_filename(local_file_path )
+  #print("nnnnnnnnnnnn")
+  #if not stats:
+        #blob = bucket.blob(gs_output_path)
+        #blob.upload_from_filename(local_file_path )
   """
       
   test_device_loader = pl.MpDeviceLoader(
