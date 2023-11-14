@@ -139,11 +139,11 @@ class Whole_Slide_Bag_FP(Dataset):
 		blob = bucket.blob(self.file_path)
 		with blob.open("rb") as f:
 			with h5py.File(f,'r') as hdf5_file:
-			 dset = f['coords']    
+			 dset = hdf5_file['coords']    
 			 #self.dset = f['coords'][:]  
 			 self.coord=dset[0] 
-			 self.patch_level = f['coords'].attrs['patch_level']
-			 self.patch_size = f['coords'].attrs['patch_size']
+			 self.patch_level = hdf5_file['coords'].attrs['patch_level']
+			 self.patch_size = hdf5_file['coords'].attrs['patch_size']
 			 self.length = len(dset)
 			 if target_patch_size > 0:
 			     self.target_patch_size = (target_patch_size, ) * 2
