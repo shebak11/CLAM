@@ -111,7 +111,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			custom_downsample (int): Custom defined downscale factor (overruled by target_patch_size)
 			target_patch_size (int): Custom defined image size before embedding
 		"""
-		#self.file_path = file_path
+		self.file_path = file_path
 		self.pretrained=pretrained
 		self.wsi = wsi
 		if not custom_transforms:
@@ -123,15 +123,15 @@ class Whole_Slide_Bag_FP(Dataset):
 		print("h5 file " + file_name)
 		#local_file_path = "/home/MacOS/"+ file_name+ '.h5'
 		#local_file_path = "/home/MacOS/"+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484"+ '.h5'
-		local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-		self.file_path = local_file_path
+		#local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+		#self.file_path = local_file_path
 
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
 		gs_path = file_path
 
-		blob = bucket.blob(gs_path)
-		blob.download_to_filename(self.file_path )
+		#blob = bucket.blob(gs_path)
+		#blob.download_to_filename(self.file_path )
 
 		with h5py.File(self.file_path, "r") as f:
 			dset = f['coords']    
