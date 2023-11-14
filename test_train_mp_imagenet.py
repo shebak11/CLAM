@@ -371,6 +371,9 @@ def train_imagenet(index =0):
 
   local_file_path_arr=["/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5", "/home/MacOS/"+"TCGA-4N-A93T-01A-01-TS1.9258D514-40C1-480A-8FA8-D4E8B3819BDE.h5"]
   local_slide_file_path_arr=["/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs", "/home/MacOS/"+"TCGA-4N-A93T-01A-01-TS1.9258D514-40C1-480A-8FA8-D4E8B3819BDE.svs"]
+  local_output_path_arr = ["/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+                          , "/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-4N-A93T-01A-01-TS1.9258D514-40C1-480A-8FA8-D4E8B3819BD.h5"]
+
   
   bags_dataset = Dataset_All_Bags(csv_path)
   total = len(bags_dataset)
@@ -501,7 +504,7 @@ def train_imagenet(index =0):
             features = model(batch) 
             features = features.cpu().numpy()
             asset_dict = {'features': features, 'coords': coords}
-            save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
+            save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
 
       storage_client = storage.Client()
