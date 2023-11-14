@@ -251,7 +251,7 @@ def train_imagenet(index =0):
   print( len(bags_dataset))
 
 
-
+  """
   ###########
   blob = bucket.blob(gs_slide_file_path)
   #print(os.path.basename(slide_id))
@@ -386,7 +386,7 @@ def train_imagenet(index =0):
         print(coord.shape)
         print(type(coord[0]))
     img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
-    """
+
     print("image shape")
     print(np.array(img).shape)
     model.eval()
