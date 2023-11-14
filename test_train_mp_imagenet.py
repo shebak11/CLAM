@@ -397,10 +397,10 @@ def train_imagenet(index =0):
   with blob.open("rb") as f:
     wsi = TiffSlide(f)
     img = wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
-  print(np.array(img).shape)
+    print(np.array(img).shape)
 
     
-  quit()
+  #quit()
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
@@ -425,9 +425,9 @@ def train_imagenet(index =0):
       wsi =     TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
       """
       blob = bucket.blob(gs_slide_file_path)
-      with blob.open("rb") as wsi:
-        wsi = TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
-      dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[bag_candidate_idx], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+      with blob.open("rb") as f:
+        wsi = TiffSlide(f)
+        dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[bag_candidate_idx], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
       train_sampler, test_sampler = None, None
       #quit()
       k = dataset[0]  
