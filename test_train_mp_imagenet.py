@@ -530,7 +530,6 @@ def train_imagenet(index =0):
         print("data to model")
         print(len(batch))
         print(batch.shape)
-        quit()
         if count==50:
           break
         with torch.no_grad():	
@@ -538,7 +537,8 @@ def train_imagenet(index =0):
             if count % print_every == 20:
                 print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
             #batch = batch.to(device, non_blocking=True)
-            #features = model(batch) 
+            features = model(batch) 
+            quit()
             #features = features.cpu().numpy()
             #asset_dict = {'features': features, 'coords': coords}
             #save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
