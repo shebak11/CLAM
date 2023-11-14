@@ -394,8 +394,8 @@ def train_imagenet(index =0):
   local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
   local_file_path = "/home/MacOS/"+bag_name
   blob = bucket.blob(gs_slide_file_path)
-  with blob.open("rb") as wsi:
-    wsi = TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
+  with blob.open("rb") as f:
+    wsi = TiffSlide(f)
   quit()
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
@@ -409,6 +409,7 @@ def train_imagenet(index =0):
       print("gs_slide_file_path"+gs_slide_file_path)
       print("local_slide_file_path"+local_slide_file_path)
       print("local_file_path"+local_file_path)
+      """
       print(os.path.isfile(local_slide_file_path_arr[bag_candidate_idx]))    
       
       if not os.path.isfile(local_slide_file_path_arr[bag_candidate_idx]):
@@ -418,6 +419,10 @@ def train_imagenet(index =0):
       #wsi = openslide.open_slide(slide_file_path)
 
       wsi =     TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
+      """
+      blob = bucket.blob(gs_slide_file_path)
+      with blob.open("rb") as wsi:
+        wsi = TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
       dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[bag_candidate_idx], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
       train_sampler, test_sampler = None, None
       #quit()
