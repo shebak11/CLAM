@@ -581,7 +581,7 @@ def train_imagenet(index =0):
       #return 97.0
       #storage_client = storage.Client()
       #bucket = storage_client.bucket("oncomerge")
-    """
+      """
       stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
 
       print(stats)
