@@ -552,7 +552,21 @@ def train_imagenet(index =0):
   model = resnet50_baseline(pretrained=True)
   model = model.to(device)
    
-  
+  print("xr.using_pjrt()")
+  print(xr.using_pjrt())
+  if xr.using_pjrt():
+    xm.broadcast_master_param(model)
+  if FLAGS.ddp:
+    model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
+  writer = None
+  if xm.is_master_ordinal():
+        writer = test_utils.get_summary_writer(FLAGS.logdir)
+
+
+
+
+  if FLAGS.profile:
+    server = xp.start_server(FLAGS.profiler_port)
 
   optimizer = optim.SGD(
       model.parameters(),
@@ -583,21 +597,7 @@ def train_imagenet(index =0):
         print(dset.shape)
   
     
-  print("xr.using_pjrt()")
-  print(xr.using_pjrt())
-  if xr.using_pjrt():
-    xm.broadcast_master_param(model)
-  if FLAGS.ddp:
-    model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
-  writer = None
-  if xm.is_master_ordinal():
-        writer = test_utils.get_summary_writer(FLAGS.logdir)
 
-
-
-
-  if FLAGS.profile:
-    server = xp.start_server(FLAGS.profiler_port)
 
   mytest_device_loader = pl.MpDeviceLoader(
       loader,
