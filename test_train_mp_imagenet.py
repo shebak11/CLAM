@@ -345,8 +345,7 @@ def train_imagenet(index =0):
   #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
 
-  print("len loader")
-  print(len(loader))
+
   #model = get_model_property('model_fn')().to(device)
   model = resnet50_baseline(pretrained=True)
   model = model.to(device)
@@ -425,6 +424,8 @@ def train_imagenet(index =0):
         #prefetch_factor=FLAGS.prefetch_factor,
         #)
         collate_fn=collate_features)
+  print("len loader")
+  print(len(loader))
   mytest_device_loader = pl.MpDeviceLoader(
       loader,
       device,
