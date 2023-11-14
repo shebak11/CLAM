@@ -369,7 +369,8 @@ def train_imagenet(index =0):
   gs_file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
 
-  local_file_path_arr=["/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5", "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484-2.h5"]
+  local_file_path_arr=["/home/MacOS/"+"TCGA-3L-AA   1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5", "/home/MacOS/"+"TCGA-4N-A93T-01A-01-TS1.9258D514-40C1-480A-8FA8-D4E8B3819BDE.h5"]
+  local_slide_file_path_arr=["/home/MacOS/"+"TCGA-3L-AA   1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs", "/home/MacOS/"+"TCGA-4N-A93T-01A-01-TS1.9258D514-40C1-480A-8FA8-D4E8B3819BDE.svs"]
   
   bags_dataset = Dataset_All_Bags(csv_path)
   total = len(bags_dataset)
@@ -390,7 +391,7 @@ def train_imagenet(index =0):
       #blob.download_to_filename(local_slide_file_path )
       #wsi = openslide.open_slide(slide_file_path)
 
-      wsi =     TiffSlide(slide_file_path)
+      wsi =     TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
       dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[bag_candidate_idx], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
       train_sampler, test_sampler = None, None
       #quit()
