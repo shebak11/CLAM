@@ -369,7 +369,7 @@ def train_imagenet(index =0):
     
     if FLAGS.profile:
         server = xp.start_server(FLAGS.profiler_port)
-   
+    
     mytest_device_loader = pl.MpDeviceLoader(
       loader,
       device,
@@ -385,6 +385,7 @@ def train_imagenet(index =0):
         print(coord.shape)
         print(type(coord[0]))
     img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')   
+    """
     print("image shape")
     print(np.array(img).shape)
     model.eval()
@@ -407,7 +408,7 @@ def train_imagenet(index =0):
             asset_dict = {'features': features, 'coords': coords}
             save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
-    """
+   
  
     stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
     print("nnnnnnnnnnnn")
@@ -514,6 +515,91 @@ def train_imagenet(index =0):
   loss_fn = nn.CrossEntropyLoss()
   
    """
+
+
+
+
+
+    
+    with h5py.File(local_file_path, "r") as f:
+        dset = f['coords'][:]
+        x = f['coords'].attrs['patch_level']
+        y = f['coords'].attrs['patch_size']
+        z = len(dset)
+        print(type(dset))
+        print(dset.shape)
+    verbose = 1
+    print_every=20
+    pretrained=True 
+    custom_downsample=1
+    target_patch_size=224
+    print('==> Preparing data..')
+    img_dim = get_model_property('img_dim')
+    if FLAGS.fake_data:
+        train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
+        train_loader = xu.SampleGenerator(
+        data=(torch.zeros(FLAGS.batch_size, 3, img_dim, img_dim),
+              torch.zeros(FLAGS.batch_size, dtype=torch.int64)),
+        sample_count=train_dataset_len // FLAGS.batch_size //
+        xm.xrt_world_size())
+        test_loader = xu.SampleGenerator(
+        data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
+              torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
+        sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
+    torch.manual_seed(42)
+    device = xm.xla_device()
+    wsi =     TiffSlide(local_slide_file_path)
+    dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+    train_sampler, test_sampler = None, None
+    #quit()
+    k = dataset[0]  
+    file = open('data.pkl', 'wb')
+    #Pickle dictionary using protocol 0.
+    pickle.dump(dataset[0:3], file)
+    file.close()
+    #dataset = dataset[0:512]
+    print(len(dataset))
+    print(type(dataset))
+    print("dataset size")
+    #[print(item[0].shape) for item in dataset]
+    print(np.array(dataset[0][0]).shape)
+
+    #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
+
+    loader = DataLoader( dataset,
+        #batch_size=FLAGS.batch_size,
+        batch_size=8,
+        #sampler=test_sampler,
+        #drop_last=FLAGS.drop_last,
+        #drop_last=False,
+        #shuffle=False if test_sampler else True,
+        #shuffle=False,
+        #num_workers=0,
+        #num_workers=FLAGS.num_workers,
+        #persistent_workers=FLAGS.persistent_workers,
+        #prefetch_factor=FLAGS.prefetch_factor,
+        #)
+        collate_fn=collate_features)
+
+    print("len loader")
+    print(len(loader))
+    #model = get_model_property('model_fn')().to(device)
+    model = resnet50_baseline(pretrained=True)
+    model = model.to(device)
+    
+    print("xr.using_pjrt()")
+    print(xr.using_pjrt())
+    if xr.using_pjrt():
+        xm.broadcast_master_param(model)
+    if FLAGS.ddp:
+        model = DDP(model, gradient_as_bucket_view=True, broadcast_buffers=False)
+    writer = None
+    if xm.is_master_ordinal():
+        writer = test_utils.get_summary_writer(FLAGS.logdir)
+
+
+
+
   if FLAGS.profile:
     server = xp.start_server(FLAGS.profiler_port)
 
