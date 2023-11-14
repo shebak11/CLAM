@@ -369,7 +369,7 @@ def train_imagenet(index =0):
     
     if FLAGS.profile:
         server = xp.start_server(FLAGS.profiler_port)
-
+    """
     mytest_device_loader = pl.MpDeviceLoader(
       loader,
       device,
@@ -415,7 +415,7 @@ def train_imagenet(index =0):
         blob = bucket.blob(gs_output_path)
         blob.upload_from_filename(local_file_path )
     
-
+    """
     #os.remove( "/home/MacOS/"+ bag_name)
     #os.remove( "/home/MacOS/"+ file_id+ slide_ext)
 
