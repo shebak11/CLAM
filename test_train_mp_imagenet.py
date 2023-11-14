@@ -396,7 +396,7 @@ def train_imagenet(index =0):
   blob = bucket.blob(gs_slide_file_path)
   with blob.open("rb") as f:
     wsi = TiffSlide(f)
-  img = wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
+    img = wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
   print(np.array(img).shape)
 
     
