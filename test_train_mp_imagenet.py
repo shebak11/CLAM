@@ -208,6 +208,31 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 
 
 def train_imagenet(index =0):
+    
+  data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
+  data_slide_dir  = "WSI/TCGA/COAD/" 
+  csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
+  feat_dir = "WSI/TCGA/COADtest_features_dir/" 
+  batch_size = 8 
+  slide_ext = ".svs"    
+    
+  gs_slide_file_path = data_slide_dir+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  local_slide_file_path = "/home/MacOS/" + "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
+  
+  
+  gs_file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  
+  gs_output_path   = feat_dir + "h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
+  local_output_path = "/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
+  
+
+  bags_dataset = Dataset_All_Bags(csv_path)
+  total = len(bags_dataset)
+  total = 2
+  print( "len(bags_dataset)")
+  print( len(bags_dataset))
+
 
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
@@ -349,7 +374,11 @@ def train_imagenet(index =0):
   torch.manual_seed(42)
   device = xm.xla_device()
   for i in range(2):
-  
+    slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
+    file_id = os.path.basename(slide_id)
+    bag_name = os.path.basename(slide_id)+'.h5'
+    gs_file_path = os.path.join(data_h5_dir, bag_name)
+    print("gs_file_path: " +gs_file_path)
     dataset = Whole_Slide_Bag_FP(file_path=local_file_path_arr[i], wsi=wsi, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
   train_sampler, test_sampler = None, None
   #quit()
