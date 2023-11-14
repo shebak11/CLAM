@@ -646,8 +646,8 @@ def train_imagenet(index =0):
   #bucket = storage_client.bucket("oncomerge")
   #stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
 
-  if len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])== 24:
-    print("all workers")
+  #if len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])== 24:
+    #print("all workers")
 
   #print("nnnnnnnnnnnn")
   #if not stats:
