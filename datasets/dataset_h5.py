@@ -124,8 +124,6 @@ class Whole_Slide_Bag_FP(Dataset):
 		#local_file_path = "/home/MacOS/"+ file_name+ '.h5'
 		#local_file_path = "/home/MacOS/"+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484"+ '.h5'
 		local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-		local_file_path = "/home/MacOS/temp.h5"
-
 		self.file_path = local_file_path
 
 		storage_client = storage.Client()
@@ -156,7 +154,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		
 		#self.length=512
 		#self.img=self.wsi.read_region(self.coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		#self.img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
+		self.img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 			
 	def __len__(self):
 		return self.length
@@ -186,7 +184,7 @@ class Whole_Slide_Bag_FP(Dataset):
 
 		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
-		#img = self.img
+		img = self.img
 		if self.target_patch_size is not None:
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)
@@ -208,7 +206,6 @@ class Dataset_All_Bags(Dataset):
 	def __getitem__(self, idx):
 		print(list(self.df))
 		return self.df['slide_id'][idx]
-
 
 
 
