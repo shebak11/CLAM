@@ -528,9 +528,10 @@ def train_imagenet(index =0):
       mode = 'w'
       for count, (batch, coords) in enumerate(mytest_device_loader):
       #for count, batch in enumerate(test_device_loader):
-        print("data to model")
-        print(len(batch))
-        print(batch.shape)
+        #print("data to model")
+        #print(len(batch))
+        #print(batch.shape)
+        print("count: " +str(count))
         if count==50:
           break
         with torch.no_grad():	
