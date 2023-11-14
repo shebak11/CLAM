@@ -577,7 +577,7 @@ def train_imagenet(index =0):
       now = datetime.now()
       current_time = now.strftime("%H:%M:%S")
       print("Current Time =", current_time)
-      terminate()
+      sys.exit(25)
       #storage_client = storage.Client()
       #bucket = storage_client.bucket("oncomerge")
       stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
