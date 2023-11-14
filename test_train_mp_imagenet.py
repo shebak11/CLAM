@@ -369,7 +369,7 @@ def train_imagenet(index =0):
     
     if FLAGS.profile:
         server = xp.start_server(FLAGS.profiler_port)
-    """
+   
     mytest_device_loader = pl.MpDeviceLoader(
       loader,
       device,
@@ -407,7 +407,7 @@ def train_imagenet(index =0):
             asset_dict = {'features': features, 'coords': coords}
             save_hdf5(local_output_path, asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
-  
+    """
  
     stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
     print("nnnnnnnnnnnn")
