@@ -535,7 +535,7 @@ def train_imagenet(index =0):
 
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
-  """
+  
   print("coord")
   print(type(coord))
   print(coord) 
