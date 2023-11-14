@@ -559,7 +559,7 @@ def train_imagenet(index =0):
         #print(len(batch))
         #print(batch.shape)
         print("count: " +str(count))
-        if count==10:
+        if count==2:
           break
         with torch.no_grad():	
         #with torch.no_grad():	
@@ -577,7 +577,7 @@ def train_imagenet(index =0):
       now = datetime.now()
       current_time = now.strftime("%H:%M:%S")
       print("Current Time =", current_time)
-      quit()
+      terminate()
       #storage_client = storage.Client()
       #bucket = storage_client.bucket("oncomerge")
       stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
@@ -689,8 +689,8 @@ if __name__ == '__main__':
     slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
 
     
-    print(FLAGS.num_cores)
-    quit()
+    #print(FLAGS.num_cores)
+    #quit()
     #wsi = openslide.open_slide(slide_file_path)
     #wsipickle = pickle.dumps(wsi)
     #mgr = Manager()
