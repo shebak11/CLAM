@@ -249,7 +249,7 @@ def train_imagenet(index =0):
   print(coord) 
   print(coord.shape)
   print(type(coord[0]))
-  img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
+  #img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
 
  
 
