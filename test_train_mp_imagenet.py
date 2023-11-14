@@ -381,7 +381,22 @@ def train_imagenet(index =0):
   #blobs = storage_client.list_blobs("oncomerge", prefix=data_slide_dir)
   #for blob in blobs:
 		#dest_files.append(blob.name)
+        
+
+
+
   bag_candidate_idx=0
+  slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
+  file_id = os.path.basename(slide_id)
+  bag_name = os.path.basename(slide_id)+'.h5'
+  gs_file_path = os.path.join(data_h5_dir, bag_name)
+  gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
+  local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
+  local_file_path = "/home/MacOS/"+bag_name
+  blob = bucket.blob(gs_slide_file_path)
+  with blob.open("rb") as wsi:
+    wsi = TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
+  quit()
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
