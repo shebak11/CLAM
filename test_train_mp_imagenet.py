@@ -377,6 +377,12 @@ def train_imagenet(index =0):
   
   bags_dataset = Dataset_All_Bags(csv_path)
   total = len(bags_dataset)
+  
+  #dest_files=[]
+  #blobs = storage_client.list_blobs("oncomerge", prefix=data_slide_dir)
+  #for blob in blobs:
+		#dest_files.append(blob.name)
+  
   bag_candidate_idx=0
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
@@ -390,8 +396,9 @@ def train_imagenet(index =0):
       print("gs_slide_file_path"+gs_slide_file_path)
       print("local_slide_file_path"+local_slide_file_path)
       print("local_file_path"+local_file_path)
-      blob = bucket.blob(gs_slide_file_path)
-      blob.download_to_filename(local_slide_file_path )
+      if not os.path.isfile(local_slide_file_path_arr[bag_candidate_idx]):
+        blob = bucket.blob(gs_slide_file_path)
+        blob.download_to_filename(local_slide_file_path )
       #wsi = openslide.open_slide(slide_file_path)
 
       wsi =     TiffSlide(local_slide_file_path_arr[bag_candidate_idx])
