@@ -288,7 +288,7 @@ def train_imagenet(index =0):
     blob.download_to_filename(local_slide_file_path )
 
     blob = bucket.blob(gs_file_path)  
-    if not os.path.isfile(path):
+    if not os.path.isfile(local_file_path):
             blob.download_to_filename(local_file_path)
     
     with h5py.File(local_file_path, "r") as f:
