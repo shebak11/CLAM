@@ -434,7 +434,7 @@ def train_imagenet(index =0):
       )
 
   print("image shape")
-  print(np.array(img).shape)
+  #print(np.array(img).shape)
   model.eval()
   local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   print("local_output_path" + local_output_path)
