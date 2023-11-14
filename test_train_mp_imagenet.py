@@ -241,7 +241,7 @@ def train_imagenet(index =0):
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
   local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   #wsi = openslide.OpenSlide(slide_file_path) 
-  wsi =     TiffSlide(slide_file_path)
+  #wsi =     TiffSlide(slide_file_path)
   with h5py.File(local_file_path, "r") as f:
 			coord = f['coords'][0]
   print("coord")
@@ -385,7 +385,7 @@ def train_imagenet(index =0):
   print("gs_file_path:" + gs_file_path)
   print("gs_slide_file_path"+gs_slide_file_path)
   print("local_slide_file_path"+local_slide_file_path)
-  print("local_file_pathlocal_file_path"+local_file_path)
+  print("local_file_path"+local_file_path)
   blob = bucket.blob(gs_slide_file_path)
   blob.download_to_filename(local_slide_file_path )
   wsi =     TiffSlide(slide_file_path)
