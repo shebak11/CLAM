@@ -421,7 +421,7 @@ def train_imagenet(index =0):
     #os.remove( "/home/MacOS/"+ bag_name)
     #os.remove( "/home/MacOS/"+ file_id+ slide_ext)
 
-    quit()
+    #quit()
   #print((np.array([coord]).shape))
 
 
