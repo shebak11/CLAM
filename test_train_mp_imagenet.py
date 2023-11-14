@@ -209,7 +209,7 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 
 def train_imagenet(index =0):
     
-    storage_client = storage.Client()
+  storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
 
   data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
