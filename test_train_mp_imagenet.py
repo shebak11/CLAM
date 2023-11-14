@@ -26,6 +26,7 @@ from tiffslide import TiffSlide
 from google.cloud import storage
 from multiprocessing import Manager
 import pickle 
+from datetime import datetime
 
 #import multiprocessing.sharedctypes
 
@@ -545,6 +546,9 @@ def train_imagenet(index =0):
             save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
       quit()
+      now = datetime.now()
+      current_time = now.strftime("%H:%M:%S")
+      print("Current Time =", current_time)
 
       #storage_client = storage.Client()
       #bucket = storage_client.bucket("oncomerge")
