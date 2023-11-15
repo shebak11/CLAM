@@ -210,7 +210,7 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 def train_imagenet():
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
-
+  csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   bags_dataset = Dataset_All_Bags(csv_path)
   total = len(bags_dataset)
   for bag_candidate_idx in range(2):
@@ -353,9 +353,10 @@ def train_imagenet():
               xm.add_step_closure(
                   _train_update, args=(device, step, loss, tracker, epoch, writer))
 
-      def test_loop_fn(loader, epoch):
+      def test_loop_fn(loader, epoch, local_ofile_path):
         total_samples, correct = 0, 0
         model.eval()
+        mode = 'w'
         for step, (data, target) in enumerate(loader):
           output = model(data)
           pred = output.max(1, keepdim=True)[1]
@@ -364,6 +365,12 @@ def train_imagenet():
           if step % FLAGS.log_steps == 0:
             xm.add_step_closure(
                 test_utils.print_test_update, args=(device, None, epoch, step))
+          features = output.cpu().numpy()
+            #print(features.shape)
+           
+          asset_dict = {'features': features, 'coords': coords}
+          save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
+          mode = 'a'
         accuracy = 100.0 * correct.item() / total_samples
         accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
         return accuracy
