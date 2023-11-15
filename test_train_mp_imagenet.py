@@ -217,7 +217,7 @@ def train_imagenet(index =0):
   data_slide_dir  = "WSI/TCGA/COAD/" 
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   feat_dir = "WSI/TCGA/COADtest_features_dir/" 
-  batch_size = 8 
+  batch_size = 128 
   slide_ext = ".svs"    
     
   gs_slide_file_path = data_slide_dir+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
@@ -277,7 +277,7 @@ def train_imagenet(index =0):
     z = len(dset)
   ##print(type(dset))
   ##print(dset.shape)
-  batch_size = 8
+  #batch_size = 128
   verbose = 1
   print_every=20
   pretrained=True 
@@ -562,8 +562,6 @@ def train_imagenet(index =0):
         #print("data to model")
         #print(len(batch))
         #print(batch.shape)
-       
-        
         #if count==2:
           #break
         with torch.no_grad():	
