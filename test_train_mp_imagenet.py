@@ -559,9 +559,9 @@ def train_imagenet(index =0):
       for count, (batch, coords) in enumerate(mytest_device_loader):
       #for count, batch in enumerate(test_device_loader):
         #print("data to model")
-        print(len(batch))
-        print(batch.shape)
-        print("img dim: ", str(img_dim))
+        #print(len(batch))
+        #print(batch.shape)
+        #print("img dim: ", str(img_dim))
         #if count==2:
           #break
         with torch.no_grad():	
