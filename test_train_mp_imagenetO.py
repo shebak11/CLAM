@@ -271,9 +271,9 @@ def train_imagenet(index=0):
         test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
-            #sampler=test_sampler,
-            #drop_last=FLAGS.drop_last,
-            #shuffle=False,
+            sampler=test_sampler,
+            drop_last=FLAGS.drop_last,
+            shuffle=False,
             #num_workers=FLAGS.num_workers,
             #persistent_workers=FLAGS.persistent_workers,
             #prefetch_factor=FLAGS.prefetch_factor,
