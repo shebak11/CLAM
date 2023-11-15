@@ -237,7 +237,7 @@ class Dataset_All_Bags(Dataset):
 		return len(self.df)
 
 	def __getitem__(self, idx):
-		print(list(self.df))
+		#print(list(self.df))
 		return self.df['slide_id'][idx]
 
 

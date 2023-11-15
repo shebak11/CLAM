@@ -207,7 +207,7 @@ def _train_update(device, step, loss, tracker, epoch, writer):
       summary_writer=writer)
 
 
-def train_imagenet():
+def train_imagenet(index=0):
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
   data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
@@ -416,7 +416,7 @@ def _mp_fn(index, flags):
   global FLAGS
   FLAGS = flags
   torch.set_default_dtype(torch.float32)
-  accuracy = train_imagenet()
+  accuracy = train_imagenet(index)
   if accuracy < FLAGS.target_accuracy:
     print('Accuracy {} is below target {}'.format(accuracy,
                                                   FLAGS.target_accuracy))
