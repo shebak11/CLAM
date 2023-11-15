@@ -268,7 +268,7 @@ def train_imagenet(index=0):
         print((dataset[0][1]))
         test_sampler = None, None
         
-        test_loader = torch.utils.data.DataLoader(
+        my_test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
             #sampler=test_sampler,
