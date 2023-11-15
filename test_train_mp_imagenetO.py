@@ -359,7 +359,7 @@ def train_imagenet(index=0):
               xm.add_step_closure(
                   _train_update, args=(device, step, loss, tracker, epoch, writer))
 
-      def test_loop_fn(loader, epoch, local_ofile_path):
+      def test_loop_fn(loader, epoch, local_ofile_path, gs_ofile_path):
         total_samples, correct = 0, 0
         model.eval()
         mode = 'w'
@@ -378,7 +378,8 @@ def train_imagenet(index=0):
         accuracy = 100.0 * correct.item() / total_samples
         accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
         stats = storage.Blob(bucket=bucket, name=gs_ofile_path).exists(storage_client)
-
+        storage_client = storage.Client()
+        bucket = storage_client.bucket("oncomerge")
         if not stats:
           blob = bucket.blob(gs_ofile_path)
           blob.upload_from_filename(local_ofile_path )
@@ -406,7 +407,7 @@ def train_imagenet(index=0):
         #train_loop_fn(train_device_loader, epoch)
         xm.master_print('Epoch {} train end {}'.format(epoch, test_utils.now()))
         if not FLAGS.test_only_at_end or epoch == FLAGS.num_epochs:
-          accuracy = test_loop_fn(test_device_loader, epoch, local_ofile_path)
+          accuracy = test_loop_fn(test_device_loader, epoch, local_ofile_path, gs_ofile_path)
           xm.master_print('Epoch {} test end {}, Accuracy={:.2f}'.format(
               epoch, test_utils.now(), accuracy))
           max_accuracy = max(accuracy, max_accuracy)
