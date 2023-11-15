@@ -272,7 +272,7 @@ def train_imagenet(index=0):
         print((dataset[0][1]))
         test_sampler = None, None
         
-        test_loader = torch.utils.data.DataLoader(
+        my_test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
             ##sampler=test_sampler,
@@ -448,7 +448,7 @@ def train_imagenet(index=0):
       temp = next(iter(test_loader)) 
       print(len(temp))
       print(FLAGS.num_workers)
-      quit()
+      #quit()
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
         #train_loop_fn(train_device_loader, epoch)
