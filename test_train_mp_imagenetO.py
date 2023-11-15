@@ -359,18 +359,13 @@ def train_imagenet(index=0):
               xm.add_step_closure(
                   _train_update, args=(device, step, loss, tracker, epoch, writer))
 
-      def test_loop_fn(loader, epoch, local_ofile_path):
+      def test_loop_fn(loader, epoch):
         total_samples, correct = 0, 0
         model.eval()
-        mode = 'a'
         for step, (data, target) in enumerate(loader):
           output = model(data)
           pred = output.max(1, keepdim=True)[1]
           correct += pred.eq(target.view_as(pred)).sum()
-          features = output.cpu().numpy()
-          #asset_dict = {'features': features, 'coords': coords}
-          #save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
-          mode = 'a'
           total_samples += data.size()[0]
           if step % FLAGS.log_steps == 0:
             xm.add_step_closure(
@@ -400,7 +395,7 @@ def train_imagenet(index=0):
         #train_loop_fn(train_device_loader, epoch)
         xm.master_print('Epoch {} train end {}'.format(epoch, test_utils.now()))
         if not FLAGS.test_only_at_end or epoch == FLAGS.num_epochs:
-          accuracy = test_loop_fn(test_device_loader, epoch, local_ofile_path)
+          accuracy = test_loop_fn(test_device_loader, epoch)
           xm.master_print('Epoch {} test end {}, Accuracy={:.2f}'.format(
               epoch, test_utils.now(), accuracy))
           max_accuracy = max(accuracy, max_accuracy)
