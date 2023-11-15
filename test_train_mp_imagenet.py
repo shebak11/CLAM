@@ -479,7 +479,7 @@ def train_imagenet(index =0):
 
       loader = DataLoader( dataset,
             #batch_size=FLAGS.batch_size,
-            batch_size=128,
+            batch_size=16,
             #sampler=test_sampler,
             #drop_last=FLAGS.drop_last,
             #drop_last=False,
