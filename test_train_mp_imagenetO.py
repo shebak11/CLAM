@@ -210,6 +210,12 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 def train_imagenet():
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
+  data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
+  data_slide_dir  = "WSI/TCGA/COAD/" 
+  csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
+  feat_dir = "WSI/TCGA/COADtest_features_dir/" 
+  #batch_size = 8 
+  slide_ext = ".svs"    
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   bags_dataset = Dataset_All_Bags(csv_path)
   total = len(bags_dataset)
