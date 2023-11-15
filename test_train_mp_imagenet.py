@@ -549,7 +549,7 @@ def train_imagenet(index =0):
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
           )
-      quit()
+     
       #print("image shape")
       #print(np.array(img).shape)
       model.eval()
@@ -559,8 +559,8 @@ def train_imagenet(index =0):
       for count, (batch, coords) in enumerate(mytest_device_loader):
       #for count, batch in enumerate(test_device_loader):
         #print("data to model")
-        #print(len(batch))
-        #print(batch.shape)
+        print(len(batch))
+        print(batch.shape)
         #if count==2:
           #break
         with torch.no_grad():	
@@ -570,7 +570,7 @@ def train_imagenet(index =0):
             #batch = batch.to(device, non_blocking=True)
             features = model(batch) 
             #print("count: " +str(count)+", index: " + str(index) + ", mean: " + str ( torch.mean(features)))
-
+            quit()
             features = features.cpu().numpy()
             #print(features.shape)
            
