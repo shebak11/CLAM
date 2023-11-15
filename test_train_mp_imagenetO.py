@@ -243,18 +243,18 @@ def train_imagenet(index=0):
       with blob.open("rb") as f:
         with h5py.File(f,'r') as hdf5_file:
             coord = hdf5_file['coords'][0]
-      print("coord")
-      print(type(coord))
-      print(coord) 
-      print(coord.shape)
-      print(type(coord[0]))
-      print('==> Preparing data..')
+      #print("coord")
+      #print(type(coord))
+      #print(coord) 
+      #print(coord.shape)
+      #print(type(coord[0]))
+      #print('==> Preparing data..')
       img_dim = get_model_property('img_dim')
 
       if FLAGS.fake_data:
-        print(FLAGS.num_workers) #4
-        print(FLAGS.persistent_workers) #false
-        print(FLAGS.prefetch_factor) #16
+        #print(FLAGS.num_workers) #4
+        #print(FLAGS.persistent_workers) #false
+        #print(FLAGS.prefetch_factor) #16
         #quit()
         train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
         train_loader = xu.SampleGenerator(
@@ -269,9 +269,9 @@ def train_imagenet(index=0):
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
         #dataset=dataset[0:1000][:]
         dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
-        print(len(dataset))
-        print(np.array(dataset[0][0]).shape)
-        print((dataset[0][1]))
+        #print(len(dataset))
+        #print(np.array(dataset[0][0]).shape)
+        #print((dataset[0][1]))
         test_sampler = None, None
         test_sampler = torch.utils.data.distributed.DistributedSampler(
               dataset,
@@ -449,14 +449,14 @@ def train_imagenet(index=0):
       accuracy, max_accuracy = 0.0, 0.0
       #print(len(test_loader))
       print(xm.xrt_world_size())
-      print((FLAGS.test_set_batch_size))
-      print(len(test_device_loader))
-      print(len(test_loader))
+      #print((FLAGS.test_set_batch_size))
+      #print(len(test_device_loader))
+      #print(len(test_loader))
       #(batch, coords) = next(iter(data_loader)) 
-      temp = next(iter(test_loader)) 
-      print(len(temp))
-      print(FLAGS.num_workers)
-      print(temp[0].shape)
+      #temp = next(iter(test_loader)) 
+      #print(len(temp))
+      #print(FLAGS.num_workers)
+      #print(temp[0].shape)
       #quit()
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))

@@ -166,7 +166,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			else:
 				self.target_patch_size = None    
 		"""
-		self.summary()
+		#self.summary()
 		#self.coord=self.dset[0]     
 		#coord=self.dset[0]   
 		
