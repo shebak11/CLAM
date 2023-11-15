@@ -233,10 +233,10 @@ def train_imagenet(index =0):
 
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
-  print("FLAGS.ddp")
-  print(FLAGS.ddp)
-  print("FLAGS.pjrt_distributed")
-  print(FLAGS.pjrt_distributed)
+  ##print("FLAGS.ddp")
+  ##print(FLAGS.ddp)
+  ##print("FLAGS.pjrt_distributed")
+  ##print(FLAGS.pjrt_distributed)
     
 
   slide_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.svs"
@@ -250,11 +250,11 @@ def train_imagenet(index =0):
         coord = hdf5_file['coords'][0]
     
 
-  print("coord")
-  print(type(coord))
-  print(coord) 
-  print(coord.shape)
-  print(type(coord[0]))
+  ##print("coord")
+  ##print(type(coord))
+  ##print(coord) 
+  ##print(coord.shape)
+  ##print(type(coord[0]))
   #img = wsi.read_region((coord[0], coord[1]), level= 0, size = (512, 512)).convert('RGB')                     
 
  
@@ -413,12 +413,12 @@ def train_imagenet(index =0):
     wsi = TiffSlide(f)
     img = wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
   print(np.array(img).shape)
-  blob = bucket.blob(gs_file_path)
+  ##blob = bucket.blob(gs_file_path)
   with blob.open("rb") as f:
     with h5py.File(f,'r') as hdf5_file:
         coord = hdf5_file['coords'][0]
     
-  print(coord)
+  ##print(coord)
   """
   fs = gcsfs.GCSFileSystem(project='hai-gcp-models')
   with fs.open('oncomerge'+gs_file_path, 'rb') as f:
@@ -438,10 +438,10 @@ def train_imagenet(index =0):
       gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
       local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
       local_file_path = "/home/MacOS/"+bag_name
-      print("gs_file_path:" + gs_file_path)
-      print("gs_slide_file_path"+gs_slide_file_path)
-      print("local_slide_file_path"+local_slide_file_path)
-      print("local_file_path"+local_file_path)
+      ##print("gs_file_path:" + gs_file_path)
+      ##print("gs_slide_file_path"+gs_slide_file_path)
+      ##print("local_slide_file_path"+local_slide_file_path)
+      ##print("local_file_path"+local_file_path)
       """
       print(os.path.isfile(local_slide_file_path_arr[bag_candidate_idx]))    
       
@@ -467,11 +467,11 @@ def train_imagenet(index =0):
       #pickle.dump(dataset[0:3], file)
       #file.close()
       #dataset = dataset[0:512]
-      print(len(dataset))
-      print(type(dataset))
-      print("dataset size")
+      ##print(len(dataset))
+      ##print(type(dataset))
+      ##print("dataset size")
       #[print(item[0].shape) for item in dataset]
-      print(np.array(dataset[0][0]).shape)
+      ##print(np.array(dataset[0][0]).shape)
 
       #kwargs = {'num_workers': 4, 'pin_memory': True} if device.type == "cuda" else {}
 
@@ -490,8 +490,8 @@ def train_imagenet(index =0):
             #)
             collate_fn=collate_features)
 
-      print("len loader")
-      print(len(loader))
+      ##print("len loader")
+      ##print(len(loader))
     
      
 
@@ -561,6 +561,7 @@ def train_imagenet(index =0):
         #print(len(batch))
         #print(batch.shape)
         print("count: " +str(count))
+        
         if count==2:
           break
         with torch.no_grad():	
@@ -569,8 +570,9 @@ def train_imagenet(index =0):
                 print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
             #batch = batch.to(device, non_blocking=True)
             features = model(batch) 
-      
+            
             features = features.cpu().numpy()
+            print(features.shape)
             asset_dict = {'features': features, 'coords': coords}
             
             save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
@@ -587,13 +589,13 @@ def train_imagenet(index =0):
       stats = storage.Blob(bucket=bucket, name=output_path_arr[bag_candidate_idx]).exists(storage_client)
 
       print(stats)
-      print("nnnnnnnnnnnn")
+      ##print("nnnnnnnnnnnn")
       if not stats:
             blob = bucket.blob(output_path_arr[bag_candidate_idx])
             blob.upload_from_filename(local_output_path_arr[bag_candidate_idx] )
             print(local_output_path_arr[bag_candidate_idx])
             os.remove(local_output_path_arr[bag_candidate_idx])
-      print("dataset")
+      ##print("dataset")
     
       #quit()
      
