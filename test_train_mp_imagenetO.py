@@ -443,7 +443,7 @@ def train_imagenet(index=0):
       print(len(test_device_loader))
       print(len(test_loader))
       #(batch, coords) = next(iter(data_loader)) 
-      temp = next(iter(data_loader)) 
+      temp = next(iter(test_device_loader)) 
       print(len(temp))
       quit()
       for epoch in range(1, FLAGS.num_epochs + 1):
