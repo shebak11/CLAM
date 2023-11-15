@@ -267,12 +267,13 @@ def train_imagenet(index=0):
                   torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+        dataset=dataset[0:1000]
         print(len(dataset))
         print(np.array(dataset[0][0]).shape)
         print((dataset[0][1]))
         test_sampler = None, None
         
-        my_test_loader = torch.utils.data.DataLoader(
+        test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
             ##sampler=test_sampler,
@@ -449,7 +450,8 @@ def train_imagenet(index=0):
       temp = next(iter(test_loader)) 
       print(len(temp))
       print(FLAGS.num_workers)
-      #quit()
+      print(temp[0].shape)
+      quit()
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
         #train_loop_fn(train_device_loader, epoch)
