@@ -495,7 +495,7 @@ def train_imagenet(index =0):
       ##print("len loader")
       ##print(len(loader))
     
-      quit()
+      
       #model = get_model_property('model_fn')().to(device)
       model = resnet50_baseline(pretrained=True)
       model = model.to(device)
@@ -549,7 +549,7 @@ def train_imagenet(index =0):
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads
           )
-
+      quit()
       #print("image shape")
       #print(np.array(img).shape)
       model.eval()
