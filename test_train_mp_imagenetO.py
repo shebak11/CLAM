@@ -410,7 +410,7 @@ def train_imagenet(index=0):
         mode = 'w'
         for step, (data, target) in enumerate(loader):
           output = model(data)
-          print(data.shape)
+          #print(data.shape)
           features = output.detach().cpu().numpy()
           #asset_dict = {'features': features, 'coords': coords}
           asset_dict = {'features': features} 
@@ -448,7 +448,7 @@ def train_imagenet(index=0):
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
       accuracy, max_accuracy = 0.0, 0.0
       #print(len(test_loader))
-      print(xm.xrt_world_size())
+      #print(xm.xrt_world_size())
       #print((FLAGS.test_set_batch_size))
       #print(len(test_device_loader))
       #print(len(test_loader))
