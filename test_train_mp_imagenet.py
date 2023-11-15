@@ -430,7 +430,7 @@ def train_imagenet(index =0):
 
     
  
-  for bag_candidate_idx in range(2):
+  for bag_candidate_idx in len(bags_dataset):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
       bag_name = os.path.basename(slide_id)+'.h5'
@@ -438,6 +438,8 @@ def train_imagenet(index =0):
       gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
       local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
       local_file_path = "/home/MacOS/"+bag_name
+      local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
+      gs_ofile_path = os.path.join(data_h5_dir, str(index)+"_" +bag_name)
       ##print("gs_file_path:" + gs_file_path)
       ##print("gs_slide_file_path"+gs_slide_file_path)
       ##print("local_slide_file_path"+local_slide_file_path)
@@ -577,7 +579,7 @@ def train_imagenet(index =0):
            
             asset_dict = {'features': features, 'coords': coords}
             
-            save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
+            save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
       
       now = datetime.now()
@@ -588,15 +590,15 @@ def train_imagenet(index =0):
       #storage_client = storage.Client()
       #bucket = storage_client.bucket("oncomerge")
       
-      stats = storage.Blob(bucket=bucket, name=output_path_arr[bag_candidate_idx]).exists(storage_client)
+      stats = storage.Blob(bucket=bucket, name=gs_ofile_path).exists(storage_client)
 
       ##print(stats)
       ##print("nnnnnnnnnnnn")
       if not stats:
-            blob = bucket.blob(output_path_arr[bag_candidate_idx])
-            blob.upload_from_filename(local_output_path_arr[bag_candidate_idx] )
+            blob = bucket.blob(gs_ofile_path)
+            blob.upload_from_filename(local_ofile_path )
             ##print(local_output_path_arr[bag_candidate_idx])
-            os.remove(local_output_path_arr[bag_candidate_idx])
+            os.remove(local_ofile_path)
       ##print("dataset")
     
       #quit()
