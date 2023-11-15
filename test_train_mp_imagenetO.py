@@ -2,6 +2,7 @@ from torch_xla import runtime as xr
 import sys
 sys.path.append('/home/MacOS/xla/test')
 import args_parse
+from models.resnet_custom import resnet50_baseline
 
 SUPPORTED_MODELS = [
     'alexnet', 'densenet121', 'densenet161', 'densenet169', 'densenet201',
@@ -255,7 +256,9 @@ def train_imagenet():
   torch.manual_seed(42)
 
   device = xm.xla_device()
-  model = get_model_property('model_fn')().to(device)
+  #model = get_model_property('model_fn')().to(device)
+  model = resnet50_baseline(pretrained=True)
+  model = model.to(device)
 
   # Initialization is nondeterministic with multiple threads in PjRt.
   # Synchronize model parameters across replicas manually.
