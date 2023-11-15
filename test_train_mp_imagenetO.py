@@ -211,7 +211,9 @@ def train_imagenet():
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
 
-  for i in range(2):
+  bags_dataset = Dataset_All_Bags(csv_path)
+  total = len(bags_dataset)
+  for bag_candidate_idx in range(2):
     
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
@@ -221,7 +223,7 @@ def train_imagenet():
       local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
       local_file_path = "/home/MacOS/"+bag_name
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
-      gs_ofile_path = os.path.join(feat_dir, "h5_files/" + str(index)+"_" +bag_name)
+      gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
       print('==> Preparing data..')
       img_dim = get_model_property('img_dim')
