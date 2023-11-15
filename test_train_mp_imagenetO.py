@@ -271,13 +271,13 @@ def train_imagenet(index=0):
         test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
-            sampler=test_sampler,
-            drop_last=FLAGS.drop_last,
-            shuffle=False,
-            num_workers=FLAGS.num_workers,
-            persistent_workers=FLAGS.persistent_workers,
-            prefetch_factor=FLAGS.prefetch_factor, collate_fn=collate_features)
-        
+            #sampler=test_sampler,
+            #drop_last=FLAGS.drop_last,
+            #shuffle=False,
+            #num_workers=FLAGS.num_workers,
+            #persistent_workers=FLAGS.persistent_workers,
+            #prefetch_factor=FLAGS.prefetch_factor,
+            collate_fn=collate_features)
         
       else:
         normalize = transforms.Normalize(
@@ -434,8 +434,6 @@ def train_imagenet(index=0):
           loader_prefetch_size=FLAGS.loader_prefetch_size,
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
-     
-
       accuracy, max_accuracy = 0.0, 0.0
       #print(len(test_loader))
       print(xm.xrt_world_size())
