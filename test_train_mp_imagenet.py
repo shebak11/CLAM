@@ -590,7 +590,10 @@ def train_imagenet(index =0):
       if not stats:
             blob = bucket.blob(output_path)
             blob.upload_from_filename(local_output_path_arr[bag_candidate_idx] )
+            print(local_output_path_arr[bag_candidate_idx])
+            os.remove(local_output_path_arr[bag_candidate_idx])
       print("dataset")
+    
       #quit()
      
   """
