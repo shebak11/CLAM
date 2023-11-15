@@ -213,7 +213,16 @@ def train_imagenet():
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   bags_dataset = Dataset_All_Bags(csv_path)
   total = len(bags_dataset)
-  for i in range(2):
+  for bag_candidate_idx in range(2):
+      slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
+      file_id = os.path.basename(slide_id)
+      bag_name = os.path.basename(slide_id)+'.h5'
+      gs_file_path = os.path.join(data_h5_dir, bag_name)
+      gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
+      local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
+      local_file_path = "/home/MacOS/"+bag_name
+      local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
+      gs_ofile_path = os.path.join(feat_dir, "h5_files/" + str(index)+"_" +bag_name)
     
       
       print('==> Preparing data..')
