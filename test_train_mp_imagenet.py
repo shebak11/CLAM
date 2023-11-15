@@ -496,9 +496,9 @@ def train_imagenet(index =0):
       ##print(len(loader))
     
       
-      #model = get_model_property('model_fn')().to(device)
-      model = resnet50_baseline(pretrained=True)
-      model = model.to(device)
+      model = get_model_property('model_fn')().to(device)
+      #model = resnet50_baseline(pretrained=True)
+      #model = model.to(device)
 
       # Initialization is nondeterministic with multiple threads in PjRt.
       # Synchronize model parameters across replicas manually.
@@ -561,6 +561,7 @@ def train_imagenet(index =0):
         #print("data to model")
         print(len(batch))
         print(batch.shape)
+        print("img dim: ", str(img_dim))
         #if count==2:
           #break
         with torch.no_grad():	
