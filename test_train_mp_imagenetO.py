@@ -210,21 +210,10 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 def train_imagenet():
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
-  csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
-  bags_dataset = Dataset_All_Bags(csv_path)
-  total = len(bags_dataset)
-  for bag_candidate_idx in range(2):
+
+  for i in range(2):
     
-      slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
-      file_id = os.path.basename(slide_id)
-      bag_name = os.path.basename(slide_id)+'.h5'
-      gs_file_path = os.path.join(data_h5_dir, bag_name)
-      gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
-      local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
-      local_file_path = "/home/MacOS/"+bag_name
-      local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
-      gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
-        
+      
       print('==> Preparing data..')
       img_dim = get_model_property('img_dim')
       if FLAGS.fake_data:
@@ -353,10 +342,9 @@ def train_imagenet():
               xm.add_step_closure(
                   _train_update, args=(device, step, loss, tracker, epoch, writer))
 
-      def test_loop_fn(loader, epoch, local_ofile_path):
+      def test_loop_fn(loader, epoch):
         total_samples, correct = 0, 0
         model.eval()
-        mode = 'w'
         for step, (data, target) in enumerate(loader):
           output = model(data)
           pred = output.max(1, keepdim=True)[1]
@@ -365,12 +353,6 @@ def train_imagenet():
           if step % FLAGS.log_steps == 0:
             xm.add_step_closure(
                 test_utils.print_test_update, args=(device, None, epoch, step))
-          features = output.cpu().numpy()
-            #print(features.shape)
-           
-          asset_dict = {'features': features, 'coords': coords}
-          save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
-          mode = 'a'
         accuracy = 100.0 * correct.item() / total_samples
         accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
         return accuracy
@@ -396,7 +378,7 @@ def train_imagenet():
         #train_loop_fn(train_device_loader, epoch)
         xm.master_print('Epoch {} train end {}'.format(epoch, test_utils.now()))
         if not FLAGS.test_only_at_end or epoch == FLAGS.num_epochs:
-          accuracy = test_loop_fn(test_device_loader, epoch, local_ofile_path)
+          accuracy = test_loop_fn(test_device_loader, epoch)
           xm.master_print('Epoch {} test end {}, Accuracy={:.2f}'.format(
               epoch, test_utils.now(), accuracy))
           max_accuracy = max(accuracy, max_accuracy)
