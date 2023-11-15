@@ -228,7 +228,7 @@ def train_imagenet(index=0):
       local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
       local_file_path = "/home/MacOS/"+bag_name
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
-      gs_ofile_path = os.path.join(feat_dir, "h5_files/" + str(index)+"_" +bag_name)
+      gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
     
       
       print('==> Preparing data..')
