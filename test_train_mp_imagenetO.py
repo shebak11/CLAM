@@ -362,9 +362,13 @@ def train_imagenet(index=0):
       def test_loop_fn(loader, epoch, local_ofile_path):
         total_samples, correct = 0, 0
         model.eval()
+        mode = 'w'
         for step, (data, target) in enumerate(loader):
           output = model(data)
           features = output.detach().cpu().numpy()
+          asset_dict = {'features': features, 'coords': coords}
+          save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
+          mode = 'a'
           pred = output.max(1, keepdim=True)[1]
           correct += pred.eq(target.view_as(pred)).sum()
           total_samples += data.size()[0]
