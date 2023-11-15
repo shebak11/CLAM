@@ -430,7 +430,7 @@ def train_imagenet(index =0):
 
     
  
-  for bag_candidate_idx in len(bags_dataset):
+  for bag_candidate_idx in range(total):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
       bag_name = os.path.basename(slide_id)+'.h5'
