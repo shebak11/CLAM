@@ -96,7 +96,7 @@ import torch_xla.distributed.xla_backend
 
 DEFAULT_KWARGS = dict(
     batch_size=128,
-    test_set_batch_size=64,
+    test_set_batch_size=32,
     num_epochs=18,
     momentum=0.9,
     lr=0.1,
@@ -341,7 +341,7 @@ def train_imagenet():
       host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
 
   accuracy, max_accuracy = 0.0, 0.0
-  print(len(test_loader))
+  #print(len(test_loader))
   print((FLAGS.test_set_batch_size))
   for epoch in range(1, FLAGS.num_epochs + 1):
     xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
