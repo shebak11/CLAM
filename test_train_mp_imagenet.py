@@ -570,7 +570,7 @@ def train_imagenet(index =0):
             #batch = batch.to(device, non_blocking=True)
             features = model(batch) 
             #print("count: " +str(count)+", index: " + str(index) + ", mean: " + str ( torch.mean(features)))
-            quit()
+   
             features = features.cpu().numpy()
             #print(features.shape)
            
