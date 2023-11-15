@@ -190,7 +190,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		      print(name, value)
 
 		print('\nself.file_path: ', self.file_path)
-        print('\nfeature extraction settings')
+		print('\nfeature extraction settings')
 		print('target patch size: ', self.target_patch_size)
 		print('pretrained: ', self.pretrained)
 		print('transformations: ', self.roi_transforms)
