@@ -267,7 +267,7 @@ def train_imagenet(index=0):
                   torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-        dataset=dataset[0:1000][:]
+        #dataset=dataset[0:1000][:]
         dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
         print(len(dataset))
         print(np.array(dataset[0][0]).shape)
