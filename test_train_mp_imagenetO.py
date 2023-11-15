@@ -276,7 +276,7 @@ def train_imagenet(index=0):
             shuffle=False,
             num_workers=FLAGS.num_workers,
             persistent_workers=FLAGS.persistent_workers,
-            prefetch_factor=FLAGS.prefetch_factor)
+            prefetch_factor=FLAGS.prefetch_factor, collate_fn=collate_features)
         
         
       else:
