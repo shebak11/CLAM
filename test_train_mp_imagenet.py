@@ -275,8 +275,8 @@ def train_imagenet(index =0):
         x = hdf5_file['coords'].attrs['patch_level']
         y = hdf5_file['coords'].attrs['patch_size']
     z = len(dset)
-  print(type(dset))
-  print(dset.shape)
+  ##print(type(dset))
+  ##print(dset.shape)
   batch_size = 8
   verbose = 1
   print_every=20
@@ -501,8 +501,8 @@ def train_imagenet(index =0):
 
       # Initialization is nondeterministic with multiple threads in PjRt.
       # Synchronize model parameters across replicas manually.
-      print("xr.using_pjrt()")
-      print(xr.using_pjrt())
+      ##print("xr.using_pjrt()")
+      ##print(xr.using_pjrt())
       if xr.using_pjrt():
         xm.broadcast_master_param(model)
 
@@ -553,7 +553,7 @@ def train_imagenet(index =0):
       #print(np.array(img).shape)
       model.eval()
       local_output_path = "/home/MacOS/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
-      print("local_output_path" + local_output_path)
+      ##print("local_output_path" + local_output_path)
       mode = 'w'
       for count, (batch, coords) in enumerate(mytest_device_loader):
       #for count, batch in enumerate(test_device_loader):
@@ -590,12 +590,12 @@ def train_imagenet(index =0):
       
       stats = storage.Blob(bucket=bucket, name=output_path_arr[bag_candidate_idx]).exists(storage_client)
 
-      print(stats)
+      ##print(stats)
       ##print("nnnnnnnnnnnn")
       if not stats:
             blob = bucket.blob(output_path_arr[bag_candidate_idx])
             blob.upload_from_filename(local_output_path_arr[bag_candidate_idx] )
-            print(local_output_path_arr[bag_candidate_idx])
+            ##print(local_output_path_arr[bag_candidate_idx])
             os.remove(local_output_path_arr[bag_candidate_idx])
       ##print("dataset")
     
@@ -673,11 +673,11 @@ def train_imagenet(index =0):
   test_utils.close_summary_writer(writer)
   xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
   """
-  print("coord")
-  print(type(coord))
-  print(coord) 
-  print(coord.shape)
-  print(type(coord[0]))
+  ##print("coord")
+  ##print(type(coord))
+  ##print(coord) 
+  ##print(coord.shape)
+  ##print(type(coord[0]))
   #return max_accuracy
   return 97.0
 
