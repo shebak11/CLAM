@@ -404,6 +404,7 @@ def train_imagenet(index=0):
         mode = 'w'
         for step, (data, target) in enumerate(loader):
           output = model(data)
+          print(data.shape)
           features = output.detach().cpu().numpy()
           #asset_dict = {'features': features, 'coords': coords}
           asset_dict = {'features': features} 
