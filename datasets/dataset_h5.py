@@ -166,7 +166,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			else:
 				self.target_patch_size = None    
 		"""
-		#self.summary()
+		self.summary()
 		#self.coord=self.dset[0]     
 		#coord=self.dset[0]   
 		
@@ -189,7 +189,8 @@ class Whole_Slide_Bag_FP(Dataset):
 		  for name, value in dset.attrs.items():
 		      print(name, value)
 
-		print('\nfeature extraction settings')
+		print('\nself.file_path: ', self.file_path)
+        print('\nfeature extraction settings')
 		print('target patch size: ', self.target_patch_size)
 		print('pretrained: ', self.pretrained)
 		print('transformations: ', self.roi_transforms)

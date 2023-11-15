@@ -237,7 +237,17 @@ def train_imagenet(index=0):
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
     
-      
+      storage_client = storage.Client()
+      bucket = storage_client.bucket("oncomerge")
+      blob = bucket.blob(gs_file_path)
+      with blob.open("rb") as f:
+        with h5py.File(f,'r') as hdf5_file:
+            coord = hdf5_file['coords'][0]
+      print("coord")
+      print(type(coord))
+      print(coord) 
+      print(coord.shape)
+      print(type(coord[0]))
       print('==> Preparing data..')
       img_dim = get_model_property('img_dim')
       if FLAGS.fake_data:
