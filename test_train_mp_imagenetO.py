@@ -277,7 +277,7 @@ def train_imagenet(index=0):
             num_workers=FLAGS.num_workers,
             persistent_workers=FLAGS.persistent_workers,
             prefetch_factor=FLAGS.prefetch_factor)
-        quit()
+        
         
       else:
         normalize = transforms.Normalize(
@@ -434,6 +434,7 @@ def train_imagenet(index=0):
           loader_prefetch_size=FLAGS.loader_prefetch_size,
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
+      quit()
 
       accuracy, max_accuracy = 0.0, 0.0
       #print(len(test_loader))
