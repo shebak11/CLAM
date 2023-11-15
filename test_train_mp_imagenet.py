@@ -479,7 +479,7 @@ def train_imagenet(index =0):
 
       loader = DataLoader( dataset,
             #batch_size=FLAGS.batch_size,
-            batch_size=16,
+            batch_size=8,
             #sampler=test_sampler,
             #drop_last=FLAGS.drop_last,
             #drop_last=False,
@@ -568,6 +568,10 @@ def train_imagenet(index =0):
             if count % print_every == 20:
                 print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
             #batch = batch.to(device, non_blocking=True)
+            if count % 20 == 0:
+                xm.add_step_closure(
+            test_utils.print_test_update, args=(device, None, 1, count))
+        
             features = model(batch) 
             #print("count: " +str(count)+", index: " + str(index) + ", mean: " + str ( torch.mean(features)))
    
