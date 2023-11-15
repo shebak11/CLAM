@@ -250,6 +250,7 @@ def train_imagenet(index=0):
       print(type(coord[0]))
       print('==> Preparing data..')
       img_dim = get_model_property('img_dim')
+      quit()
       if FLAGS.fake_data:
         train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
         train_loader = xu.SampleGenerator(
