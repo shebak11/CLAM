@@ -431,7 +431,7 @@ def train_imagenet(index=0):
         if not stats:
           blob = bucket.blob(gs_ofile_path)
           blob.upload_from_filename(local_ofile_path )
-          print(local_ofile_path)
+          #print(local_ofile_path)
         return accuracy
 
       train_device_loader = pl.MpDeviceLoader(
@@ -447,7 +447,7 @@ def train_imagenet(index=0):
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
       accuracy, max_accuracy = 0.0, 0.0
-      #print(len(test_loader))
+      print("test_loader ",str(len(test_loader)))
       #print(xm.xrt_world_size())
       #print((FLAGS.test_set_batch_size))
       #print(len(test_device_loader))
@@ -456,8 +456,8 @@ def train_imagenet(index=0):
       temp = next(iter(test_loader)) 
       #print(len(temp))
       #print(FLAGS.num_workers)
-      #print(temp[0].shape)
-      #quit()
+      print(temp[0].shape)
+      quit()
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
         #train_loop_fn(train_device_loader, epoch)
