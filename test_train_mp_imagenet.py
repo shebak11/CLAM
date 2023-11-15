@@ -570,10 +570,10 @@ def train_imagenet(index =0):
                 print('batch {}/{}, {} files processed'.format(count, len(loader), count * batch_size))
             #batch = batch.to(device, non_blocking=True)
             features = model(batch) 
-            
+            print("count: " +str(count)+ ", mean: " + str ( torch.mean(features)))
+
             features = features.cpu().numpy()
             #print(features.shape)
-            print("count: " +str(count)+ ", mean: " + str ( torch.mean(features)))
            
             asset_dict = {'features': features, 'coords': coords}
             
