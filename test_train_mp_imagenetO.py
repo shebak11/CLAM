@@ -443,7 +443,7 @@ def train_imagenet(index=0):
       #(batch, coords) = next(iter(data_loader)) 
       temp = next(iter(test_loader)) 
       print(len(temp))
-      quit()
+      #quit()
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
         #train_loop_fn(train_device_loader, epoch)
