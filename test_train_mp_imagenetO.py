@@ -267,13 +267,12 @@ def train_imagenet(index=0):
                   torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-        dataset=dataset[0:1000]
         print(len(dataset))
         print(np.array(dataset[0][0]).shape)
         print((dataset[0][1]))
         test_sampler = None, None
         
-        my_test_loader = torch.utils.data.DataLoader(
+        test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
             ##sampler=test_sampler,
@@ -411,14 +410,13 @@ def train_imagenet(index=0):
           save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
           mode = 'a'
           pred = output.max(1, keepdim=True)[1]
-          #correct += pred.eq(target.view_as(pred)).sum()
+          correct += pred.eq(target.view_as(pred)).sum()
           total_samples += data.size()[0]
           if step % FLAGS.log_steps == 0:
             xm.add_step_closure(
                 test_utils.print_test_update, args=(device, None, epoch, step))
-        #accuracy = 100.0 * correct.item() / total_samples
-        #accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
-        accuracy=43.0
+        accuracy = 100.0 * correct.item() / total_samples
+        accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
         storage_client = storage.Client()
         bucket = storage_client.bucket("oncomerge")
         stats = storage.Blob(bucket=bucket, name=gs_ofile_path).exists(storage_client)
