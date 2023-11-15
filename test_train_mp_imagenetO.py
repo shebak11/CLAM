@@ -123,7 +123,7 @@ import torch_xla.distributed.xla_backend
 
 DEFAULT_KWARGS = dict(
     batch_size=128,
-    test_set_batch_size=32,
+    test_set_batch_size=64,
     num_epochs=18,
     momentum=0.9,
     lr=0.1,
@@ -250,7 +250,7 @@ def train_imagenet(index=0):
       print(type(coord[0]))
       print('==> Preparing data..')
       img_dim = get_model_property('img_dim')
-      quit()
+
       if FLAGS.fake_data:
         train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
         train_loader = xu.SampleGenerator(
@@ -264,7 +264,7 @@ def train_imagenet(index=0):
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
         test_sampler = None, None
-     
+        quit()
         test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
@@ -434,7 +434,7 @@ def train_imagenet(index=0):
       accuracy, max_accuracy = 0.0, 0.0
       #print(len(test_loader))
       print(xm.xrt_world_size())
-      #print((FLAGS.test_set_batch_size))
+      print((FLAGS.test_set_batch_size))
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
         #train_loop_fn(train_device_loader, epoch)
