@@ -430,7 +430,7 @@ def train_imagenet(index =0):
 
     
  
-  for bag_candidate_idx in range(2):
+  for bag_candidate_idx in range(total):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
       bag_name = os.path.basename(slide_id)+'.h5'
@@ -597,7 +597,7 @@ def train_imagenet(index =0):
       if not stats:
             blob = bucket.blob(gs_ofile_path)
             blob.upload_from_filename(local_ofile_path )
-            print(local_output_path_arr[bag_candidate_idx])
+            print(local_ofile_path)
             ##os.remove(local_ofile_path)
       ##print("dataset")
     
