@@ -16,7 +16,7 @@ def load_pkl(filename):
 def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     
     file = h5py.File(output_path, mode)
-    """
+    
     for key, val in asset_dict.items():
         data_shape = val.shape
         if key not in file:
@@ -33,7 +33,7 @@ def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
             dset = file[key]
             dset.resize(len(dset) + data_shape[0], axis=0)
             dset[-data_shape[0]:] = val
-    """
+    
     file.close()
     
     return output_path
