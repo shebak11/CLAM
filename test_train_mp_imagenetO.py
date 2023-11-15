@@ -441,6 +441,10 @@ def train_imagenet(index=0):
       print(xm.xrt_world_size())
       print((FLAGS.test_set_batch_size))
       print(len(test_device_loader))
+      print(len(test_loader))
+      #(batch, coords) = next(iter(data_loader)) 
+      temp = next(iter(data_loader)) 
+      print(len(temp))
       quit()
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
