@@ -264,6 +264,7 @@ def train_imagenet(index =0):
       
   file_path = "WSI/TCGA/COADtest_dir/patches/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   output_path   = "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"  
+  output_path_arr   = ["WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5", "WSI/TCGA/COADtest_features_dir/h5_files/"+str(index)+"_TCGA-4N-A93T-01A-01-TS1.9258D514-40C1-480A-8FA8-D4E8B3819BD.h5"]  
 
     
  
@@ -582,13 +583,13 @@ def train_imagenet(index =0):
       #storage_client = storage.Client()
       #bucket = storage_client.bucket("oncomerge")
       
-      stats = storage.Blob(bucket=bucket, name=output_path).exists(storage_client)
+      stats = storage.Blob(bucket=bucket, name=output_path_arr[bag_candidate_idx]).exists(storage_client)
 
       print(stats)
       print("nnnnnnnnnnnn")
       if not stats:
             blob = bucket.blob(output_path)
-            blob.upload_from_filename(local_file_path )
+            blob.upload_from_filename(local_output_path_arr[bag_candidate_idx] )
       print("dataset")
       #quit()
      
