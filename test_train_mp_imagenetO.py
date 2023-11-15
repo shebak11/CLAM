@@ -342,7 +342,7 @@ def train_imagenet():
 
   accuracy, max_accuracy = 0.0, 0.0
   print(len(test_loader))
-  print(len(FLAGS.test_set_batch_size))
+  print((FLAGS.test_set_batch_size))
   for epoch in range(1, FLAGS.num_epochs + 1):
     xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
     #train_loop_fn(train_device_loader, epoch)
