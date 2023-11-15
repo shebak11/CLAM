@@ -218,6 +218,13 @@ def train_imagenet(index=0):
   slide_ext = ".svs"    
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   bags_dataset = Dataset_All_Bags(csv_path)
+    
+  verbose = 1
+  print_every=20
+  pretrained=True 
+  custom_downsample=1
+  target_patch_size=224
+
   total = len(bags_dataset)
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
@@ -244,8 +251,19 @@ def train_imagenet(index=0):
             data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
                   torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
-        dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
-
+        #dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+        #test_sampler = None, None
+        """
+        test_loader = torch.utils.data.DataLoader(
+            dataset,
+            batch_size=FLAGS.test_set_batch_size,
+            sampler=test_sampler,
+            drop_last=FLAGS.drop_last,
+            shuffle=False,
+            num_workers=FLAGS.num_workers,
+            persistent_workers=FLAGS.persistent_workers,
+            prefetch_factor=FLAGS.prefetch_factor)
+        """
       else:
         normalize = transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
