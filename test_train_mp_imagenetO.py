@@ -377,6 +377,12 @@ def train_imagenet(index=0):
                 test_utils.print_test_update, args=(device, None, epoch, step))
         accuracy = 100.0 * correct.item() / total_samples
         accuracy = xm.mesh_reduce('test_accuracy', accuracy, np.mean)
+        stats = storage.Blob(bucket=bucket, name=gs_ofile_path).exists(storage_client)
+
+        if not stats:
+          blob = bucket.blob(gs_ofile_path)
+          blob.upload_from_filename(local_ofile_path )
+          print(local_ofile_path)
         return accuracy
 
       train_device_loader = pl.MpDeviceLoader(
