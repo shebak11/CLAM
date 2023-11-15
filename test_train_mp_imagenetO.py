@@ -340,7 +340,7 @@ def train_imagenet():
   accuracy, max_accuracy = 0.0, 0.0
   for epoch in range(1, FLAGS.num_epochs + 1):
     xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
-    train_loop_fn(train_device_loader, epoch)
+    #train_loop_fn(train_device_loader, epoch)
     xm.master_print('Epoch {} train end {}'.format(epoch, test_utils.now()))
     if not FLAGS.test_only_at_end or epoch == FLAGS.num_epochs:
       accuracy = test_loop_fn(test_device_loader, epoch)
