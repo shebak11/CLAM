@@ -274,7 +274,7 @@ def train_imagenet(index=0):
         print((dataset[0][1]))
         test_sampler = None, None
         test_sampler = torch.utils.data.distributed.DistributedSampler(
-              test_dataset,
+              dataset,
               num_replicas=xm.xrt_world_size(),
               rank=xm.get_ordinal(),
               shuffle=False)
