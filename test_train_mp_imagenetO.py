@@ -264,7 +264,7 @@ def train_imagenet(index=0):
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
         test_sampler = None, None
-        quit()
+        
         test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
@@ -274,6 +274,7 @@ def train_imagenet(index=0):
             num_workers=FLAGS.num_workers,
             persistent_workers=FLAGS.persistent_workers,
             prefetch_factor=FLAGS.prefetch_factor)
+        quit()
         
       else:
         normalize = transforms.Normalize(
