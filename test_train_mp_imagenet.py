@@ -560,7 +560,7 @@ def train_imagenet(index =0):
         #print("data to model")
         #print(len(batch))
         #print(batch.shape)
-        print("count: " +str(count))
+       
         
         if count==2:
           break
@@ -572,7 +572,9 @@ def train_imagenet(index =0):
             features = model(batch) 
             
             features = features.cpu().numpy()
-            print(features.shape)
+            #print(features.shape)
+            print("count: " +str(count))
+            torch.mean(features)
             asset_dict = {'features': features, 'coords': coords}
             
             save_hdf5(local_output_path_arr[bag_candidate_idx], asset_dict, attr_dict= None, mode=mode)
