@@ -227,7 +227,7 @@ def train_imagenet(index =0):
   gs_file_path = data_h5_dir+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   local_file_path = "/home/MacOS/"+"TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   
-  gs_output_path   = feat_dir + "h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
+  gs_output_path   = feat_dir + "/h5_files/"+str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5" 
   local_output_path = "/home/MacOS/" + "h5_files/" +str(index)+"_TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
   
 
@@ -430,7 +430,7 @@ def train_imagenet(index =0):
 
     
  
-  for bag_candidate_idx in range(total):
+  for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
       bag_name = os.path.basename(slide_id)+'.h5'
@@ -439,7 +439,7 @@ def train_imagenet(index =0):
       local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
       local_file_path = "/home/MacOS/"+bag_name
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
-      gs_ofile_path = os.path.join(data_h5_dir, str(index)+"_" +bag_name)
+      gs_ofile_path = os.path.join(feat_dir, "h5_files/" + str(index)+"_" +bag_name)
       ##print("gs_file_path:" + gs_file_path)
       ##print("gs_slide_file_path"+gs_slide_file_path)
       ##print("local_slide_file_path"+local_slide_file_path)
@@ -597,8 +597,8 @@ def train_imagenet(index =0):
       if not stats:
             blob = bucket.blob(gs_ofile_path)
             blob.upload_from_filename(local_ofile_path )
-            ##print(local_output_path_arr[bag_candidate_idx])
-            os.remove(local_ofile_path)
+            print(local_output_path_arr[bag_candidate_idx])
+            ##os.remove(local_ofile_path)
       ##print("dataset")
     
       #quit()
