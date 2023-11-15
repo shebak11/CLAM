@@ -581,7 +581,7 @@ def train_imagenet(index =0):
            
             asset_dict = {'features': features, 'coords': coords}
             
-            save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
+            #save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
             mode = 'a'
       
       now = datetime.now()
