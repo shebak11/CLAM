@@ -252,6 +252,10 @@ def train_imagenet(index=0):
       img_dim = get_model_property('img_dim')
 
       if FLAGS.fake_data:
+        print(FLAGS.num_workers)
+        print(FLAGS.persistent_workers)
+        print(FLAGS.prefetch_factor)
+        quit()
         train_dataset_len = 1200000  # Roughly the size of Imagenet dataset.
         train_loader = xu.SampleGenerator(
             data=(torch.zeros(FLAGS.batch_size, 3, img_dim, img_dim),
@@ -271,9 +275,9 @@ def train_imagenet(index=0):
         my_test_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size=FLAGS.test_set_batch_size,
-            #sampler=test_sampler,
-            #drop_last=FLAGS.drop_last,
-            shuffle=False,
+            ##sampler=test_sampler,
+            ##drop_last=FLAGS.drop_last,
+            ##shuffle=False,
             #num_workers=FLAGS.num_workers,
             #persistent_workers=FLAGS.persistent_workers,
             #prefetch_factor=FLAGS.prefetch_factor,
