@@ -4,6 +4,33 @@ sys.path.append('/home/MacOS/xla/test')
 import args_parse
 from models.resnet_custom import resnet50_baseline
 
+
+import torch
+import torch.nn as nn
+from math import floor
+import os
+import random
+import numpy as np
+import pdb
+import time
+from datasets.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag_FP
+from torch.utils.data import DataLoader
+from models.resnet_custom import resnet50_baseline
+import argparse
+from utils.utils import print_network, collate_features
+from utils.file_utils import save_hdf5
+from PIL import Image
+import h5py
+import openslide
+#import tiffslide as openslide
+from tiffslide import TiffSlide
+from google.cloud import storage
+from multiprocessing import Manager
+import pickle 
+from datetime import datetime
+
+
+
 SUPPORTED_MODELS = [
     'alexnet', 'densenet121', 'densenet161', 'densenet169', 'densenet201',
     'inception_v3', 'resnet101', 'resnet152', 'resnet18', 'resnet34',
@@ -185,6 +212,17 @@ def train_imagenet():
     dist.init_process_group('xla', init_method='xla://')
 
   for i in range(2):
+    
+      slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
+      file_id = os.path.basename(slide_id)
+      bag_name = os.path.basename(slide_id)+'.h5'
+      gs_file_path = os.path.join(data_h5_dir, bag_name)
+      gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
+      local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
+      local_file_path = "/home/MacOS/"+bag_name
+      local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
+      gs_ofile_path = os.path.join(feat_dir, "h5_files/" + str(index)+"_" +bag_name)
+        
       print('==> Preparing data..')
       img_dim = get_model_property('img_dim')
       if FLAGS.fake_data:
