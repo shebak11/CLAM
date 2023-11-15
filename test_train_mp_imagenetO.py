@@ -364,6 +364,7 @@ def train_imagenet(index=0):
         model.eval()
         for step, (data, target) in enumerate(loader):
           output = model(data)
+          features = output.cpu().numpy()
           pred = output.max(1, keepdim=True)[1]
           correct += pred.eq(target.view_as(pred)).sum()
           total_samples += data.size()[0]
