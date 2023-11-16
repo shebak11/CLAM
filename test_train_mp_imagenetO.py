@@ -224,8 +224,15 @@ def train_imagenet(index=0):
   pretrained=True 
   custom_downsample=1
   target_patch_size=224
+  storage_client = storage.Client()
+  bucket = storage_client.bucket("oncomerge")
 
   total = len(bags_dataset)
+
+  blobs = storage_client.list_blobs("oncomerge", prefix=source)
+  for blob in blobs:
+        svslist.append(blob.name)
+    
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
@@ -237,9 +244,13 @@ def train_imagenet(index=0):
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
-      storage_client = storage.Client()
-      bucket = storage_client.bucket("oncomerge")
-
+     
+      """
+    
+      if not args.no_auto_skip and slide_id+'.pt' in dest_files:
+            print('skipped {}'.format(slide_id))
+            continue 
+      """    
       blob = bucket.blob(gs_slide_file_path)
       blob.download_to_filename(local_slide_file_path )    
     
@@ -415,7 +426,7 @@ def train_imagenet(index=0):
         total_samples, correct = 0, 0
         model.eval()
         mode = 'w'
-        for step, (data, target) in enumerate(loader):
+        for step, (data, coords) in enumerate(loader):
           output = model(data)
           #print(data.shape)
           features = output.detach().cpu().numpy()
