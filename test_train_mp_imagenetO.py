@@ -504,16 +504,16 @@ def train_imagenet(index=0):
               epoch, test_utils.now(), accuracy))
             
             
-      featlist = []
-      blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir+"h5_files2")
-      for blob in blobs:
-        featlist.append(blob.name)
-      #print(featlist[0:4])
-      featlist_split = [i.split('_')[-1] for i in featlist]
-      count = featlist_split.count(bag_name)
-      print("count: " + str(count) + "bag_name: " +  bag_name)
-      if count==xm.xrt_world_size():
-        os.remove(local_slide_file_path)
+          featlist = []
+          blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir+"h5_files2")
+          for blob in blobs:
+            featlist.append(blob.name)
+          #print(featlist[0:4])
+          featlist_split = [i.split('_')[-1] for i in featlist]
+          count = featlist_split.count(bag_name)
+          print("count: " + str(count) + "bag_name: " +  bag_name)
+          if count==xm.xrt_world_size():
+            os.remove(local_slide_file_path)
           max_accuracy = max(accuracy, max_accuracy)
           test_utils.write_to_summary(
               writer,
