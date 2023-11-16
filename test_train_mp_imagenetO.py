@@ -249,19 +249,17 @@ def train_imagenet(index=0):
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
       print(bag_name)
-      print("len ", str(len(featlist_split)))
-      print(set(featlist_split))        
+      #print("len ", str(len(featlist_split)))
+      #print(set(featlist_split))        
             
-      #index = featlist_split.index(bag_name)
+     
       count = featlist_split.count(bag_name)
-      print("count: ", str(count))
-      quit()
-      """
-    
-      if not args.no_auto_skip and count==32 :
+      #print("count: ", str(count))
+
+      if not args.no_auto_skip and count==xm.xrt_world_size() :
             print('skipped {}'.format(slide_id))
             continue 
-      """    
+          
       blob = bucket.blob(gs_slide_file_path)
       blob.download_to_filename(local_slide_file_path )    
     
