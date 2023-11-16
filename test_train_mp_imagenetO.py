@@ -229,7 +229,7 @@ def train_imagenet(index=0):
 
   total = len(bags_dataset)
 
-  blobs = storage_client.list_blobs("oncomerge", prefix=source)
+  blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir)
   for blob in blobs:
         svslist.append(blob.name)
     
