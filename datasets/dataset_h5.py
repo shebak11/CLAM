@@ -127,17 +127,14 @@ class Whole_Slide_Bag_FP(Dataset):
 		#local_file_path = "/home/MacOS/"+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484"+ '.h5'
 		#local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
 		#self.file_path = local_file_path
-        
-        self.wsi = TiffSlide(self.gs_slide_file_path)
+		self.wsi = TiffSlide(self.gs_slide_file_path)
 		
-        storage_client = storage.Client()
+		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
 		gs_path = file_path
 
 		#blob = bucket.blob(gs_path)
 		#blob.download_to_filename(self.file_path )
-        
-        
 		blob = bucket.blob(self.file_path)
 		with blob.open("rb") as f:
 			with h5py.File(f,'r') as hdf5_file:
