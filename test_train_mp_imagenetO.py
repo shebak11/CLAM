@@ -229,7 +229,7 @@ def train_imagenet(index=0):
 
   total = len(bags_dataset)
   featlist = []
-  blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir)
+  blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir+"h5_files2")
   for blob in blobs:
         featlist.append(blob.name)
   #print(featlist[0:4])
