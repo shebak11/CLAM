@@ -247,7 +247,8 @@ def train_imagenet(index=0):
       local_file_path = "/home/MacOS/"+bag_name
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
-        
+      print(gs_ofile_path.split('_')[-1])
+      quit()
       #print(bag_name)
       #print("len ", str(len(featlist_split)))
       #print(set(featlist_split))        
