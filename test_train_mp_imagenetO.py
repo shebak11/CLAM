@@ -419,8 +419,8 @@ def train_imagenet(index=0):
           output = model(data)
           #print(data.shape)
           features = output.detach().cpu().numpy()
-          #asset_dict = {'features': features, 'coords': coords}
-          asset_dict = {'features': features} 
+          asset_dict = {'features': features, 'coords': coords}
+          #asset_dict = {'features': features} 
           save_hdf5(local_ofile_path, asset_dict, attr_dict= None, mode=mode)
           mode = 'a'
           #pred = output.max(1, keepdim=True)[1]
