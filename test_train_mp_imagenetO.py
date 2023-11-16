@@ -236,6 +236,14 @@ def train_imagenet(index=0):
       local_file_path = "/home/MacOS/"+bag_name
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
+        
+        storage_client = storage.Client()
+		bucket = storage_client.bucket("oncomerge")
+		gs_path = file_path
+
+		blob = bucket.blob(gs_slide_file_path)
+		blob.download_to_filename(local_slide_file_path )    
+    
     
       storage_client = storage.Client()
       bucket = storage_client.bucket("oncomerge")
@@ -266,7 +274,7 @@ def train_imagenet(index=0):
             data=(torch.zeros(FLAGS.test_set_batch_size, 3, img_dim, img_dim),
                   torch.zeros(FLAGS.test_set_batch_size, dtype=torch.int64)),
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
-        dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=gs_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
+        dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=local_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
         #dataset=dataset[0:1000][:]
         #dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
         #print(len(dataset))

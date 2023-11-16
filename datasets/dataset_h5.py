@@ -127,8 +127,10 @@ class Whole_Slide_Bag_FP(Dataset):
 		#local_file_path = "/home/MacOS/"+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484"+ '.h5'
 		#local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
 		#self.file_path = local_file_path
-
-		storage_client = storage.Client()
+        
+        self.wsi = TiffSlide(self.gs_slide_file_path)
+		
+        storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
 		gs_path = file_path
 
@@ -198,7 +200,8 @@ class Whole_Slide_Bag_FP(Dataset):
 	def __getitem__(self, idx):
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
-		blob = bucket.blob(self.file_path)
+		
+        blob = bucket.blob(self.file_path)
 		with blob.open("rb") as f:
 		  with h5py.File(f,'r') as hdf5_file:
 		      coord = hdf5_file['coords'][idx]
@@ -211,11 +214,15 @@ class Whole_Slide_Bag_FP(Dataset):
 		#img = self.wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
 		#storage_client = storage.Client()
 		#bucket = storage_client.bucket("oncomerge")
-		blob = bucket.blob(self.gs_slide_file_path)
+		
+        """
+        blob = bucket.blob(self.gs_slide_file_path)
 		with blob.open("rb") as f:
 		  wsi = TiffSlide(f)
 		  img = wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-
+        """
+         
+         img = self.wsi .read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
 		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
 		#img = self.img
