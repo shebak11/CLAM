@@ -233,7 +233,7 @@ def train_imagenet(index=0):
   for blob in blobs:
         featlist.append(blob.name)
   featlist_split = [i.split('_')[1] for i in featlist]
-  print(featlist_split[0:4]
+  print(featlist_split[0:4])
     
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
