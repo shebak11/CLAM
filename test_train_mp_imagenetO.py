@@ -249,7 +249,7 @@ def train_imagenet(index=0):
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
       print(bag_name)
-      print("len ", str(len(featlist_split))
+      print("len ", str(len(featlist_split)))
       print(set(featlist_split))        
             
       #index = featlist_split.index(bag_name)
