@@ -123,7 +123,7 @@ import torch_xla.distributed.xla_backend
 
 DEFAULT_KWARGS = dict(
     batch_size=128,
-    test_set_batch_size=128,
+    test_set_batch_size=256,
     num_epochs=18,
     momentum=0.9,
     lr=0.1,
