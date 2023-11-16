@@ -236,6 +236,9 @@ def train_imagenet(index=0):
   featlist_split = [i.split('_')[-1] for i in featlist]
   #print(featlist_split[0:4])
   #quit()
+  now = datetime.now()     
+  current_time = now.strftime("%H:%M:%S")
+  print("Current Time 1=", current_time)
     
   for bag_candidate_idx in range(total):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
@@ -320,7 +323,7 @@ def train_imagenet(index=0):
             #persistent_workers=FLAGS.persistent_workers,
             #prefetch_factor=FLAGS.prefetch_factor,
             collate_fn=collate_features)
-        quit()
+        
       else:
         normalize = transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
@@ -482,6 +485,10 @@ def train_imagenet(index=0):
           loader_prefetch_size=FLAGS.loader_prefetch_size,
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
+      now = datetime.now()     
+      current_time = now.strftime("%H:%M:%S")
+      print("Current Time 2=", current_time) 
+      quit()
       accuracy, max_accuracy = 0.0, 0.0
       print("test_loader ",str(len(test_loader)))
       #print(xm.xrt_world_size())
