@@ -317,6 +317,7 @@ def train_imagenet(index=0):
             dataset,
             batch_size=FLAGS.test_set_batch_size,
             sampler=test_sampler,
+            pin_memory = True,
             ##drop_last=FLAGS.drop_last,
             ##shuffle=False,
             #num_workers=FLAGS.num_workers,
