@@ -303,7 +303,7 @@ def train_imagenet(index=0):
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=local_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
        
         #dataset=dataset[0:1000][:]
-        #dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
+        dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
         #print(len(dataset))
         #print(np.array(dataset[0][0]).shape)
         #print((dataset[0][1]))
@@ -485,10 +485,7 @@ def train_imagenet(index=0):
           loader_prefetch_size=FLAGS.loader_prefetch_size,
           device_prefetch_size=FLAGS.device_prefetch_size,
           host_to_device_transfer_threads=FLAGS.host_to_device_transfer_threads)
-      now = datetime.now()     
-      current_time = now.strftime("%H:%M:%S")
-      print("Current Time 2=", current_time) 
-      quit()
+
       accuracy, max_accuracy = 0.0, 0.0
       print("test_loader ",str(len(test_loader)))
       #print(xm.xrt_world_size())
@@ -532,6 +529,10 @@ def train_imagenet(index=0):
           xm.master_print(met.metrics_report())
 
       test_utils.close_summary_writer(writer)
+      now = datetime.now()     
+      current_time = now.strftime("%H:%M:%S")
+      print("Current Time 2=", current_time) 
+      quit()
     
 
         
