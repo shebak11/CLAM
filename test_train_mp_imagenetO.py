@@ -228,10 +228,10 @@ def train_imagenet(index=0):
   bucket = storage_client.bucket("oncomerge")
 
   total = len(bags_dataset)
-
+  featlist = []
   blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir)
   for blob in blobs:
-        svslist.append(blob.name)
+        featlist.append(blob.name)
     
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
