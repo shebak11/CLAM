@@ -239,7 +239,6 @@ def train_imagenet(index=0):
         
       storage_client = storage.Client()
       bucket = storage_client.bucket("oncomerge")
-      gs_path = file_path
 
       blob = bucket.blob(gs_slide_file_path)
       blob.download_to_filename(local_slide_file_path )    
