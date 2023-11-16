@@ -260,7 +260,9 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 					#heatmap.save(f)
 					#f.write(mask)
 		os.remove("/home/MacOS/"+ os.path.basename(slide))
-		os.remove("/home/MacOS/"+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.h5')
+        lphdf5="/home/MacOS/"+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.h5'
+        if(os.path.isfile(lphdf5)):
+            os.remove(lphdf5)
 		print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
 		print("stitching took {} seconds".format(stitch_time_elapsed))
