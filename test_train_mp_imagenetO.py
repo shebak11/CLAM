@@ -233,7 +233,7 @@ def train_imagenet(index=0):
   for blob in blobs:
         featlist.append(blob.name)
   print(featlist[0:4])
-  featlist_split = [i.split('_')[1] for i in featlist]
+  featlist_split = [i.split('_')[-1] for i in featlist]
   print(featlist_split[0:4])
   quit()
     
@@ -251,7 +251,7 @@ def train_imagenet(index=0):
 
       #index = featlist_split.index(bag_name)
       count = featlist_split.count(bag_name)
-      print("index: ", str(count)
+      print("index: ", str(count))
       quit()
       """
     
