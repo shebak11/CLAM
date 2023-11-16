@@ -132,7 +132,7 @@ DEFAULT_KWARGS = dict(
     prefetch_factor=16,
     loader_prefetch_size=8,
     device_prefetch_size=4,
-    num_workers=8,
+    num_workers=2,
     host_to_device_transfer_threads=1,
 )
 
@@ -239,7 +239,8 @@ def train_imagenet(index=0):
   now = datetime.now()     
   current_time = now.strftime("%H:%M:%S")
   print("Current Time 1=", current_time)
-    
+  print(FLAGS.num_workers)
+  quit()    
   for bag_candidate_idx in range(total):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
@@ -320,7 +321,7 @@ def train_imagenet(index=0):
             pin_memory = True,
             ##drop_last=FLAGS.drop_last,
             ##shuffle=False,
-            #num_workers=FLAGS.num_workers,
+            num_workers=FLAGS.num_workers,
             #persistent_workers=FLAGS.persistent_workers,
             prefetch_factor=FLAGS.prefetch_factor,
             collate_fn=collate_features)
