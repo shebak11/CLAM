@@ -232,6 +232,8 @@ def train_imagenet(index=0):
   blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir)
   for blob in blobs:
         featlist.append(blob.name)
+  featlist_split = [i.split('_')[1] for i in featlist]
+  print(featlist_split[0:4]
     
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
@@ -244,7 +246,10 @@ def train_imagenet(index=0):
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
-     
+
+      index = featlist_split.index(bag_name)
+      print("index: ", str(len(index)))
+      quit()
       """
     
       if not args.no_auto_skip and slide_id+'.pt' in dest_files:
