@@ -18,6 +18,7 @@ import h5py
 from random import randrange
 from google.cloud import storage
 from tiffslide import TiffSlide
+import openslide
 
 def eval_transforms(pretrained=False):
 	if pretrained:
@@ -127,7 +128,12 @@ class Whole_Slide_Bag_FP(Dataset):
 		#local_file_path = "/home/MacOS/"+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484"+ '.h5'
 		#local_file_path = "/home/MacOS/TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484.h5"
 		#self.file_path = local_file_path
-		self.wsi = TiffSlide(self.gs_slide_file_path)
+		
+        
+        
+        #self.wsi = TiffSlide(self.gs_slide_file_path)
+        self.wsi = openslide.open_slide("/home/MacOS/"+ self.name+ '.svs')
+
 		
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
@@ -218,8 +224,15 @@ class Whole_Slide_Bag_FP(Dataset):
 		  wsi = TiffSlide(f)
 		  img = wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
 		"""
-		img = self.wsi .read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
+        
+        
+        
+		#img = self.wsi .read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
+        
+        img = self.wsi.read_region((coord[0], coord[1], self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		
+                                   
+        #img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
 
 		#img = self.img
 		if self.target_patch_size is not None:
