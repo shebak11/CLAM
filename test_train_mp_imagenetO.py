@@ -248,14 +248,14 @@ def train_imagenet(index=0):
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
-      print(slide_id)
+      print(bag_name)
       #index = featlist_split.index(bag_name)
       count = featlist_split.count(bag_name)
-      print("index: ", str(count))
+      print("count: ", str(count))
       quit()
       """
     
-      if not args.no_auto_skip and slide_id+'.pt' in dest_files:
+      if not args.no_auto_skip and count==32 :
             print('skipped {}'.format(slide_id))
             continue 
       """    
