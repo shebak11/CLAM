@@ -232,10 +232,10 @@ def train_imagenet(index=0):
   blobs = storage_client.list_blobs("oncomerge", prefix=feat_dir)
   for blob in blobs:
         featlist.append(blob.name)
-  print(featlist[0:4])
+  #print(featlist[0:4])
   featlist_split = [i.split('_')[-1] for i in featlist]
-  print(featlist_split[0:4])
-  quit()
+  #print(featlist_split[0:4])
+  #quit()
     
   for bag_candidate_idx in range(2):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
