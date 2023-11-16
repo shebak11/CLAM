@@ -239,8 +239,8 @@ def train_imagenet(index=0):
   now = datetime.now()     
   current_time = now.strftime("%H:%M:%S")
   print("Current Time 1=", current_time)
-  print(FLAGS.num_workers)
-  quit()    
+  #print(FLAGS.num_workers)
+  #quit()    
   for bag_candidate_idx in range(total):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
