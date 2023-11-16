@@ -132,7 +132,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		
 		
 		#self.wsi = TiffSlide(self.gs_slide_file_path)
-		self.wsi = openslide.open_slide("/home/MacOS/"+ self.name+ '.svs')
+		self.wsi = openslide.open_slide(self.gs_slide_file_path)
 
 		
 		storage_client = storage.Client()
