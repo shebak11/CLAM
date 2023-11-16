@@ -237,8 +237,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			file_path = os.path.join(patch_save_dir, slide_id+'.h5')
 			#file_path = os.path.join( "/home/MacOS/", os.path.splitext(os.path.basename(os.path.basename(slide)))[0] + '.h5')
 			print("file patch to stitch: "+ file_path)
-            if os.path.isfile(file_path):
-                print("stitching")
+			if os.path.isfile(file_path):
+				print("stitching")
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
 				#heatmap.save(stitch_path)
