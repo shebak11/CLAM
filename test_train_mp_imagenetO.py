@@ -236,9 +236,9 @@ def train_imagenet(index=0):
   featlist_split = [i.split('_')[-1] for i in featlist]
   #print(featlist_split[0:4])
   #quit()
-  #now = datetime.now()     
-  #current_time = now.strftime("%H:%M:%S")
-  #print("Current Time 1=", current_time)
+  now = datetime.now()     
+  current_time = now.strftime("%H:%M:%S")
+  print("Current Time 1=", current_time)
     
   for bag_candidate_idx in range(total):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
@@ -529,10 +529,10 @@ def train_imagenet(index=0):
           xm.master_print(met.metrics_report())
 
       test_utils.close_summary_writer(writer)
-      #now = datetime.now()     
-      #current_time = now.strftime("%H:%M:%S")
-      #print("Current Time 2=", current_time) 
-      #quit()
+      now = datetime.now()     
+      current_time = now.strftime("%H:%M:%S")
+      print("Current Time 2=", current_time) 
+      quit()
     
 
         
