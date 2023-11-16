@@ -458,6 +458,9 @@ def train_imagenet(index=0):
         if not stats:
           blob = bucket.blob(gs_ofile_path)
           blob.upload_from_filename(local_ofile_path )
+          featlist_split.append(gs_ofile_path.split('_')[-1])
+
+             
           #print(local_ofile_path)
         return accuracy
 
@@ -504,6 +507,11 @@ def train_imagenet(index=0):
           xm.master_print(met.metrics_report())
 
       test_utils.close_summary_writer(writer)
+    
+      count = featlist_split.count(bag_name)
+      if count==xm.xrt_world_size() :
+        os.remove(local_slide_file_path)
+        
       xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
   return max_accuracy
 
