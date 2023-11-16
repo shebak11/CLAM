@@ -295,7 +295,7 @@ def train_imagenet(index=0):
             sample_count=50000 // FLAGS.batch_size // xm.xrt_world_size())
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=local_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
         #dataset=dataset[0:1000][:]
-        dataset = torch.utils.data.Subset(dataset, [i for i in range(100)])
+        #dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
         #print(len(dataset))
         #print(np.array(dataset[0][0]).shape)
         #print((dataset[0][1]))
@@ -459,6 +459,7 @@ def train_imagenet(index=0):
           blob = bucket.blob(gs_ofile_path)
           blob.upload_from_filename(local_ofile_path )
           featlist_split.append(gs_ofile_path.split('_')[-1])
+          os.remove(local_ofile_path)
 
              
           #print(local_ofile_path)
@@ -509,7 +510,8 @@ def train_imagenet(index=0):
       test_utils.close_summary_writer(writer)
     
       count = featlist_split.count(bag_name)
-      if count==xm.xrt_world_size() :
+      print("count: " + str(count) + "bag_name: " +  bag_name)
+      if count==xm.xrt_world_size():
         os.remove(local_slide_file_path)
         
       xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
