@@ -248,7 +248,7 @@ def train_imagenet(index=0):
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
-
+      print(slide_id)
       #index = featlist_split.index(bag_name)
       count = featlist_split.count(bag_name)
       print("index: ", str(count))
