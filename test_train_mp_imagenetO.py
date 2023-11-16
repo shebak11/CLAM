@@ -237,12 +237,12 @@ def train_imagenet(index=0):
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
-        storage_client = storage.Client()
-		bucket = storage_client.bucket("oncomerge")
-		gs_path = file_path
+      storage_client = storage.Client()
+      bucket = storage_client.bucket("oncomerge")
+      gs_path = file_path
 
-		blob = bucket.blob(gs_slide_file_path)
-		blob.download_to_filename(local_slide_file_path )    
+      blob = bucket.blob(gs_slide_file_path)
+      blob.download_to_filename(local_slide_file_path )    
     
     
       storage_client = storage.Client()
