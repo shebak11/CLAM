@@ -248,7 +248,7 @@ def train_imagenet(index=0):
       local_ofile_path = "/home/MacOS/" + "h5_files/" +str(index)+"_" + bag_name
       gs_ofile_path = os.path.join(feat_dir, "h5_files2/" + str(index)+"_" +bag_name)
         
-      print(bag_name)
+      #print(bag_name)
       #print("len ", str(len(featlist_split)))
       #print(set(featlist_split))        
             
@@ -498,6 +498,10 @@ def train_imagenet(index=0):
           accuracy = test_loop_fn(test_device_loader, epoch, local_ofile_path, gs_ofile_path)
           xm.master_print('Epoch {} test end {}, Accuracy={:.2f}'.format(
               epoch, test_utils.now(), accuracy))
+          count = featlist_split.count(bag_name)
+          print("count: " + str(count) + "bag_name: " +  bag_name)
+          if count==xm.xrt_world_size():
+            os.remove(local_slide_file_path)
           max_accuracy = max(accuracy, max_accuracy)
           test_utils.write_to_summary(
               writer,
@@ -509,10 +513,7 @@ def train_imagenet(index=0):
 
       test_utils.close_summary_writer(writer)
     
-      count = featlist_split.count(bag_name)
-      print("count: " + str(count) + "bag_name: " +  bag_name)
-      if count==xm.xrt_world_size():
-        os.remove(local_slide_file_path)
+
         
       xm.master_print('Max Accuracy: {:.2f}%'.format(max_accuracy))
   return max_accuracy
