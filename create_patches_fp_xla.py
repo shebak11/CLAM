@@ -242,7 +242,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
 				#heatmap.save(stitch_path)
-				stitch_gs_path=stitch_save_dir+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
+				stitch_gs_path=stitch_save_dir+'/'+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
 				stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
 				heatmap.save(stitch_path)
 				storage_client = storage.Client()
