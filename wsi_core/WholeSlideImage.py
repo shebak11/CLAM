@@ -410,7 +410,10 @@ class WholeSlideImage(object):
                     init = False
                     ###########
                     # Serializing json
-                    json_object = json.dumps(asset_dict, indent=4)
+                    asset_dict_serial=asset_dict
+                    asset_dict_serial['coords']=asset_dict['coords'].tolist()
+              
+                    json_object = json.dumps(asset_dict_serial, indent=4)
                     # Writing to sample.json
                     with open(save_path_json, "w") as outfile:
                         outfile.write(json_object)
@@ -418,7 +421,9 @@ class WholeSlideImage(object):
 
                 else:
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
-                    json_object = json.dumps(asset_dict, indent=4)
+                    asset_dict_serial=asset_dict
+                    asset_dict_serial['coords']=asset_dict['coords'].tolist()
+                    json_object = json.dumps(asset_dict_serial, indent=4)
                     # Writing to sample.json
                     with open(save_path_json, "a") as outfile:
                         outfile.write(json_object)
