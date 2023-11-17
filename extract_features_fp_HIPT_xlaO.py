@@ -126,7 +126,7 @@ import torch_xla.distributed.xla_backend
 
 DEFAULT_KWARGS = dict(
     batch_size=128,
-    test_set_batch_size=8, 
+    test_set_batch_size=4, 
     num_epochs=18,
     momentum=0.9,
     lr=0.1,
@@ -308,7 +308,7 @@ def train_imagenet(index=0):
         dataset = Whole_Slide_Bag_FP(file_path=gs_file_path, gs_slide_file_path=local_slide_file_path, pretrained=pretrained,  custom_downsample=custom_downsample, target_patch_size=target_patch_size)
        
         #dataset=dataset[0:1000][:]
-        dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
+        #dataset = torch.utils.data.Subset(dataset, [i for i in range(1000)])
         #print(len(dataset))
         #print(np.array(dataset[0][0]).shape)
         #print((dataset[0][1]))
