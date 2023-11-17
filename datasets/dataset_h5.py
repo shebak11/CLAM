@@ -221,11 +221,9 @@ class Whole_Slide_Bag_FP(Dataset):
 		
 		blob = bucket.blob(self.gs_slide_file_path)
 		with blob.open("rb") as f:
-		  #wsi = TiffSlide(f)
-		  #img = wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-		  wsi = openslide.open_slide(f)
-		  img = wsi.read_region((coord[0], coord[1]), self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-
+		  wsi = TiffSlide(f)
+		  img = wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
+            
 		
 		
 		
