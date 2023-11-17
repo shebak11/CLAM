@@ -395,7 +395,7 @@ def train_imagenet(index=0):
       pretrained_weights256 = "/home/MacOS/HIPT/HIPT_4K/Checkpoints/vit256_small_dino.pth"
       model = hipt_4k.HIPT_4K(pretrained_weights256, pretrained_weights4k, device256, device4k)
       #model = get_model_property('model_fn')().to(device)
-      quit()
+     
         
       #model = resnet50_baseline(pretrained=True)
       #model = model.to(device)
@@ -511,7 +511,8 @@ def train_imagenet(index=0):
       #print(FLAGS.num_workers)
       #print(temp[0].shape)
       #print(FLAGS.test_set_batch_size)
-      #quit()
+      quit()
+        
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
         #train_loop_fn(train_device_loader, epoch)
