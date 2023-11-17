@@ -28,7 +28,7 @@ from google.cloud import storage
 from multiprocessing import Manager
 import pickle 
 from datetime import datetime
-sys.path.append('/home/MacOS/HIPT/HIPT_4K')
+#sys.path.append('/home/MacOS/HIPT/HIPT_4K')
 import hipt_4k  
 from hipt_model_utils import get_vit256, get_vit4k, eval_transforms
 
