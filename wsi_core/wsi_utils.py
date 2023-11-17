@@ -6,6 +6,7 @@ from wsi_core.util_classes import Mosaic_Canvas
 from PIL import Image
 import math
 import cv2
+from google.cloud import storage
 
 def isWhitePatch(patch, satThresh=5):
     patch_hsv = cv2.cvtColor(patch, cv2.COLOR_RGB2HSV)
