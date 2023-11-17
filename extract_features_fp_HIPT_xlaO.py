@@ -511,7 +511,7 @@ def train_imagenet(index=0):
       #print(FLAGS.num_workers)
       #print(temp[0].shape)
       #print(FLAGS.test_set_batch_size)
-      quit()
+      #quit()
         
       for epoch in range(1, FLAGS.num_epochs + 1):
         xm.master_print('Epoch {} train begin {}'.format(epoch, test_utils.now()))
