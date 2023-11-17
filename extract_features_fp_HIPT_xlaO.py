@@ -28,7 +28,7 @@ from google.cloud import storage
 from multiprocessing import Manager
 import pickle 
 from datetime import datetime
-
+sys.path.append('/home/MacOS/HIPT/HIPT_4K')
 import hipt_4k  
 from hipt_model_utils import get_vit256, get_vit4k, eval_transforms
 
@@ -216,7 +216,7 @@ def train_imagenet(index=0):
   data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
   data_slide_dir  = "WSI/TCGA/COAD/" 
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
-  feat_dir = "WSI/TCGA/COADtest_features_dir/" 
+  feat_dir = "WSI/TCGA/COADtest_features_dirHIPT/" 
   #batch_size = 8 
   slide_ext = ".svs"    
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
@@ -395,8 +395,8 @@ def train_imagenet(index=0):
       pretrained_weights256 = "/home/MacOS/HIPT/HIPT_4K/Checkpoints/vit256_small_dino.pth"
       model = hipt_4k.HIPT_4K(pretrained_weights256, pretrained_weights4k, device256, device4k)
       #model = get_model_property('model_fn')().to(device)
-      
-    
+      quit()
+        
       #model = resnet50_baseline(pretrained=True)
       #model = model.to(device)
 
