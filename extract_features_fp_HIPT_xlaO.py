@@ -227,6 +227,7 @@ def train_imagenet(index=0):
   pretrained=True 
   custom_downsample=1
   target_patch_size=224
+  target_patch_size=4096
   storage_client = storage.Client()
   bucket = storage_client.bucket("oncomerge")
 
