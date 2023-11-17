@@ -222,7 +222,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         
         patch_im.save(patch_path)
         blob = bucket.blob(patch_gs_path)
-        blob.upload_from_filename(stitch_path)
+        blob.upload_from_filename(patch_path)
         os.remove(patch_path)
         ####
         
