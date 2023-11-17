@@ -307,7 +307,7 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	patch_save_dir = os.path.join(args.save_dir, 'patches')
-    save_dir = args.save_dir
+	save_dir = args.save_dir
 	mask_save_dir = os.path.join(args.save_dir, 'masks')
 	stitch_save_dir = os.path.join(args.save_dir, 'stitches')
 
