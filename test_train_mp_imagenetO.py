@@ -519,7 +519,7 @@ def train_imagenet(index=0):
           featlist_split = [i.split('_')[-1] for i in featlist]
           count = featlist_split.count(bag_name)
           print("count: " + str(count) + "bag_name: " +  bag_name)
-          if count==xm.xrt_world_size():
+          #if count==xm.xrt_world_size():
             #os.remove(local_slide_file_path)
           max_accuracy = max(accuracy, max_accuracy)
           test_utils.write_to_summary(
