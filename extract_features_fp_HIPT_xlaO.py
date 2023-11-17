@@ -389,7 +389,7 @@ def train_imagenet(index=0):
 
       device = xm.xla_device()
       device256 = device
-      device4k = device4k
+      device4k = device
         
       pretrained_weights4k = "/home/MacOS/HIPT/HIPT_4K/Checkpoints/vit4k_xs_dino.pth"
       pretrained_weights256 = "/home/MacOS/HIPT/HIPT_4K/Checkpoints/vit256_small_dino.pth"
