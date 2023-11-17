@@ -215,7 +215,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         patch_im = Image.fromarray(canvas)
         ####
         patch_path= os.path.join( "/home/MacOS/",  wsi_object.name  +   str(coord[0]) + '_'+ str(coord[1]) +'.jpg')
-        patch_gs_path="WSI/TCGA/COADtest_dir3/stitchPatches" +'/' +wsi_object.name +   '_'+str(coord[0]) + '_'+ str(coord[1]) + '.jpg'
+        patch_gs_path="WSI/TCGA/COADtest_dir3/stitchPatches" +'/' +wsi_object.name +  "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
         
         #stitch_gs_path=stitch_save_dir+'/'+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
 		#stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
