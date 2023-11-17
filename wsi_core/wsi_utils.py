@@ -186,6 +186,13 @@ def DrawMap(canvas, patch_dset, coords, patch_size, indices=None, verbose=1, dra
     return Image.fromarray(canvas)
 
 def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices=None, verbose=1, draw_grid=True):
+    
+    ###
+    storage_client = storage.Client()
+    bucket = storage_client.bucket("oncomerge")
+    ###
+    
+    
     downsamples = wsi_object.wsi.level_downsamples[vis_level]
     if indices is None:
         indices = np.arange(len(coords))
@@ -204,6 +211,20 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         patch_id = indices[idx]
         coord = coords[patch_id]
         patch = np.array(wsi_object.wsi.read_region(tuple(coord), vis_level, patch_size).convert("RGB"))
+        patch_im = Image.fromarray(canvas)
+        ####
+        patch_path= os.path.join( "/home/MacOS/",  wsi_object.name  +   str(coord[0]) + '_'+ str(coord[1]) +'.jpg')
+        patch_gs_path="WSI/TCGA/COADtest_dir3/stitchPatches" +'/' +wsi_object.name + str(coord[0]) + '_'+ str(coord[1]) + '.jpg'
+        
+        #stitch_gs_path=stitch_save_dir+'/'+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
+		#stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
+        
+        patch_im.save(patch_path)
+        blob = bucket.blob(patch_gs_path)
+        blob.upload_from_filename(stitch_path)
+        os.remove(patch_path)
+        ####
+        
         coord = np.ceil(coord / downsamples).astype(np.int32)
         canvas_crop_shape = canvas[coord[1]:coord[1]+patch_size[1], coord[0]:coord[0]+patch_size[0], :3].shape[:2]
         canvas[coord[1]:coord[1]+patch_size[1], coord[0]:coord[0]+patch_size[0], :3] = patch[:canvas_crop_shape[0], :canvas_crop_shape[1], :]

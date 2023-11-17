@@ -19,6 +19,7 @@ from utils.file_utils import load_pkl, save_pkl
 #import tiffslide as openslide
 #import gcsfs
 from google.cloud import storage
+import json
 
 Image.MAX_IMAGE_PIXELS = 933120000
 
@@ -390,6 +391,7 @@ class WholeSlideImage(object):
     def process_contours(self, save_path, patch_level=0, patch_size=256, step_size=256, **kwargs):
         #save_path_hdf5 = os.path.join(save_path, str(self.name) + '.h5')
         save_path_hdf5 = os.path.join( "/home/MacOS/", str(self.name) + '.h5')
+        save_path_json = os.path.join( "/home/MacOS/", str(self.name) + '.json')
 
         print("Creating patches for: ", self.name, "...",)
         elapsed = time.time()
@@ -406,18 +408,34 @@ class WholeSlideImage(object):
                 if init:
                     save_hdf5(save_path_hdf5, asset_dict, attr_dict, mode='w')
                     init = False
+                    ###########
+                    # Serializing json
+                    json_object = json.dumps(asset_dict, indent=4)
+                    # Writing to sample.json
+                    with open(save_path_json, "w") as outfile:
+                        outfile.write(json_object)
+    #################
+
                 else:
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
+                    json_object = json.dumps(asset_dict, indent=4)
+                    # Writing to sample.json
+                    with open(save_path_json, "a") as outfile:
+                        outfile.write(json_object)
 
         
         
         storage_client = storage.Client()
         bucket = storage_client.bucket("oncomerge")
-        gs_path = save_path +"/" +str(self.name) + '.h5'
+        gs_path = save_path +"/" + 'patches' + '/' +str(self.name) + '.h5'
         blob = bucket.blob(gs_path)
         print("gs_path h5 " + gs_path)
         if(os.path.isfile(save_path_hdf5)):
-            blob.upload_from_filename(save_path_hdf5)  
+            blob.upload_from_filename(save_path_hdf5) 
+        gs_path_json = save_path +"/" +  'patchesJSON' + '/' + str(self.name) + '.h5'
+        blob = bucket.blob(gs_path)
+        if(os.path.isfile(save_path_json)):
+            blob.upload_from_filename(save_path_json) 
         
         #storage_client = storage.Client()
         print("save_path")

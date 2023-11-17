@@ -229,7 +229,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		patch_time_elapsed = -1 # Default time
 		if patch:
 			current_patch_params.update({'patch_level': patch_level, 'patch_size': patch_size, 'step_size': step_size, 
-										 'save_path': patch_save_dir})
+										 'save_path': save_dir})
 			file_path, patch_time_elapsed = patching(WSI_object = WSI_object,  **current_patch_params,)
 		
 		stitch_time_elapsed = -1
@@ -307,6 +307,7 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	patch_save_dir = os.path.join(args.save_dir, 'patches')
+    save_dir = args.save_dir
 	mask_save_dir = os.path.join(args.save_dir, 'masks')
 	stitch_save_dir = os.path.join(args.save_dir, 'stitches')
 
