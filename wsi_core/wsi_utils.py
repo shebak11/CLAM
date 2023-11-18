@@ -202,6 +202,8 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         ten_percent_chunk = math.ceil(total * 0.1)
         
     patch_size = tuple(np.ceil((np.array(patch_size)/np.array(downsamples))).astype(np.int32))
+    #patch_size = tuple(np.ceil((np.array(patch_size)/np.array(1.0))).astype(np.int32))
+
     print('downscaled patch size: {}x{}'.format(patch_size[0], patch_size[1]))
     
     for idx in range(total):
