@@ -424,8 +424,8 @@ class WholeSlideImage(object):
 
                 else:
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
-                    asset_dict_serial=asset_dict
-                    asset_dict_serial['coords']=asset_dict['coords'].tolist()
+                    asset_dict_serial = {'coords' :asset_dict['coords'].tolist(),
+                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'}
                     
                     patch_gs_path="WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
 
@@ -444,7 +444,7 @@ class WholeSlideImage(object):
         print("gs_path h5 " + gs_path)
         if(os.path.isfile(save_path_hdf5)):
             blob.upload_from_filename(save_path_hdf5) 
-        gs_path_json = save_path  +  'patchesJSON' + '/' + str(self.name) + '.h5'
+        gs_path_json = save_path  +  'patchesJSON' + '/' + str(self.name) + '.json'
         blob = bucket.blob(gs_path_json)
         if(os.path.isfile(save_path_json)):
             blob.upload_from_filename(save_path_json)
