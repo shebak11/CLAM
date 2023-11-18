@@ -280,9 +280,9 @@ def train_imagenet(index=0):
       storage_client = storage.Client()
       bucket = storage_client.bucket("oncomerge")
       blob = bucket.blob(gs_file_path)
-      with blob.open("rb") as f:
-        with h5py.File(f,'r') as hdf5_file:
-            coord = hdf5_file['coords'][0]
+      #with blob.open("rb") as f:
+        #with h5py.File(f,'r') as hdf5_file:
+            #coord = hdf5_file['coords'][0]
       #print("coord")
       #print(type(coord))
       #print(coord) 
