@@ -259,7 +259,8 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 				#with fs.open("oncomerge"+'/'+stitch_save_dir+slide_id+'.jpg', 'wb') as f:					 			
 					#heatmap.save(f)
 					#f.write(mask)
-		os.remove("/home/MacOS/"+ os.path.basename(slide))
+		if(os.path.isfile("/home/MacOS/"+ os.path.basename(slide))):
+			os.remove("/home/MacOS/"+ os.path.basename(slide))
 		lphdf5="/home/MacOS/"+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.h5'
 		if(os.path.isfile(lphdf5)):
 			os.remove(lphdf5)
