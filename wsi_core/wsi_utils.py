@@ -218,6 +218,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         patch_im = Image.fromarray(patch)
         
         ####
+        print(coord)
         patch_path= os.path.join( "/home/MacOS/",  wsi_object.name  +   str(coord[0]) + '_'+ str(coord[1]) +'.jpg')
         patch_gs_path="WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
         #print(patch_gs_path)

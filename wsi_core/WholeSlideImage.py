@@ -401,11 +401,13 @@ class WholeSlideImage(object):
         init = True
         asset_dict_serial=[]
         for idx, cont in enumerate(self.contours_tissue):
+            
             if (idx + 1) % fp_chunk_size == fp_chunk_size:
                 print('Processing contour {}/{}'.format(idx, n_contours))
             
             asset_dict, attr_dict = self.process_contour(cont, self.holes_tissue[idx], patch_level, save_path, patch_size, step_size, **kwargs)
-           
+            print(asset_dict)
+            
             
             if len(asset_dict) > 0:
                 if init:
@@ -417,7 +419,7 @@ class WholeSlideImage(object):
                     #asset_dict_serial['coords']=asset_dict['coords'].tolist()
                     for idx in range(asset_dict['coords'].shape[0]):
                         element= {'coords' : asset_dict['coords'][0].tolist() ,
-                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][1][0]) + '.jpg'}
+                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][0][1]) + '.jpg'}
                         asset_dict_serial.append(element)
     
                   
@@ -427,7 +429,7 @@ class WholeSlideImage(object):
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
                     for idx in range(asset_dict['coords'].shape[0]):
                         element= {'coords' : asset_dict['coords'][0].tolist() ,
-                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][1][0]) + '.jpg'}               
+                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][0][1]) + '.jpg'}               
                         asset_dict_serial.append(element)
 
                 json_object = json.dumps(asset_dict_serial, indent=4)
