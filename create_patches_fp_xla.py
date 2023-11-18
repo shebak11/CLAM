@@ -240,7 +240,7 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 			if os.path.isfile(file_path):
 				print("stitching")
 				#heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
-				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=1)
+				heatmap, stitch_time_elapsed = stitching(file_path, WSI_object, downscale=64)
 
 				#stitch_path = os.path.join(stitch_save_dir, slide_id+'.jpg')
 				#heatmap.save(stitch_path)
