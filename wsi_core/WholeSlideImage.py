@@ -414,7 +414,7 @@ class WholeSlideImage(object):
                     # Serializing json
                     #asset_dict_serial=asset_dict
                     #asset_dict_serial['coords']=asset_dict['coords'].tolist()
-                    for idx in asset_dict['coords'].shape[0]:
+                    for idx in range(asset_dict['coords'].shape[0]):
                         element= {'coords' : asset_dict['coords'][0] ,
                                          'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][1][0]) + '.jpg'}
                         asset_dict_serial.append(element)
@@ -427,7 +427,7 @@ class WholeSlideImage(object):
 
                 else:
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
-                    for idx in asset_dict['coords'].shape[0]:
+                    for idx in range(asset_dict['coords'].shape[0]):
                         element= {'coords' : asset_dict['coords'][0] ,
                                          'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][1][0]) + '.jpg'}               
                         asset_dict_serial.append(element)
