@@ -237,11 +237,13 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         
         coord = np.ceil(coord / downsamples).astype(np.int32)
         canvas_crop_shape = canvas[coord[1]:coord[1]+patch_size[1], coord[0]:coord[0]+patch_size[0], :3].shape[:2]
-        canvas[coord[1]:coord[1]+patch_size[1], coord[0]:coord[0]+patch_size[0], :3] = patch[:canvas_crop_shape[0], :canvas_crop_shape[1], :]
+        #canvas[coord[1]:coord[1]+patch_size[1], coord[0]:coord[0]+patch_size[0], :3] = patch[:canvas_crop_shape[0], :canvas_crop_shape[1], :]
         if draw_grid:
-            DrawGrid(canvas, coord, patch_size)
+            #DrawGrid(canvas, coord, patch_size)
+            DrawGrid(patch, coord, patch_size)
 
-    return Image.fromarray(canvas)
+    #return Image.fromarray(canvas)
+    return Image.fromarray(patch)
 
 def StitchPatches(hdf5_file_path, downscale=16, draw_grid=False, bg_color=(0,0,0), alpha=-1):
     file = h5py.File(hdf5_file_path, 'r')
@@ -298,11 +300,12 @@ def StitchCoords(hdf5_file_path, wsi_object, downscale=16, draw_grid=False, bg_c
     print('ref patch size: {}x{}'.format(patch_size, patch_size))
 
     if w*h > Image.MAX_IMAGE_PIXELS: 
-        print(w)
-        print(h)
-        print(h*w)
-        print(Image.MAX_IMAGE_PIXELS)
-        raise Image.DecompressionBombError("Visualization Downscale %d is too large" % downscale)
+        #print(w)
+        #print(h)
+        #print(h*w)
+        #print(Image.MAX_IMAGE_PIXELS)
+        patch_size=patch_size
+        #raise Image.DecompressionBombError("Visualization Downscale %d is too large" % downscale)
     
     if alpha < 0 or alpha == -1:
         heatmap = Image.new(size=(w,h), mode="RGB", color=bg_color)
