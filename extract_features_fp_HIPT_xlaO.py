@@ -213,8 +213,8 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 def train_imagenet(index=0):
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
-  data_h5_dir = "WSI/TCGA/COADtest_dir4/stitchPatches" 
-  data_slide_dir  = "WSI/TCGA/COAD/" 
+  data_h5_dir = "WSI/TCGA/COADtest_dir4/patchesJSON" 
+  #data_slide_dir  = "WSI/TCGA/COAD/" 
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   feat_dir = "WSI/TCGA/COADtest_features_dirHIPT/" 
   #batch_size = 8 
@@ -248,7 +248,8 @@ def train_imagenet(index=0):
   for bag_candidate_idx in range(total):
       slide_id = bags_dataset[bag_candidate_idx].split(slide_ext)[0]
       file_id = os.path.basename(slide_id)
-      bag_name = os.path.basename(slide_id)+'.h5'
+      #bag_name = os.path.basename(slide_id)+'.h5'
+      bag_name = os.path.basename(slide_id)+'.json'
       gs_file_path = os.path.join(data_h5_dir, bag_name)
       gs_slide_file_path = os.path.join(data_slide_dir, file_id+slide_ext)
       local_slide_file_path = "/home/MacOS/"+ file_id+slide_ext
@@ -272,8 +273,8 @@ def train_imagenet(index=0):
             print('skipped {}'.format(slide_id))
             continue 
           
-      blob = bucket.blob(gs_slide_file_path)
-      blob.download_to_filename(local_slide_file_path )    
+      #blob = bucket.blob(gs_slide_file_path)
+      #blob.download_to_filename(local_slide_file_path )    
     
     
       storage_client = storage.Client()
@@ -533,8 +534,8 @@ def train_imagenet(index=0):
           featlist_split = [i.split('_')[-1] for i in featlist]
           count = featlist_split.count(bag_name)
           print("count: " + str(count) + "bag_name: " +  bag_name)
-          if count==xm.xrt_world_size():
-            os.remove(local_slide_file_path)
+          #if count==xm.xrt_world_size():
+            #os.remove(local_slide_file_path)
           max_accuracy = max(accuracy, max_accuracy)
           test_utils.write_to_summary(
               writer,

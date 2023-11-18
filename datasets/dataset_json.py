@@ -122,7 +122,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		else:
 			self.roi_transforms = custom_transforms  
 		
-		file_name =  os.path.splitext(os.path.basename(file_path))[0]
+		#file_name =  os.path.splitext(os.path.basename(file_path))[0]
 		#print("h5 file " + file_name)
 		#local_file_path = "/home/MacOS/"+ file_name+ '.h5'
 		#local_file_path = "/home/MacOS/"+ "TCGA-3L-AA1B-01A-01-TS1.9C415218-D5B4-4945-B243-F42A4C8C0484"+ '.h5'
@@ -130,10 +130,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		#self.file_path = local_file_path
 		
 		
-		
-		#self.wsi = TiffSlide(self.gs_slide_file_path)
-		self.wsi = openslide.open_slide(self.gs_slide_file_path)
-
+	
 		
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
