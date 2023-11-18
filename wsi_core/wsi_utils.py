@@ -7,6 +7,7 @@ from PIL import Image
 import math
 import cv2
 from google.cloud import storage
+from io import BytesIO
 
 def isWhitePatch(patch, satThresh=5):
     patch_hsv = cv2.cvtColor(patch, cv2.COLOR_RGB2HSV)
