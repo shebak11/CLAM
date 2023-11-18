@@ -142,7 +142,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		#blob.download_to_filename(self.file_path )
 		blob = bucket.blob(self.file_path)
 		self.elements = json.loads(blob.download_as_string())
-        self.length=len(self.elements)
+		self.length=len(self.elements)
 
 
 		#self.summary()
