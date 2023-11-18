@@ -431,9 +431,9 @@ class WholeSlideImage(object):
                         asset_dict_serial.append(element)
 
                 json_object = json.dumps(asset_dict_serial, indent=4)
-                    # Writing to sample.json
-                    with open(save_path_json, "w") as outfile:
-                        outfile.write(json_object)
+                # Writing to sample.json
+                with open(save_path_json, "w") as outfile:
+                    outfile.write(json_object)
 
         
         
