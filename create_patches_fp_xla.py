@@ -11,6 +11,8 @@ import pdb
 import pandas as pd
 from google.cloud import storage
 import gcsfs
+from datetime import datetime
+
 
 def stitching(file_path, wsi_object, downscale = 64):
 	start = time.time()
@@ -269,6 +271,9 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 		print("segmentation took {} seconds".format(seg_time_elapsed))
 		print("patching took {} seconds".format(patch_time_elapsed))
 		print("stitching took {} seconds".format(stitch_time_elapsed))
+		now = datetime.now()     
+		current_time = now.strftime("%H:%M:%S")
+		print("Current Time 1=", current_time)
 		df.loc[idx, 'status'] = 'processed'
 
 		seg_times += seg_time_elapsed
