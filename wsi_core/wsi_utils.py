@@ -233,7 +233,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         blob, fobj = bucket.blob(patch_gs_path), BytesIO()
         patch_im.save(fobj, format='JPEG')
         fobj.seek(0)
-        blob.upload_to_file(fobj)
+        blob.upload_from_file(fobj)
             
             
             
