@@ -221,6 +221,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         print("downsamples")
         print(downsamples)
         patch_im = Image.fromarray(patch)
+        
         ####
         patch_path= os.path.join( "/home/MacOS/",  wsi_object.name  +   str(coord[0]) + '_'+ str(coord[1]) +'.jpg')
         patch_gs_path="WSI/TCGA/COADtest_dir3/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
@@ -228,11 +229,17 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         
         #stitch_gs_path=stitch_save_dir+'/'+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
 		#stitch_path = os.path.join( "/home/MacOS/",  os.path.splitext(os.path.basename(os.path.basename(slide)))[0]  + '.jpg')
-        
-        patch_im.save(patch_path)
-        blob = bucket.blob(patch_gs_path)
-        blob.upload_from_filename(patch_path)
-        os.remove(patch_path)
+        blob, fobj = bucket.blob(patch_gs_path), BytesIO()
+        patch_im.save(fobj, format='JPEG')
+        fobj.seek(0)
+        blob.upload_to_file(fobj)
+            
+            
+            
+        #patch_im.save(patch_path)
+        #blob = bucket.blob(patch_gs_path)
+        #blob.upload_from_filename(patch_path)
+        #os.remove(patch_path)
         ####
         
         coord = np.ceil(coord / downsamples).astype(np.int32)
