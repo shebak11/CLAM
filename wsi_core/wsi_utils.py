@@ -201,7 +201,6 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
     total = len(indices)
     if verbose > 0:
         ten_percent_chunk = math.ceil(total * 0.1)
-    #ten_percent_chunk = math.ceil(total * 0.1)
         
     patch_size = tuple(np.ceil((np.array(patch_size)/np.array(downsamples))).astype(np.int32))
     #patch_size = tuple(np.ceil((np.array(patch_size)/np.array(1.0))).astype(np.int32))
@@ -212,9 +211,6 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         if verbose > 0:
             if idx % ten_percent_chunk == 0:
                 print('progress: {}/{} stitched'.format(idx, total))
-        #if idx % ten_percent_chunk == 0:
-            #print('progress: {}/{} stitched'.format(idx, total))
-        #print('progress: {}/{} stitched'.format(idx, total))
         
         patch_id = indices[idx]
         coord = coords[patch_id]
@@ -223,7 +219,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         
         ####
         patch_path= os.path.join( "/home/MacOS/",  wsi_object.name  +   str(coord[0]) + '_'+ str(coord[1]) +'.jpg')
-        patch_gs_path="WSI/TCGA/COADtest_dir3/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
+        patch_gs_path="WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
         #print(patch_gs_path)
         
         #stitch_gs_path=stitch_save_dir+'/'+ os.path.splitext(os.path.basename(os.path.basename(slide)))[0] +'.jpg'
