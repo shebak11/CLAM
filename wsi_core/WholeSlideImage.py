@@ -413,7 +413,7 @@ class WholeSlideImage(object):
                     #asset_dict_serial=asset_dict
                     #asset_dict_serial['coords']=asset_dict['coords'].tolist()
                     asset_dict_serial = {'coords' :asset_dict['coords'].tolist(),
-                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'}
+                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0]) + '+'+ str(asset_dict['coords'][1]) + '.jpg'}
                     
     
                     json_object = json.dumps(asset_dict_serial, indent=4)
@@ -427,7 +427,7 @@ class WholeSlideImage(object):
                     asset_dict_serial = {'coords' :asset_dict['coords'].tolist(),
                                          'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'}
                     
-                    patch_gs_path="WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
+                    patch_gs_path="WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0]) + '+'+ str(asset_dict['coords'][1]) + '.jpg'
 
                     
                     json_object = json.dumps(asset_dict_serial, indent=4)
