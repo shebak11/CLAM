@@ -215,12 +215,6 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         patch_id = indices[idx]
         coord = coords[patch_id]
         patch = np.array(wsi_object.wsi.read_region(tuple(coord), vis_level, patch_size).convert("RGB"))
-        print("vis_level")
-        print(vis_level)
-        print(patch_size)
-        print(patch.shape)
-        print("downsamples")
-        print(downsamples)
         patch_im = Image.fromarray(patch)
         
         ####
