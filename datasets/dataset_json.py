@@ -139,11 +139,8 @@ class Whole_Slide_Bag_FP(Dataset):
 		#blob = bucket.blob(gs_path)
 		#blob.download_to_filename(self.file_path )
 		blob = bucket.blob(self.file_path)
-        self.elements = json.loads(blob.download_as_string())
-		
-  
-                    
-                
+		self.elements = json.loads(blob.download_as_string())
+
 
 		#self.summary()
 		#self.coord=self.dset[0]     
@@ -177,14 +174,14 @@ class Whole_Slide_Bag_FP(Dataset):
 	def __getitem__(self, idx):
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
-        coord= self.elements[index]['coords']
-        frame_path = self.elements[index]["path"]
-        for _i in range(self.n_retries):
-           blob, fobj = bucket.blob(str(frame_path), BytesIO()
-           blob.download_to_file(fobj)
-           fobj.seek(0)
-           #img_tensor = pil_to_tensor(Image.open(fobj))
-           img_tensor = Image.open(fobj)
+		coord= self.elements[index]['coords']
+		frame_path = self.elements[index]["path"]
+		for _i in range(self.n_retries):
+		  blob, fobj = bucket.blob(str(frame_path), BytesIO()
+		  blob.download_to_file(fobj)
+		  fobj.seek(0)
+		  #img_tensor = pil_to_tensor(Image.open(fobj))
+		  img = Image.open(fobj)
 
         
         
