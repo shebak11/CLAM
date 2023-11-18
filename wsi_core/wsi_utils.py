@@ -262,7 +262,6 @@ def StitchPatches(hdf5_file_path, downscale=16, draw_grid=False, bg_color=(0,0,0
     downscaled_shape = (img_shape[1] // downscale, img_shape[0] // downscale)
 
     if w*h > Image.MAX_IMAGE_PIXELS: 
-        print(Image.MAX_IMAGE_PIXELS )
         raise Image.DecompressionBombError("Visualization Downscale %d is too large" % downscale)
     
     if alpha < 0 or alpha == -1:
@@ -299,7 +298,7 @@ def StitchCoords(hdf5_file_path, wsi_object, downscale=16, draw_grid=False, bg_c
     print('ref patch size: {}x{}'.format(patch_size, patch_size))
 
     if w*h > Image.MAX_IMAGE_PIXELS: 
-        prin(Image.MAX_IMAGE_PIXELS)
+        print(Image.MAX_IMAGE_PIXELS)
         raise Image.DecompressionBombError("Visualization Downscale %d is too large" % downscale)
     
     if alpha < 0 or alpha == -1:
