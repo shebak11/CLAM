@@ -211,6 +211,8 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         if verbose > 0:
             if idx % ten_percent_chunk == 0:
                 print('progress: {}/{} stitched'.format(idx, total))
+        if idx % ten_percent_chunk == 0:
+            print('progress: {}/{} stitched'.format(idx, total))
         
         patch_id = indices[idx]
         coord = coords[patch_id]
