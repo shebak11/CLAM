@@ -133,7 +133,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		
 		
 		self.target_patch_size=target_patch_size
-		.
+		
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
 		gs_path = file_path
