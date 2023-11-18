@@ -177,8 +177,8 @@ class Whole_Slide_Bag_FP(Dataset):
 	def __getitem__(self, idx):
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
-		coord= self.elements[index]['coords']
-		frame_path = self.elements[index]["path"]
+		coord= self.elements[idx]['coords']
+		frame_path = self.elements[idx]["path"]
 		for _i in range(self.n_retries):
 		  blob, fobj = bucket.blob(str(frame_path)), BytesIO()
 		  blob.download_to_file(fobj)
