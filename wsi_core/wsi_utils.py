@@ -234,7 +234,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
         patch_im.save(fobj, format='JPEG')
         fobj.seek(0)
         
-        while not storage.Blob(bucket=bucket, name=patch_gs_path).exists(storage_client)
+        while not storage.Blob(bucket=bucket, name=patch_gs_path).exists(storage_client):
             try:
                 blob.upload_from_file(fobj)
             
