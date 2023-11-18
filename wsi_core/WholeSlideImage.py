@@ -404,6 +404,7 @@ class WholeSlideImage(object):
                 print('Processing contour {}/{}'.format(idx, n_contours))
             
             asset_dict, attr_dict = self.process_contour(cont, self.holes_tissue[idx], patch_level, save_path, patch_size, step_size, **kwargs)
+            print(asset_dict)
             if len(asset_dict) > 0:
                 if init:
                     save_hdf5(save_path_hdf5, asset_dict, attr_dict, mode='w')
