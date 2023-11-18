@@ -142,35 +142,12 @@ class Whole_Slide_Bag_FP(Dataset):
 		#blob = bucket.blob(gs_path)
 		#blob.download_to_filename(self.file_path )
 		blob = bucket.blob(self.file_path)
-		with blob.open("rb") as f:
-			with h5py.File(f,'r') as hdf5_file:
-			 dset = hdf5_file['coords']    
-			 #self.dset = f['coords'][:]  
-			 self.coord=dset[0] 
-			 self.patch_level = hdf5_file['coords'].attrs['patch_level']
-			 self.patch_size = hdf5_file['coords'].attrs['patch_size']
-			 self.length = len(dset)
-			 if target_patch_size > 0:
-			     self.target_patch_size = (target_patch_size, ) * 2
-			 elif custom_downsample > 1:
-			     self.target_patch_size = (self.patch_size // custom_downsample, ) * 2
-			 else:
-			     self.target_patch_size = None   
-		"""
-		with h5py.File(self.file_path, "r") as f:
-			dset = f['coords']    
-			#self.dset = f['coords'][:]  
-			self.coord=dset[0] 
-			self.patch_level = f['coords'].attrs['patch_level']
-			self.patch_size = f['coords'].attrs['patch_size']
-			self.length = len(dset)
-			if target_patch_size > 0:
-				self.target_patch_size = (target_patch_size, ) * 2
-			elif custom_downsample > 1:
-				self.target_patch_size = (self.patch_size // custom_downsample, ) * 2
-			else:
-				self.target_patch_size = None    
-		"""
+        self.elements = json.loads(blob.download_as_string())
+		
+  
+                    
+                
+
 		#self.summary()
 		#self.coord=self.dset[0]     
 		#coord=self.dset[0]   
@@ -203,40 +180,18 @@ class Whole_Slide_Bag_FP(Dataset):
 	def __getitem__(self, idx):
 		storage_client = storage.Client()
 		bucket = storage_client.bucket("oncomerge")
-		
-		blob = bucket.blob(self.file_path)
-		with blob.open("rb") as f:
-		  with h5py.File(f,'r') as hdf5_file:
-		      coord = hdf5_file['coords'][idx]
-		#hdf5_file = h5py.File(self.file_path, "r")
-		#coord=self.coord
-		#coord=hdf5_file['coords'][idx]
-		#region = slide.read_region((300, 400), 0, (512, 512))
-		#img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		#img = self.img
-		#img = self.wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-		#storage_client = storage.Client()
-		#bucket = storage_client.bucket("oncomerge")
-        
-        #patch_path = self.elements[index]["path"]
-        patch_path
-		
-		"""
-		blob = bucket.blob(self.gs_slide_file_path)
-		with blob.open("rb") as f:
-		  wsi = TiffSlide(f)
-		  img = wsi.read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-		"""
-		
-		
-		
-		#img = self.wsi .read_region(location = (coord[0], coord[1]), level = self.patch_level, size = (self.patch_size, self.patch_size)).convert('RGB')
-		
-		img = self.wsi.read_region((coord[0], coord[1]), self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		 
-		#img = self.wsi.read_region((300, 400), level = 0, size = (512, 512)).convert('RGB')
+        coord= self.elements[index]['coords']
+        frame_path = self.elements[index]["path"]
+        for _i in range(self.n_retries):
+           blob, fobj = bucket.blob(str(frame_path), BytesIO()
+           blob.download_to_file(fobj)
+           fobj.seek(0)
+           #img_tensor = pil_to_tensor(Image.open(fobj))
+           img_tensor = Image.open(fobj)
 
-		#img = self.img
+        
+        
+		
 		if self.target_patch_size is not None:
 			img = img.resize(self.target_patch_size)
 		img = self.roi_transforms(img).unsqueeze(0)
