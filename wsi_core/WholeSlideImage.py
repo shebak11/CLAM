@@ -425,7 +425,7 @@ class WholeSlideImage(object):
                 else:
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
                     asset_dict_serial = {'coords' :asset_dict['coords'].tolist(),
-                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' self.name + '/' +self.name+ "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'}
+                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'}
                     
                     patch_gs_path="WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
 
