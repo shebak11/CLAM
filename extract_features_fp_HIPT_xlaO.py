@@ -223,6 +223,7 @@ def train_imagenet(index=0):
   slide_ext = ".svs"    
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   bags_dataset = Dataset_All_Bags(csv_path)
+  bags_dataset = torch.utils.data.Subset(bags_dataset, [i for i in range(10)])
     
   verbose = 1
   print_every=20
