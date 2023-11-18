@@ -410,9 +410,12 @@ class WholeSlideImage(object):
                     init = False
                     ###########
                     # Serializing json
-                    asset_dict_serial=asset_dict
-                    asset_dict_serial['coords']=asset_dict['coords'].tolist()
-              
+                    #asset_dict_serial=asset_dict
+                    #asset_dict_serial['coords']=asset_dict['coords'].tolist()
+                    asset_dict_serial = {'coords' :asset_dict['coords'].tolist(),
+                                         'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'}
+                    
+    
                     json_object = json.dumps(asset_dict_serial, indent=4)
                     # Writing to sample.json
                     with open(save_path_json, "w") as outfile:
@@ -423,6 +426,10 @@ class WholeSlideImage(object):
                     save_hdf5(save_path_hdf5, asset_dict, mode='a')
                     asset_dict_serial=asset_dict
                     asset_dict_serial['coords']=asset_dict['coords'].tolist()
+                    
+                    patch_gs_path="WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +wsi_object.name + '/' +wsi_object.name + "+idx" '+'+str(coord[0]) + '+'+ str(coord[1]) + '.jpg'
+
+                    
                     json_object = json.dumps(asset_dict_serial, indent=4)
                     # Writing to sample.json
                     with open(save_path_json, "a") as outfile:

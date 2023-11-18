@@ -213,7 +213,7 @@ def _train_update(device, step, loss, tracker, epoch, writer):
 def train_imagenet(index=0):
   if FLAGS.ddp or FLAGS.pjrt_distributed:
     dist.init_process_group('xla', init_method='xla://')
-  data_h5_dir = "WSI/TCGA/COADtest_dir/patches/" 
+  data_h5_dir = "WSI/TCGA/COADtest_dir4/stitchPatches" 
   data_slide_dir  = "WSI/TCGA/COAD/" 
   csv_path = "WSI/TCGA/COADtest_dir/process_list_autogen.csv" 
   feat_dir = "WSI/TCGA/COADtest_features_dirHIPT/" 
