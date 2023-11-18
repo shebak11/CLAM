@@ -7,6 +7,7 @@ import math
 import re
 import pdb
 import pickle
+from io import BytesIO
 
 from torch.utils.data import Dataset, DataLoader, sampler
 from torchvision import transforms, utils, models
@@ -177,7 +178,7 @@ class Whole_Slide_Bag_FP(Dataset):
 		coord= self.elements[index]['coords']
 		frame_path = self.elements[index]["path"]
 		for _i in range(self.n_retries):
-		  blob, fobj = bucket.blob(str(frame_path), BytesIO()
+		  blob, fobj = bucket.blob(str(frame_path)), BytesIO()
 		  blob.download_to_file(fobj)
 		  fobj.seek(0)
 		  #img_tensor = pil_to_tensor(Image.open(fobj))
