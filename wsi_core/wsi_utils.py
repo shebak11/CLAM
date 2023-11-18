@@ -201,6 +201,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
     total = len(indices)
     if verbose > 0:
         ten_percent_chunk = math.ceil(total * 0.1)
+    ten_percent_chunk = math.ceil(total * 0.1)
         
     patch_size = tuple(np.ceil((np.array(patch_size)/np.array(downsamples))).astype(np.int32))
     #patch_size = tuple(np.ceil((np.array(patch_size)/np.array(1.0))).astype(np.int32))
@@ -213,6 +214,7 @@ def DrawMapFromCoords(canvas, wsi_object, coords, patch_size, vis_level, indices
                 print('progress: {}/{} stitched'.format(idx, total))
         if idx % ten_percent_chunk == 0:
             print('progress: {}/{} stitched'.format(idx, total))
+        print('progress: {}/{} stitched'.format(idx, total))
         
         patch_id = indices[idx]
         coord = coords[patch_id]
