@@ -399,13 +399,14 @@ class WholeSlideImage(object):
         print("Total number of contours to process: ", n_contours)
         fp_chunk_size = math.ceil(n_contours * 0.05)
         init = True
+        asset_dict_serial=[]
         for idx, cont in enumerate(self.contours_tissue):
             if (idx + 1) % fp_chunk_size == fp_chunk_size:
                 print('Processing contour {}/{}'.format(idx, n_contours))
             
             asset_dict, attr_dict = self.process_contour(cont, self.holes_tissue[idx], patch_level, save_path, patch_size, step_size, **kwargs)
            
-            asset_dict_serial=[]
+            
             if len(asset_dict) > 0:
                 if init:
                     save_hdf5(save_path_hdf5, asset_dict, attr_dict, mode='w')
@@ -419,10 +420,7 @@ class WholeSlideImage(object):
                                          'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][1][0]) + '.jpg'}
                         asset_dict_serial.append(element)
     
-                    json_object = json.dumps(asset_dict_serial, indent=4)
-                    # Writing to sample.json
-                    with open(save_path_json, "w") as outfile:
-                        outfile.write(json_object)
+                  
     #################
 
                 else:
@@ -431,10 +429,10 @@ class WholeSlideImage(object):
                         element= {'coords' : asset_dict['coords'][0].tolist() ,
                                          'path' : "WSI/TCGA/COADtest_dir4/stitchPatches" +'/' +self.name + '/' +self.name + "+idx" '+'+str(asset_dict['coords'][0][0]) + '+'+ str(asset_dict['coords'][1][0]) + '.jpg'}               
                         asset_dict_serial.append(element)
-                    
-                    json_object = json.dumps(asset_dict_serial, indent=4)
+
+                json_object = json.dumps(asset_dict_serial, indent=4)
                     # Writing to sample.json
-                    with open(save_path_json, "a") as outfile:
+                    with open(save_path_json, "w") as outfile:
                         outfile.write(json_object)
 
         
